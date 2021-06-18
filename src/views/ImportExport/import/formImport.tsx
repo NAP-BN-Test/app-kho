@@ -21,7 +21,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import {Actions} from 'react-native-router-flux';
-import Commodity from './commodity';
+// import Commodity from './commodity';
+import ListCommodity from './ListCommodity';
 const initialValues = {
   email: '',
   password: '',
@@ -53,13 +54,16 @@ function FormImport() {
     handleSubmit,
   } = formik;
   const {colors} = useTheme();
-  const [selectedKHO, setSelectedKHO] = useState('KHO1');
-  const [SelectedLOAI, setSelectedLOAI] = useState('java');
+  const [selectedKHO, setSelectedKHO] = useState('A1');
+  const [SelectedLOAI, setSelectedLOAI] = useState('Mua hàng');
+  const [Nguoinhan, setNguoinhan] = useState('Dũng');
+  const [Phieuxuat, setPhieuxuat] = useState('ABC');
   const [SelectedKH, setSelectedKH] = useState('CTY1');
   const [datenhap, setDatenhap] = useState(new Date());
   const [ngaynhap, setNgaynhap] = useState(moment(Date()).format('DD-MM-YYYY'));
   const [showPicker, setShowPicker] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalList, setmodalList] = useState(false);
   const [Commoditys, setCommoditys] = useState([] as any);
   console.log(Commoditys);
 
@@ -68,20 +72,22 @@ function FormImport() {
   };
 
   const toggleCommodity: any = (data: any) => {
-    let ArrOld = Commoditys;
-    //Lấy phần tử cuối cùng của mảng
-    let elmentEnd = ArrOld.length;
-    let id = elmentEnd + 1;
+    console.log(data);
+    setCommoditys(data);
+    // let ArrOld = Commoditys;
+    // //Lấy phần tử cuối cùng của mảng
+    // let elmentEnd = ArrOld.length;
+    // let id = elmentEnd + 1;
 
-    let newData = {
-      ...data,
-      id: id,
-    };
-    console.log('Data mới: ' + newData);
+    // let newData = {
+    //   ...data,
+    //   id: id,
+    // };
+    // console.log('Data mới: ' + newData);
 
-    ArrOld.push(newData);
+    // ArrOld.push(newData);
 
-    setCommoditys(ArrOld);
+    // setCommoditys(ArrOld);
   };
 
   //Func
@@ -91,22 +97,14 @@ function FormImport() {
     newFileList.splice(index, 1);
     setCommoditys(newFileList);
   }
+
+  function func_ModalList(e: any) {
+    setmodalList(e);
+  }
   return (
     <View>
       <ScrollView>
-        {/* <View>
-        <BasicInput
-          placeholder={'Enter password'}
-          iconName="lock"
-          iconSize={22}
-          secureTextEntry
-          onChangeText={handleChange('password')}
-          value={values.password}
-          errorMessage={touched.password && errors.password}
-        />
-      </View> */}
-
-        <View>
+        <View style={{flex: 1}}>
           <Text
             style={[
               stylesGlobal.text_footer,
@@ -114,16 +112,167 @@ function FormImport() {
                 color: colors.text,
               },
             ]}>
-            Loại nhập
+            Kho
           </Text>
           <Picker
             // selectedKHO={selectedKHO}
+            selectedValue={selectedKHO}
             style={{height: 50}}
+            mode="dropdown"
+            // onValueChange={handleChange("type")}>
+            onValueChange={(item: string) => {
+              setSelectedKHO(item);
+              setCommoditys([]);
+            }}>
+            <Picker.Item label="Kho A1" value="A1" />
+            <Picker.Item label="Kho A2" value="A2" />
+          </Picker>
+          <Text
+            style={{
+              width: '100%',
+              height: 50,
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+            }}>
+            {''}
+          </Text>
+          {/* Cho cái trên vào để select không lỗi đóng app */}
+        </View>
+
+        <View style={{flex: 1}}>
+          <Text
+            style={[
+              stylesGlobal.text_footer,
+              {
+                color: colors.text,
+              },
+            ]}>
+            Loại phiếu
+          </Text>
+          <Picker
+            // selectedKHO={selectedKHO}
+            selectedValue={SelectedLOAI}
+            style={{height: 50}}
+            mode="dropdown"
             // onValueChange={handleChange("type")}>
             onValueChange={(item: string) => setSelectedLOAI(item)}>
-            <Picker.Item label="Mua" value="java" />
-            <Picker.Item label="Ký gửi" value="js" />
+            <Picker.Item label="Mua hàng" value="Mua hàng" />
+            <Picker.Item label="Ký gửi" value="Ký gửi" />
+            <Picker.Item label="Chuyển kho" value="Chuyển kho" />
+            <Picker.Item label="Tồn đầu kỳ" value="Tồn đầu kỳ" />
+            <Picker.Item label="Trả lại hàng" value="Trả lại hàng" />
+            <Picker.Item label="Loại khác" value="Loại khác" />
           </Picker>
+          <Text
+            style={{
+              width: '100%',
+              height: 50,
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+            }}>
+            {''}
+          </Text>
+          {/* Cho cái trên vào để select không lỗi đóng app  */}
+        </View>
+
+        <View style={styles.inputEnd}>
+          <Text
+            style={[
+              stylesGlobal.text_footer,
+              {
+                color: colors.text,
+              },
+            ]}>
+            Số phiếu
+          </Text>
+          <View style={styles.action}>
+            <FontAwesome name="pencil" color={colors.text} size={20} />
+            <TextInput
+              placeholder="Nhập số phiếu..."
+              placeholderTextColor="#666666"
+              style={[
+                styles.textInput,
+                {
+                  color: colors.text,
+                },
+              ]}
+              autoCapitalize="none"
+              // onChangeText={(val) => setUserName(val)}
+              // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+            />
+          </View>
+        </View>
+
+        {SelectedLOAI === 'Chuyển kho' ? (
+          <View style={{flex: 1}}>
+            <Text
+              style={[
+                stylesGlobal.text_footer,
+                {
+                  color: colors.text,
+                },
+              ]}>
+              Phiếu xuất
+            </Text>
+            <Picker
+              // selectedKHO={selectedKHO}
+              selectedValue={Phieuxuat}
+              style={{height: 50}}
+              mode="dropdown"
+              // onValueChange={handleChange("type")}>
+              onValueChange={(item: string) => setPhieuxuat(item)}>
+              <Picker.Item label="ABC" value="ABC" />
+              <Picker.Item label="BBB" value="BBB" />
+              <Picker.Item label="CCC" value="CCC" />
+            </Picker>
+            <Text
+              style={{
+                width: '100%',
+                height: 50,
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+              }}>
+              {''}
+            </Text>
+            {/* Cho cái trên vào để select không lỗi đóng app (Đéo hiểu) */}
+          </View>
+        ) : null}
+
+        <View style={{flex: 1}}>
+          <Text
+            style={[
+              stylesGlobal.text_footer,
+              {
+                color: colors.text,
+              },
+            ]}>
+            Người nhận
+          </Text>
+          <Picker
+            // selectedKHO={selectedKHO}
+            selectedValue={Nguoinhan}
+            style={{height: 50}}
+            mode="dropdown"
+            // onValueChange={handleChange("type")}>
+            onValueChange={(item: string) => setNguoinhan(item)}>
+            <Picker.Item label="Dũng" value="Dũng" />
+            <Picker.Item label="Hưng" value="Hưng" />
+            <Picker.Item label="Tùng" value="Tùng" />
+          </Picker>
+          <Text
+            style={{
+              width: '100%',
+              height: 50,
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+            }}>
+            {''}
+          </Text>
+          {/* Cho cái trên vào để select không lỗi đóng app (Đéo hiểu) */}
         </View>
 
         <View>
@@ -155,7 +304,7 @@ function FormImport() {
             mode={'date'}
             is24Hour={false}
             display="default"
-            onChange={(event, selectedDate: any) => {
+            onChange={(event: any, selectedDate: any) => {
               if (event.type == 'set') {
                 setShowPicker(false);
                 setDatenhap(selectedDate);
@@ -182,12 +331,12 @@ function FormImport() {
                 color: colors.text,
               },
             ]}>
-            Nhà cung cấp
+            Người giao
           </Text>
           <View style={styles.action}>
             <FontAwesome name="pencil" color={colors.text} size={20} />
             <TextInput
-              placeholder="Nhập nhà cung cấp..."
+              placeholder="Nhập người giao..."
               placeholderTextColor="#666666"
               style={[
                 styles.textInput,
@@ -202,91 +351,76 @@ function FormImport() {
           </View>
         </View>
 
-        <View style={styles.inputEnd}>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Người nhận
-          </Text>
-          <View style={styles.action}>
-            <FontAwesome name="pencil" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Nhập người nhận..."
-              placeholderTextColor="#666666"
-              style={[
-                styles.textInput,
-                {
-                  color: colors.text,
-                },
-              ]}
-              autoCapitalize="none"
-              // onChangeText={(val) => setUserName(val)}
-              // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-            />
-          </View>
-        </View>
+        {SelectedLOAI === 'Ký gửi' ? (
+          <>
+            <View style={{flex: 1}}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Khách hàng
+              </Text>
+              <Picker
+                // selectedKHO={selectedKHO}
+                selectedValue={SelectedKH}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => setSelectedKH(item)}>
+                <Picker.Item label="Dũng" value="Dũng" />
+                <Picker.Item label="Hưng" value="Hưng" />
+                <Picker.Item label="Tùng" value="Tùng" />
+              </Picker>
+              <Text
+                style={{
+                  width: '100%',
+                  height: 50,
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                }}>
+                {''}
+              </Text>
+              {/* Cho cái trên vào để select không lỗi đóng app (Đéo hiểu) */}
+            </View>
 
-        <View style={styles.inputEnd}>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Khách hàng
-          </Text>
-          <View style={styles.action}>
-            <FontAwesome name="pencil" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Nhập khách hàng..."
-              placeholderTextColor="#666666"
-              style={[
-                styles.textInput,
-                {
-                  color: colors.text,
-                },
-              ]}
-              autoCapitalize="none"
-              onChangeText={(val) => setSelectedKH(val)}
-              // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-            />
-          </View>
-        </View>
+            <View style={styles.inputEnd}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Địa chỉ khách hàng
+              </Text>
+              <View style={styles.action}>
+                <FontAwesome name="pencil" color={colors.text} size={20} />
+                <TextInput
+                  placeholder="Nhập địa chỉ khách hàng..."
+                  placeholderTextColor="#666666"
+                  style={[
+                    styles.textInput,
+                    {
+                      color: colors.text,
+                    },
+                  ]}
+                  autoCapitalize="none"
+                  // onChangeText={(val) => setUserName(val)}
+                  // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                />
+              </View>
+            </View>
+          </>
+        ) : null}
 
-        <View style={styles.inputEnd}>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Kho nhận
-          </Text>
-          <View style={styles.action}>
-            <FontAwesome name="pencil" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Nhập kho nhận..."
-              placeholderTextColor="#666666"
-              style={[
-                styles.textInput,
-                {
-                  color: colors.text,
-                },
-              ]}
-              autoCapitalize="none"
-              onChangeText={(val) => setSelectedKHO(val)}
-              // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-            />
-          </View>
-        </View>
-        <View style={styles.inputEnd}>
-          <View style={styles.lableSquare}>
+        {SelectedLOAI === 'Mua hàng' ||
+        SelectedLOAI === 'Tồn kho đầu kỳ' ||
+        SelectedLOAI === 'Loại khác' ? (
+          <View style={styles.inputEnd}>
             <Text
               style={[
                 stylesGlobal.text_footer,
@@ -294,53 +428,104 @@ function FormImport() {
                   color: colors.text,
                 },
               ]}>
-              Hàng hóa
+              Nhà cung cấp
             </Text>
-            <View>
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <LinearGradient
-                  colors={['#08d4c4', '#01ab9d']}
-                  style={styles.btn_Square}>
-                  <Text
-                    style={[
-                      // styles.textSign,
-                      {
-                        color: '#fff',
-                        padding: 5,
-                      },
-                    ]}>
-                    Thêm
-                  </Text>
-                </LinearGradient>
-              </TouchableOpacity>
+            <View style={styles.action}>
+              <FontAwesome name="pencil" color={colors.text} size={20} />
+              <TextInput
+                placeholder="Nhập nhà cung cấp..."
+                placeholderTextColor="#666666"
+                style={[
+                  styles.textInput,
+                  {
+                    color: colors.text,
+                  },
+                ]}
+                autoCapitalize="none"
+                // onChangeText={(val) => setUserName(val)}
+                // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+              />
             </View>
           </View>
+        ) : null}
 
-          <View style={styles.square}>
-            <View>
-              {Commoditys && Commoditys?.length > 0
-                ? Commoditys.map((x: any, idx: any) => (
-                    <View style={[styles.lableSquare, {margin: 10}]} key={idx}>
-                      <View style={[styles.lableSquare]}>
-                        <Text>{x.codebar}</Text>
-                        <Text> </Text>
-                        <Text>{x.commodity}</Text>
-                      </View>
-                      <View>
-                        <TouchableOpacity
-                          onPress={()=>delete_Comodity(x)}>
-                          <FontAwesome
-                            name="trash"
-                            color={colors.text}
-                            size={20}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  ))
-                : null}
+        {SelectedLOAI === 'Mua hàng' ? (
+          <View style={styles.inputEnd}>
+            <Text
+              style={[
+                stylesGlobal.text_footer,
+                {
+                  color: colors.text,
+                },
+              ]}>
+              Mã đơn hàng
+            </Text>
+            <View style={styles.action}>
+              <FontAwesome name="pencil" color={colors.text} size={20} />
+              <TextInput
+                placeholder="Nhập mã đơn hàng..."
+                placeholderTextColor="#666666"
+                style={[
+                  styles.textInput,
+                  {
+                    color: colors.text,
+                  },
+                ]}
+                autoCapitalize="none"
+                // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+              />
             </View>
           </View>
+        ) : null}
+
+        <View style={styles.inputEnd}>
+          <Text
+            style={[
+              stylesGlobal.text_footer,
+              {
+                color: colors.text,
+              },
+            ]}>
+            Ghi chú
+          </Text>
+          <View style={styles.action}>
+            <FontAwesome name="pencil" color={colors.text} size={20} />
+            <TextInput
+              placeholder="Nhập ghi chú..."
+              placeholderTextColor="#666666"
+              style={[
+                styles.textInput,
+                {
+                  color: colors.text,
+                },
+              ]}
+              autoCapitalize="none"
+              multiline
+
+              // onChangeText={(val) => setSelectedKHO(val)}
+              // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+            />
+          </View>
+        </View>
+
+        <View style={styles.button}>
+          <TouchableOpacity
+            style={styles.signIn}
+            onPress={() => setmodalList(true)}>
+            <LinearGradient
+              colors={['#08d4c4', '#01ab9d']}
+              style={styles.signIn}>
+              <Text
+                style={[
+                  styles.textSign,
+                  {
+                    color: '#fff',
+                  },
+                ]}>
+                Danh sách hàng nhập
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.button}>
@@ -354,13 +539,21 @@ function FormImport() {
           />
         </View>
 
-        <View>
+        {/* <View>
           <Commodity
             toggleCloseModal={toggleCloseModal}
             toggleCommodity={toggleCommodity}
             visible={modalVisible}
           />
-        </View>
+        </View> */}
+
+        <Modal animationType="slide" transparent={true} visible={modalList}>
+          <ListCommodity
+            VisibleModalList={func_ModalList}
+            toggleCommodity={toggleCommodity}
+            arrayCommodity={Commoditys}
+          />
+        </Modal>
       </ScrollView>
     </View>
   );

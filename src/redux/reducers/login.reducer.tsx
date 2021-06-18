@@ -1,3 +1,4 @@
+import { Actions } from 'react-native-router-flux';
 import {LOGIN, LOGOUT} from '../constants/index';
 
 const initState = {
@@ -10,6 +11,7 @@ const rdc_login = (state = initState, action: any) => {
     case LOGIN:
       return state;
     case LOGOUT:
+      Actions.login();
       return state;
     default:
       return state;

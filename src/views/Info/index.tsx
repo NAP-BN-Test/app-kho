@@ -5,11 +5,13 @@ import {Actions} from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 import stylesInfo from './info.css';
 import stylesGlobal from '../../css/cssGlobal.css';
+import { Action } from '../../redux/actions/index.action';
+import { useDispatch } from 'react-redux';
 
 function info() {
+  const dispatch = useDispatch();
   async function toggleLogout() {
-    await AsyncStorage.multiRemove(['username', 'password']);
-    Actions.login();
+    dispatch(Action.act_logout())
   }
   return (
     <View style={stylesGlobal.container}>

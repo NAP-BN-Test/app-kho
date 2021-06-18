@@ -31,7 +31,11 @@ function login() {
     (await password) ? AsyncStorage.setItem('password', password) : null;
     await dispatch(Action.act_login(userName, password));
   };
+
+  console.log('1');
   useEffect(() => {
+    console.log('login');
+    
     const autologin = async () => {
       userLogin.userName = (await AsyncStorage.getItem('username')) || '';
       userLogin.passWord = (await AsyncStorage.getItem('password')) || '';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StatusBar,
   Text,
@@ -7,126 +7,158 @@ import {
   Image,
   FlatList,
   SafeAreaView,
+  StyleSheet,
+  TextInput,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import stylesGlobal from '../../css/cssGlobal.css';
 import stylesInventory from './inventory.css';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useTheme} from '@react-navigation/native';
+import Scan_import from '../ImportExport/import/scan_import';
 function Inventory() {
   const producs = [
     {
       id: 1,
-      name: 'SP 1',
+      name: 'Sản phẩm 1',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
 
     {
       id: 2,
-      name: 'SP 2',
+      name: 'Sản phẩm 2',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
 
     {
       id: 3,
-      name: 'SP 3',
+      name: 'Sản phẩm 3',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
 
     {
       id: 4,
-      name: 'SP 4',
+      name: 'Sản phẩm 4',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
 
     {
       id: 5,
-      name: 'SP 5',
+      name: 'Sản phẩm 5',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
 
     {
       id: 6,
-      name: 'SP 6',
+      name: 'Sản phẩm 6',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
 
     {
       id: 7,
-      name: 'SP 7',
+      name: 'Sản phẩm 7',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
 
     {
       id: 8,
-      name: 'SP 8',
+      name: 'Sản phẩm 8',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
     {
       id: 9,
-      name: 'SP 9',
+      name: 'Sản phẩm 9',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
 
     {
       id: 10,
-      name: 'SP 10',
+      name: 'Sản phẩm 10',
       qty: 1000,
-      price: '1.000.000',
-      date: '10/12/2021',
-      img: 'https://inanh.net/wp-content/uploads/2020/08/chup-hinh-the-4.jpg',
+      dvt: 'Tấn',
+      kho: 'NAP BẮC NINH',
+      customer: 'Nguyễn Văn A',
     },
   ];
+  const {colors} = useTheme();
+  const [modalVisibleCamera, setmodalVisibleCamera] = useState(false);
+  const toggleCloseModalCamera: any = () => {
+    setmodalVisibleCamera(false);
+  };
+
+  const toggleCodeBar: any = (code: any) => {
+    // setmodalVisibleCamera(false);
+    console.log(code.data);
+    // setcodebar(code.data);
+  };
 
   function renderData() {
     const renderItem = ({item}: any) => (
       <View style={{marginLeft: 10, marginRight: 10}}>
         <TouchableOpacity
-          style={{flex: 1, flexDirection: 'row', marginBottom: 10}}
+          style={{flex: 1, flexDirection: 'row', marginBottom: 5}}
           //   onPress={() =>
           //     navigation.navigate('BookDetail', {
           //       book: item,
           //     })
           //   }
         >
-          <Image
+          {/* <Image
             source={{
               uri: item.img,
             }}
             resizeMode="cover"
             style={{width: 100, height: 100, borderRadius: 10}}
-          />
+          /> */}
           <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
-            <Text>Tên SP: {item.name}</Text>
-            <Text>Số lượng: {item.qty}</Text>
-            <Text>Đơn giá: {item.price}</Text>
-            <Text>HSD: {item.date}</Text>
+            <Text
+              style={[
+                stylesGlobal.text_footer,
+                {
+                  color: '#000',
+                  fontWeight: 'bold',
+                },
+              ]}>
+              {item.name}
+            </Text>
+            <Text>Kho: {item.kho}</Text>
+            <Text>Khách hàng: {item.customer}</Text>
+            <View style={styles.flexRow}>
+              <View style={{marginRight: 10}}>
+                <Text>Số lượng: {item.qty}</Text>
+              </View>
+              <View>
+                <Text>Đơn vị tính: {item.dvt}</Text>
+              </View>
+            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -149,13 +181,64 @@ function Inventory() {
       <View style={stylesGlobal.header}>
         <Text style={stylesGlobal.text_header}>Quản lý tồn kho</Text>
       </View>
+
       <View style={stylesGlobal.footer}>
-          <ScrollView style={{marginBottom: 60}}>
-            <View>{renderData()}</View>
-          </ScrollView>
+        <View style={styles.StartEnd}>
+          <View style={[styles.flexRow, {width: '80%'}]}>
+            <FontAwesome name="search" color={colors.text} size={20} />
+            <TextInput
+              placeholder="Nhập từ khóa tìm kiếm..."
+              placeholderTextColor="#666666"
+              style={[
+                styles.textInputSearch,
+                {
+                  color: colors.text,
+                },
+              ]}
+              autoCapitalize="none"
+              // onChangeText={(value) => setwarehouse(value)}
+              // onChangeText={(val) => console.log(val)}
+              // onEndEditing={(e) => console.log(e)}
+            />
+          </View>
+          <TouchableOpacity
+          //  onPress={() => setmodalVisibleCamera(true)}
+          >
+            <FontAwesome name="barcode" color={colors.text} size={20} />
+          </TouchableOpacity>
+        </View>
+        <ScrollView style={{marginBottom: 60}}>
+          <View>{renderData()}</View>
+        </ScrollView>
+      </View>
+
+      <View>
+        <Scan_import
+          toggleCloseModalCamera={toggleCloseModalCamera}
+          toggleCodeBar={toggleCodeBar}
+          visible={modalVisibleCamera}
+        />
       </View>
     </View>
   );
 }
 
 export default Inventory;
+const styles = StyleSheet.create({
+  flexRow: {
+    flexDirection: 'row',
+    paddingBottom: 5,
+  },
+
+  textInputSearch: {
+    flex: 1,
+    marginTop: -12,
+    paddingLeft: 10,
+    color: '#05375a',
+  },
+
+  StartEnd: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});

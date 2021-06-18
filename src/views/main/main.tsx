@@ -10,6 +10,8 @@ import info from '../Info/index';
 
 const Tab = createBottomTabNavigator();
 function main() {
+  
+  
   return (
     <NavigationContainer>
       <Tab.Navigator

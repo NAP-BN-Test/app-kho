@@ -40,207 +40,204 @@ function Commodity(props: AddCommodifyProps) {
     setcodebar(code.data);
   };
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible == true ? props.visible : modalVisible}
-      // onRequestClose={() => {
-      //   // Alert.alert("Modal has been closed.");
-      //   setModalVisible(!props.visible);
-      // }}
-    >
-      <View style={styles.centeredView}>
-        <Header
-          backgroundColor={'#009387'}
-          leftComponent={
-            <TouchableOpacity
-              onPress={() => {
-                props.toggleCloseModal();
-                setcodebar('');
-              }}>
-              <Icon
-                //   containerStyle={{paddingRight: 16}}
-                name="arrow-back"
-                size={30}
-                color="white"
-              />
-            </TouchableOpacity>
-          }
-          centerComponent={{
-            text: 'Thêm mặt hàng',
-            style: {color: '#fff', fontSize: 18},
-          }}
-          rightComponent={
-            <TouchableOpacity
-              onPress={() => {
-                props.toggleCloseModal();
-                props.toggleCommodity({
-                  codebar: codebar,
-                  commodity: commodity,
-                  expiryDate: expiryDate,
-                  warehouse: warehouse,
-                  price: price,
-                });
-                setcodebar('');
-              }}>
-              <Icon
-                //   containerStyle={{paddingRight: 16}}
-                name="save"
-                size={30}
-                color="white"
-              />
-            </TouchableOpacity>
-          }
-        />
-        <View style={styles.modalView}>
-          <View style={[styles.inputEnd, styles.codebar]}>
-            <Text
-              style={[
-                stylesGlobal.text_footer,
-                {
-                  color: colors.text,
-                },
-              ]}>
-              Mã Code
-            </Text>
-            <View style={styles.codebar}>
-              <Text>
-                {codebar} {'  '}
-              </Text>
+    // <Modal
+    //   animationType="slide"
+    //   transparent={true}
+    //   visible={modalVisible === true ? props.visible : modalVisible}
+    // >
+    //   <View style={styles.centeredView}>
+    //     <Header
+    //       backgroundColor={'#009387'}
+    //       leftComponent={
+    //         <TouchableOpacity
+    //           onPress={() => {
+    //             props.toggleCloseModal();
+    //             setcodebar('');
+    //           }}>
+    //           <Icon
+    //             //   containerStyle={{paddingRight: 16}}
+    //             name="arrow-back"
+    //             size={30}
+    //             color="white"
+    //           />
+    //         </TouchableOpacity>
+    //       }
+    //       centerComponent={{
+    //         text: 'Thêm mặt hàng',
+    //         style: {color: '#fff', fontSize: 18},
+    //       }}
+    //       rightComponent={
+    //         <TouchableOpacity
+    //           onPress={() => {
+    //             props.toggleCloseModal();
+    //             props.toggleCommodity({
+    //               codebar: codebar,
+    //               commodity: commodity,
+    //               expiryDate: expiryDate,
+    //               warehouse: warehouse,
+    //               price: price,
+    //             });
+    //             setcodebar('');
+    //           }}>
+    //           <Icon
+    //             //   containerStyle={{paddingRight: 16}}
+    //             name="save"
+    //             size={30}
+    //             color="white"
+    //           />
+    //         </TouchableOpacity>
+    //       }
+    //     />
+    //     <View style={styles.modalView}>
+    //       <View style={[styles.inputEnd, styles.codebar]}>
+    //         <Text
+    //           style={[
+    //             stylesGlobal.text_footer,
+    //             {
+    //               color: colors.text,
+    //             },
+    //           ]}>
+    //           Mã Code
+    //         </Text>
+    //         <View style={styles.codebar}>
+    //           <Text>
+    //             {codebar} {'  '}
+    //           </Text>
 
-              <TouchableOpacity onPress={() => setmodalVisibleCamera(true)}>
-                <FontAwesome name="barcode" color={colors.text} size={20} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.action}></View>
+    //           <TouchableOpacity onPress={() => setmodalVisibleCamera(true)}>
+    //             <FontAwesome name="barcode" color={colors.text} size={20} />
+    //           </TouchableOpacity>
+    //         </View>
+    //       </View>
+    //       <View style={styles.action}></View>
 
-          <View style={styles.inputEnd}>
-            <Text
-              style={[
-                stylesGlobal.text_footer,
-                {
-                  color: colors.text,
-                },
-              ]}>
-              Hàng hóa
-            </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
-              <TextInput
-                placeholder="Nhập hàng hóa..."
-                placeholderTextColor="#666666"
-                style={[
-                  styles.textInput,
-                  {
-                    color: colors.text,
-                  },
-                ]}
-                onChangeText={(value) => setcommodity(value)}
-                autoCapitalize="none"
-                // onChangeText={(val) => setUserName(val)}
-                // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-              />
-            </View>
-          </View>
+    //       <View style={styles.inputEnd}>
+    //         <Text
+    //           style={[
+    //             stylesGlobal.text_footer,
+    //             {
+    //               color: colors.text,
+    //             },
+    //           ]}>
+    //           Hàng hóa
+    //         </Text>
+    //         <View style={styles.action}>
+    //           <FontAwesome name="pencil" color={colors.text} size={20} />
+    //           <TextInput
+    //             placeholder="Nhập hàng hóa..."
+    //             placeholderTextColor="#666666"
+    //             style={[
+    //               styles.textInput,
+    //               {
+    //                 color: colors.text,
+    //               },
+    //             ]}
+    //             onChangeText={(value) => setcommodity(value)}
+    //             autoCapitalize="none"
+    //             // onChangeText={(val) => setUserName(val)}
+    //             // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+    //           />
+    //         </View>
+    //       </View>
 
-          <View style={styles.inputEnd}>
-            <Text
-              style={[
-                stylesGlobal.text_footer,
-                {
-                  color: colors.text,
-                },
-              ]}>
-              Hạn sử dụng
-            </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
-              <TextInput
-                placeholder="Nhập hạn sử dụng..."
-                placeholderTextColor="#666666"
-                style={[
-                  styles.textInput,
-                  {
-                    color: colors.text,
-                  },
-                ]}
-                onChangeText={(value) => setexpiryDate(value)}
-                autoCapitalize="none"
-                // onChangeText={(val) => setUserName(val)}
-                // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-              />
-            </View>
-          </View>
+    //       <View style={styles.inputEnd}>
+    //         <Text
+    //           style={[
+    //             stylesGlobal.text_footer,
+    //             {
+    //               color: colors.text,
+    //             },
+    //           ]}>
+    //           Hạn sử dụng
+    //         </Text>
+    //         <View style={styles.action}>
+    //           <FontAwesome name="pencil" color={colors.text} size={20} />
+    //           <TextInput
+    //             placeholder="Nhập hạn sử dụng..."
+    //             placeholderTextColor="#666666"
+    //             style={[
+    //               styles.textInput,
+    //               {
+    //                 color: colors.text,
+    //               },
+    //             ]}
+    //             onChangeText={(value) => setexpiryDate(value)}
+    //             autoCapitalize="none"
+    //             // onChangeText={(val) => setUserName(val)}
+    //             // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+    //           />
+    //         </View>
+    //       </View>
 
-          <View style={styles.inputEnd}>
-            <Text
-              style={[
-                stylesGlobal.text_footer,
-                {
-                  color: colors.text,
-                },
-              ]}>
-              Đơn giá
-            </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
-              <TextInput
-                placeholder="Nhập đơn giá..."
-                placeholderTextColor="#666666"
-                style={[
-                  styles.textInput,
-                  {
-                    color: colors.text,
-                  },
-                ]}
-                onChangeText={(value) => setprice(value)}
-                autoCapitalize="none"
-                // onChangeText={(val) => setUserName(val)}
-                // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-              />
-            </View>
-          </View>
+    //       <View style={styles.inputEnd}>
+    //         <Text
+    //           style={[
+    //             stylesGlobal.text_footer,
+    //             {
+    //               color: colors.text,
+    //             },
+    //           ]}>
+    //           Đơn giá
+    //         </Text>
+    //         <View style={styles.action}>
+    //           <FontAwesome name="pencil" color={colors.text} size={20} />
+    //           <TextInput
+    //             placeholder="Nhập đơn giá..."
+    //             placeholderTextColor="#666666"
+    //             style={[
+    //               styles.textInput,
+    //               {
+    //                 color: colors.text,
+    //               },
+    //             ]}
+    //             onChangeText={(value) => setprice(value)}
+    //             autoCapitalize="none"
+    //             // onChangeText={(val) => setUserName(val)}
+    //             // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+    //           />
+    //         </View>
+    //       </View>
 
-          <View style={styles.inputEnd}>
-            <Text
-              style={[
-                stylesGlobal.text_footer,
-                {
-                  color: colors.text,
-                },
-              ]}>
-              Kho nhận
-            </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
-              <TextInput
-                placeholder="Nhập kho nhận..."
-                placeholderTextColor="#666666"
-                style={[
-                  styles.textInput,
-                  {
-                    color: colors.text,
-                  },
-                ]}
-                autoCapitalize="none"
-                onChangeText={(value) => setwarehouse(value)}
-                // onChangeText={(val) => setUserName(val)}
-                // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-              />
-            </View>
-          </View>
+    //       <View style={styles.inputEnd}>
+    //         <Text
+    //           style={[
+    //             stylesGlobal.text_footer,
+    //             {
+    //               color: colors.text,
+    //             },
+    //           ]}>
+    //           Kho nhận
+    //         </Text>
+    //         <View style={styles.action}>
+    //           <FontAwesome name="pencil" color={colors.text} size={20} />
+    //           <TextInput
+    //             placeholder="Nhập kho nhận..."
+    //             placeholderTextColor="#666666"
+    //             style={[
+    //               styles.textInput,
+    //               {
+    //                 color: colors.text,
+    //               },
+    //             ]}
+    //             autoCapitalize="none"
+    //             onChangeText={(value) => setwarehouse(value)}
+    //             // onChangeText={(val) => setUserName(val)}
+    //             // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+    //           />
+    //         </View>
+    //       </View>
 
-          <View>
-            <Scan_import
-              toggleCloseModalCamera={toggleCloseModalCamera}
-              toggleCodeBar={toggleCodeBar}
-              visible={modalVisibleCamera}
-            />
-          </View>
-        </View>
-      </View>
-    </Modal>
+    //       <View>
+    //         <Scan_import
+    //           toggleCloseModalCamera={toggleCloseModalCamera}
+    //           toggleCodeBar={toggleCodeBar}
+    //           visible={modalVisibleCamera}
+    //         />
+    //       </View>
+    //     </View>
+    //   </View>
+    // </Modal>
+    <></>
   );
 }
 
