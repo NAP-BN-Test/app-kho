@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Modal,
   ScrollView,
@@ -23,6 +23,10 @@ import moment from 'moment';
 import {Actions} from 'react-native-router-flux';
 // import Commodity from './commodity';
 import ListCommodity from './ListCommodity';
+import {useDispatch, useSelector} from 'react-redux';
+import {Action} from '../../../redux/actions/index.action';
+import {RootState} from '../../../redux/reducers/index.reducer';
+import {KHACHHANG, KHO, NHACUNGCAP} from '../../../types';
 const initialValues = {
   email: '',
   password: '',
@@ -30,6 +34,32 @@ const initialValues = {
   test: [{name: 'jared'}, {name: 'brent'}, {name: 'ian'}],
 };
 function FormImport() {
+  const dmkho: Array<KHO> = useSelector((state: RootState) => state.dmkho);
+  const dmncc: Array<NHACUNGCAP> = useSelector(
+    (state: RootState) => state.dmncc,
+  );
+  const dmkh: Array<KHACHHANG> = useSelector((state: RootState) => state.dmkh);
+  console.log('dmkho:', dmkho);
+  console.log('dmncc:', dmncc);
+  console.log('dmkh:', dmkh);
+
+  const dispatch = useDispatch();
+  const getlistkho = async () => {
+    dispatch(Action.act_getkho());
+  };
+
+  const get_nhacungcap = async () => {
+    dispatch(Action.act_nhacungcap());
+  };
+
+  const get_khachhang = async () => {
+    dispatch(Action.act_getkhachhang());
+  };
+  useEffect(() => {
+    getlistkho();
+    get_nhacungcap();
+    get_khachhang();
+  }, []);
   const onSubmit = (values: any) => {
     console.log(values);
     console.log(selectedKHO);
@@ -54,11 +84,12 @@ function FormImport() {
     handleSubmit,
   } = formik;
   const {colors} = useTheme();
-  const [selectedKHO, setSelectedKHO] = useState('A1');
+  const [selectedKHO, setSelectedKHO] = useState('' as any);
+  const [selectedNCC, setSelectedNCC] = useState('' as any);
   const [SelectedLOAI, setSelectedLOAI] = useState('Mua hàng');
   const [Nguoinhan, setNguoinhan] = useState('Dũng');
   const [Phieuxuat, setPhieuxuat] = useState('ABC');
-  const [SelectedKH, setSelectedKH] = useState('CTY1');
+  const [SelectedKH, setSelectedKH] = useState('' as any);
   const [datenhap, setDatenhap] = useState(new Date());
   const [ngaynhap, setNgaynhap] = useState(moment(Date()).format('DD-MM-YYYY'));
   const [showPicker, setShowPicker] = useState(false);
@@ -74,20 +105,6 @@ function FormImport() {
   const toggleCommodity: any = (data: any) => {
     console.log(data);
     setCommoditys(data);
-    // let ArrOld = Commoditys;
-    // //Lấy phần tử cuối cùng của mảng
-    // let elmentEnd = ArrOld.length;
-    // let id = elmentEnd + 1;
-
-    // let newData = {
-    //   ...data,
-    //   id: id,
-    // };
-    // console.log('Data mới: ' + newData);
-
-    // ArrOld.push(newData);
-
-    // setCommoditys(ArrOld);
   };
 
   //Func
@@ -115,17 +132,18 @@ function FormImport() {
             Kho
           </Text>
           <Picker
-            // selectedKHO={selectedKHO}
             selectedValue={selectedKHO}
             style={{height: 50}}
             mode="dropdown"
             // onValueChange={handleChange("type")}>
             onValueChange={(item: string) => {
               setSelectedKHO(item);
-              setCommoditys([]);
+              setCommoditys([])
             }}>
-            <Picker.Item label="Kho A1" value="A1" />
-            <Picker.Item label="Kho A2" value="A2" />
+            <Picker.Item label="Chọn kho..." value={undefined} />
+            {dmkho?.map((items: any) => {
+              return <Picker.Item label={items.NameVI} value={items.Id} />;
+            })}
           </Picker>
           <Text
             style={{
@@ -137,7 +155,6 @@ function FormImport() {
             }}>
             {''}
           </Text>
-          {/* Cho cái trên vào để select không lỗi đóng app */}
         </View>
 
         <View style={{flex: 1}}>
@@ -174,7 +191,6 @@ function FormImport() {
             }}>
             {''}
           </Text>
-          {/* Cho cái trên vào để select không lỗi đóng app  */}
         </View>
 
         <View style={styles.inputEnd}>
@@ -369,10 +385,14 @@ function FormImport() {
                 style={{height: 50}}
                 mode="dropdown"
                 // onValueChange={handleChange("type")}>
-                onValueChange={(item: string) => setSelectedKH(item)}>
-                <Picker.Item label="Dũng" value="Dũng" />
-                <Picker.Item label="Hưng" value="Hưng" />
-                <Picker.Item label="Tùng" value="Tùng" />
+                onValueChange={(item: string) => {
+                  setSelectedKH(item);
+                  setCommoditys([]);
+                }}>
+                <Picker.Item label="Chọn khách hàng..." value={undefined} />
+                {dmkh?.map((items: any) => {
+                  return <Picker.Item label={items.NameVI} value={items.Id} />;
+                })}
               </Picker>
               <Text
                 style={{
@@ -384,7 +404,6 @@ function FormImport() {
                 }}>
                 {''}
               </Text>
-              {/* Cho cái trên vào để select không lỗi đóng app (Đéo hiểu) */}
             </View>
 
             <View style={styles.inputEnd}>
@@ -420,7 +439,7 @@ function FormImport() {
         {SelectedLOAI === 'Mua hàng' ||
         SelectedLOAI === 'Tồn kho đầu kỳ' ||
         SelectedLOAI === 'Loại khác' ? (
-          <View style={styles.inputEnd}>
+          <View style={{flex: 1}}>
             <Text
               style={[
                 stylesGlobal.text_footer,
@@ -430,22 +449,31 @@ function FormImport() {
               ]}>
               Nhà cung cấp
             </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
-              <TextInput
-                placeholder="Nhập nhà cung cấp..."
-                placeholderTextColor="#666666"
-                style={[
-                  styles.textInput,
-                  {
-                    color: colors.text,
-                  },
-                ]}
-                autoCapitalize="none"
-                // onChangeText={(val) => setUserName(val)}
-                // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-              />
-            </View>
+            <Picker
+              // selectedKHO={selectedKHO}
+              selectedValue={selectedNCC}
+              style={{height: 50}}
+              mode="dropdown"
+              // onValueChange={handleChange("type")}>
+              onValueChange={(item: string) => {
+                setSelectedNCC(item);
+                setCommoditys([]);
+              }}>
+              <Picker.Item label="Chọn nhà cung cấp..." value={undefined} />
+              {dmncc?.map((items: any) => {
+                return <Picker.Item label={items.NameVI} value={items.Id} />;
+              })}
+            </Picker>
+            <Text
+              style={{
+                width: '100%',
+                height: 50,
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+              }}>
+              {''}
+            </Text>
           </View>
         ) : null}
 
@@ -511,7 +539,19 @@ function FormImport() {
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.signIn}
-            onPress={() => setmodalList(true)}>
+            onPress={() => {
+              let body = {
+                idkho: selectedKHO,
+                idnhacungcap: selectedNCC,
+                idkhachhang: SelectedKH,
+                tukhoa: null,
+                mavach: null,
+                idkhoden: null,
+              };
+
+              dispatch(Action.act_getsanpham(body));
+              setmodalList(true);
+            }}>
             <LinearGradient
               colors={['#08d4c4', '#01ab9d']}
               style={styles.signIn}>

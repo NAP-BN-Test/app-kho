@@ -20,25 +20,28 @@ import {DataTable} from 'react-native-paper';
 import {Formik} from 'formik';
 import {Picker} from '@react-native-picker/picker';
 import {number} from 'yup/lib/locale';
-import { useDispatch } from 'react-redux';
-import {Action} from "../../../../redux/actions/index.action"
+import {useDispatch, useSelector} from 'react-redux';
+import {Action} from '../../../../redux/actions/index.action';
+import {DONVITINH} from '../../../../types';
+import {RootState} from '../../../../redux/reducers/index.reducer';
 interface AddCommodifyProps {
   VisibleModal: any;
   toggleAddCommodity: any;
+  listsp: any;
 }
 function FormAddCommodity(props: AddCommodifyProps) {
+  console.log(props.listsp);
+
   const dispatch = useDispatch();
+  const dvt: Array<DONVITINH> = useSelector((state: RootState) => state.dmdvt);
+  console.log(dvt);
+
   const [modalVisibleCamera, setmodalVisibleCamera] = useState(false);
   const [modalAddCommodity, setmodalAddCommodity] = useState(false);
   const [codebar, setcodebar] = useState(String);
-  const [SelectedSP, setSelectedSP] = useState({ma: 'DT', ten: 'IP6'});
-  const [DVT, setDVT] = useState('KG');
+  const [SelectedSP, setSelectedSP] = useState(undefined as any);
+  const [DVT, setDVT] = useState(undefined as any);
   const [SL, setSL] = useState('0');
-  const [arrayproduc, setarrayproduc] = useState([
-    {ma: 'DT', ten: 'IP6'},
-    {ma: 'LT', ten: 'Laptop'},
-  ]);
-  const [arrayDVT, setarrayDVT] = useState(['KG', 'GAM']);
   const {colors} = useTheme();
 
   const toggleCloseModalCamera: any = () => {
@@ -52,13 +55,12 @@ function FormAddCommodity(props: AddCommodifyProps) {
   };
 
   function submit() {
-    // console.log('Số lượng: ', SL);
-    // console.log('ĐVT: ', DVT);
-    // console.log('Sản phẩm: ', SelectedSP);
-    if (parseInt(SL) <= 0) {
-        dispatch(Action.act_alert_error('Số lượng phải lớn hơn 0!'));
+    const getsp = (props.listsp).find((sp: any) => sp.ID === SelectedSP);
+    const getdvt = (dvt).find(d => d.Id === DVT);
+    if (parseInt(SL) <= 0 || DVT <= 0 || SelectedSP <=0) {
+      dispatch(Action.act_alert_error('Điền đầy đủ thông tin!'));
     } else {
-      props.toggleAddCommodity({sl: SL, dvt: DVT, sp: SelectedSP});
+      props.toggleAddCommodity({sl: SL, dvt: getdvt, sp: getsp});
       props.VisibleModal(false);
     }
   }
@@ -131,7 +133,7 @@ function FormAddCommodity(props: AddCommodifyProps) {
             onSubmit={(values) => {
               console.log(values);
             }}>
-            {(props) => (
+            {(prop) => (
               <View>
                 <ScrollView>
                   <View style={{flex: 1}}>
@@ -151,12 +153,16 @@ function FormAddCommodity(props: AddCommodifyProps) {
                       onValueChange={(item: any) => {
                         console.log(item);
                         setSelectedSP(item);
+                        if (item > 0 && item != undefined) {
+                          dispatch(Action.act_getdonvitinh(item));
+                        }
                       }}>
-                      {arrayproduc.map((values, index) => (
+                      <Picker.Item label="Chọn sản phẩm..." value={undefined} />
+                      {props.listsp?.map((values: any, index: any) => (
                         <Picker.Item
                           key={index}
-                          label={values.ten}
-                          value={values}
+                          label={values.NameVI}
+                          value={values.ID}
                         />
                       ))}
                     </Picker>
@@ -183,18 +189,19 @@ function FormAddCommodity(props: AddCommodifyProps) {
                       Đơn vị tính
                     </Text>
                     <Picker
-                      selectedValue={SelectedSP}
+                      selectedValue={DVT}
                       style={{height: 50}}
                       mode="dropdown"
                       onValueChange={(item: any) => {
                         console.log(item);
                         setDVT(item);
                       }}>
-                      {arrayDVT.map((values, index) => (
+                      <Picker.Item label="Chọn đơn vị tính..." value={undefined} />
+                      {dvt?.map((values, index) => (
                         <Picker.Item
                           key={index}
-                          label={values}
-                          value={values}
+                          label={values.NameVI}
+                          value={values.Id}
                         />
                       ))}
                     </Picker>

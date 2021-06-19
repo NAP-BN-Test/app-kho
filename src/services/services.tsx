@@ -59,12 +59,13 @@ function get_donvitinh(req: any) {
   // let body ={
   //   idsanpham:req.idsanpham
   // }
+  console.log(req);
+  
   return axios
     .post(
       `${URL}/danhmuc/donvitinh?access_token=` +
         access_token +
-        `?
-        idsanpham=` +
+        `&idsanpham=` +
         req.idsanpham,
     )
     .then((res: any) => {
@@ -77,14 +78,18 @@ function get_donvitinh(req: any) {
 
 function get_sanpham(req: any) {
   let body = {
-    idkho: req.idsanpham,
+    idkho: req.idkho,
     idnhacungcap: req.idnhacungcap,
     idkhachhang: req.idkhachhang,
     tukhoa: req.tukhoa,
     mavach: req.mavach,
+    idkhoden: req.idkhoden,
   };
+
+  console.log(body);
+  
   return axios
-    .post(`${URL}/danhmuc/donvitinh?access_token=` + access_token, body)
+    .post(`${URL}/danhmuc/sanpham?access_token=` + access_token, body)
     .then((res: any) => {
       return res;
     })

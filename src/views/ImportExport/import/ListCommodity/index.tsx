@@ -18,12 +18,16 @@ import Scan_import from '../scan_import';
 import {DataTable} from 'react-native-paper';
 import FormAddCommodity from './formAddCommodity';
 import FormEditCommodity from './formEditCommodity';
+import {SANPHAM} from '../../../../types';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../../redux/reducers/index.reducer';
 interface CommodifyProps {
   VisibleModalList: any;
   toggleCommodity: any;
   arrayCommodity: any;
 }
 function ListCommodity(props: CommodifyProps) {
+  const dmsp: Array<SANPHAM> = useSelector((state: RootState) => state.dmsp);
   const [modalVisibleCamera, setmodalVisibleCamera] = useState(false);
   const [modalAddCommodity, setmodalAddCommodity] = useState(false);
   const [modalEditCommodity, setmodalEditCommodity] = useState(false);
@@ -50,6 +54,8 @@ function ListCommodity(props: CommodifyProps) {
   };
 
   const toggleAddCommodity: any = (value: any) => {
+    console.log(value);
+
     let arrayOld = arrayCommodity;
     arrayOld.push({...value, key: arrayCommodity.length + 1});
 
@@ -60,6 +66,14 @@ function ListCommodity(props: CommodifyProps) {
 
   const toggleEditCommodity: any = (value: any) => {
     console.log(value);
+    let arrayOld = arrayCommodity;
+    arrayOld.splice(
+      arrayOld.findIndex((values: any) => values.key === value.key),
+      1,
+    );
+    arrayOld.push({...value});
+    setarrayCommodity(arrayOld);
+    props.toggleCommodity(arrayOld);
   };
 
   function func_VisibleModalFormAdd(e: any) {
@@ -113,27 +127,6 @@ function ListCommodity(props: CommodifyProps) {
         }
       />
       <View style={styles.modalView}>
-        {/* <View style={[styles.inputEnd, styles.codebar]}>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Mã Code
-          </Text>
-          <View style={styles.codebar}>
-            <Text>
-              {codebar} {'  '}
-            </Text>
-
-            <TouchableOpacity onPress={() => setmodalVisibleCamera(true)}>
-              <FontAwesome name="barcode" color={colors.text} size={20} />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.action}></View> */}
         <View>
           <View style={styles.lableSquare}>
             <Text
@@ -167,9 +160,9 @@ function ListCommodity(props: CommodifyProps) {
         <View>
           <DataTable>
             <DataTable.Header>
-              <DataTable.Title>MÃ HÀNG</DataTable.Title>
-              <DataTable.Title>TÊN HÀNG</DataTable.Title>
-              <DataTable.Title>SỐ LƯỢNG</DataTable.Title>
+              <DataTable.Title style={{flex: 3}}>TÊN SẢN PHẨM</DataTable.Title>
+              <DataTable.Title numeric>ĐVT</DataTable.Title>
+              <DataTable.Title numeric>SL</DataTable.Title>
             </DataTable.Header>
 
             {arrayCommodity?.map((value: any) => (
@@ -179,10 +172,12 @@ function ListCommodity(props: CommodifyProps) {
                   setdataEdit(value);
                   setmodalEditCommodity(true);
                 }}>
-                <DataTable.Cell>{value.sp.ma}</DataTable.Cell>
-                <DataTable.Cell>{value.sp.ten}</DataTable.Cell>
-                <DataTable.Cell>{value.sl}</DataTable.Cell>
-                
+                {/* <DataTable.Cell>{value.sp.ma}</DataTable.Cell> */}
+                <DataTable.Cell style={{flex: 3}}>
+                  {value.sp.NameVI}
+                </DataTable.Cell>
+                <DataTable.Cell numeric>{value.dvt.NameVI}</DataTable.Cell>
+                <DataTable.Cell numeric>{value.sl}</DataTable.Cell>
               </DataTable.Row>
             ))}
           </DataTable>
@@ -203,7 +198,7 @@ function ListCommodity(props: CommodifyProps) {
           <FormAddCommodity
             VisibleModal={func_VisibleModalFormAdd}
             toggleAddCommodity={toggleAddCommodity}
-            
+            listsp={dmsp}
           />
         </Modal>
 
@@ -216,6 +211,7 @@ function ListCommodity(props: CommodifyProps) {
             toggleEditCommodity={toggleEditCommodity}
             data={dataEdit}
             func_delete={func_delete}
+            listsp={dmsp}
           />
         </Modal>
       </View>
@@ -230,8 +226,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-
-  
 
   textInput: {
     flex: 1,
