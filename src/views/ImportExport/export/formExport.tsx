@@ -113,7 +113,7 @@ function FormExport() {
   }
 
   function handleSubmit() {
-    let body = {
+    let data = {
       Code: Sophieu,
       IDKho: selectedKHO,
       EnumLoai: 1,
@@ -127,7 +127,14 @@ function FormExport() {
       IDNhaCungCap: selectedNCC,
       ListHangHoa: Commoditys,
     };
-    // dispatch(Action.act_add_px(body));
+
+    if (selectedKHO === undefined) {
+      dispatch(Action.act_alert_error('Bạn chưa chọn kho!'));
+    } else {
+      console.log("data");
+      
+      dispatch(Action.act_add_px(data));
+    }
   }
   return (
     <View>
