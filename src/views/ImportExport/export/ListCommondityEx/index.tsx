@@ -15,21 +15,23 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import stylesGlobal from '../../../../css/cssGlobal.css';
-import Scan_import from '../scan_import';
+// import Scan_import from '../scan_import';
 import {DataTable} from 'react-native-paper';
-import FormAddCommodity from './formAddCommodity';
-import FormEditCommodity from './formEditCommodity';
+// import FormAddCommodity from './formAddCommodity';
+// import FormEditCommodity from './formEditCommodity';
 import {SANPHAM} from '../../../../types';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../../redux/reducers/index.reducer';
 import {ScrollView} from 'react-native-gesture-handler';
 import Autocomplete from 'react-native-autocomplete-input';
+import FormAddCommodityEx from './formAddCommodityEx';
+import FormEditCommodityEx from './formEditCommodityEx';
 interface CommodifyProps {
   VisibleModalList: any;
   toggleCommodity: any;
   arrayCommodity: any;
 }
-function ListCommodity(props: CommodifyProps) {
+function ListCommodityEx(props: CommodifyProps) {
   const dmsp: Array<SANPHAM> = useSelector((state: RootState) => state.dmsp);
   const [modalVisibleCamera, setmodalVisibleCamera] = useState(false);
   const [modalAddCommodity, setmodalAddCommodity] = useState(false);
@@ -225,7 +227,7 @@ function ListCommodity(props: CommodifyProps) {
           animationType="slide"
           transparent={true}
           visible={modalAddCommodity}>
-          <FormAddCommodity
+          <FormAddCommodityEx
             VisibleModal={func_VisibleModalFormAdd}
             toggleAddCommodity={toggleAddCommodity}
             listsp={dmsp}
@@ -236,7 +238,7 @@ function ListCommodity(props: CommodifyProps) {
           animationType="slide"
           transparent={true}
           visible={modalEditCommodity}>
-          <FormEditCommodity
+          <FormEditCommodityEx
             VisibleModal={func_VisibleModalFormEdit}
             toggleEditCommodity={toggleEditCommodity}
             data={dataEdit}
@@ -249,7 +251,7 @@ function ListCommodity(props: CommodifyProps) {
   );
 }
 
-export default ListCommodity;
+export default ListCommodityEx;
 const styles = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',

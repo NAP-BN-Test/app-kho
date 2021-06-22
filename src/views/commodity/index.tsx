@@ -126,13 +126,13 @@ function commodity() {
           //     })
           //   }
         >
-          <Image
+          {/* <Image
             source={{
               uri: item.img,
             }}
             resizeMode="cover"
             style={{width: 100, height: 100, borderRadius: 10}}
-          />
+          /> */}
           <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
             <Text>Tên SP: {item.name}</Text>
             <Text>Số lượng: {item.qty}</Text>

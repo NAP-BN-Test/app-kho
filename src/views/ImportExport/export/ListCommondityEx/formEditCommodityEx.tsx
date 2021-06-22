@@ -15,7 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import stylesGlobal from '../../../../css/cssGlobal.css';
-import Scan_import from '../scan_import';
+import Scan_import from '../../import/scan_import';
 import {DataTable} from 'react-native-paper';
 import {Formik} from 'formik';
 import {Picker} from '@react-native-picker/picker';
@@ -25,6 +25,9 @@ import {Action} from '../../../../redux/actions/index.action';
 import {DONVITINH} from '../../../../types';
 import {RootState} from '../../../../redux/reducers/index.reducer';
 import DropDownPicker from 'react-native-dropdown-picker';
+import moment from 'moment';
+import {RadioButton} from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
 interface EditCommodifyProps {
   VisibleModal: any;
   toggleEditCommodity: any;
@@ -32,7 +35,7 @@ interface EditCommodifyProps {
   func_delete: any;
   listsp: any;
 }
-function FormEditCommodity(props: EditCommodifyProps) {
+function FormEditCommodityEx(props: EditCommodifyProps) {
   console.log('dữ liệu truyền vào:', props.data);
   const dvt: Array<DONVITINH> = useSelector((state: RootState) => state.dmdvt);
   console.log(dvt);
@@ -44,17 +47,35 @@ function FormEditCommodity(props: EditCommodifyProps) {
   const [itemsSP, setItemsSP] = useState([] as any);
   const [DVT, setDVT] = useState(undefined as any);
   const [SL, setSL] = useState('0');
-  const [arrayDVT, setarrayDVT] = useState(['KG', 'GAM']);
+  const [SLTEM, setSLTEM] = useState('0');
+  const [ghichu, setghichu] = useState('');
+  const [showPicker, setShowPicker] = useState(false);
+  const [FlagKyGui, setFlagKyGui] = useState('false');
+  console.log(FlagKyGui);
+  const [dongia, setdongia] = useState('');
+  const [ngaysanxuat, setNgaysanxuat] = useState(
+    moment(Date()).format('DD-MM-YYYY'),
+  );
+  const [datesanxuat, setDatesanxuat] = useState(new Date());
+  console.log(ngaysanxuat);
+  const [Loaitem, setLoaitem] = useState(undefined as any);
   const {colors} = useTheme();
+
   useEffect(() => {
     setItemsSP(props.listsp);
     if (props.data.sp.ID > 0) {
       dispatch(Action.act_getdonvitinh(props.data.sp.ID));
     }
     setSelectedSP(props.data.sp.ID);
-
+    setFlagKyGui(props.data.FlagKyGui);
     setDVT(props.data.dvt.Id);
     setSL(props.data.sl);
+    setLoaitem(props.data.Loaitem);
+    setSLTEM(props.data.sltem);
+    // setDatesanxuat(props.data.ngaysanxuat)
+    setNgaysanxuat(props.data.ngaysanxuat);
+    setghichu(props.data.ghichu);
+    setdongia(props.data.dongia);
   }, [props.data]);
 
   const toggleCloseModalCamera: any = () => {
@@ -82,12 +103,19 @@ function FormEditCommodity(props: EditCommodifyProps) {
     ) {
       dispatch(Action.act_alert_error('Điền đầy đủ thông tin!'));
     } else {
-      props.toggleEditCommodity({
+      let body = {
         key: props.data.key,
         sl: SL,
         dvt: getdvt,
         sp: getsp,
-      });
+        ngaysanxuat: ngaysanxuat,
+        Loaitem: Loaitem,
+        sltem: SLTEM,
+        ghichu: ghichu,
+        FlagKyGui: FlagKyGui,
+        dongia: dongia
+      };
+      props.toggleEditCommodity(body);
       props.VisibleModal(false);
       console.log({key: props.data.key, sl: SL, dvt: getdvt, sp: getsp});
     }
@@ -270,6 +298,203 @@ function FormEditCommodity(props: EditCommodifyProps) {
                 />
               </View>
             </View>
+
+            <View style={styles.inputEnd}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Đơn giá
+              </Text>
+              <View style={styles.action}>
+                <FontAwesome name="pencil" color={colors.text} size={20} />
+                <TextInput
+                  placeholder="Nhập giá..."
+                  placeholderTextColor="#666666"
+                  keyboardType="numeric"
+                  style={[
+                    styles.textInput,
+                    {
+                      color: colors.text,
+                    },
+                  ]}
+                  autoCapitalize="none"
+                  value={dongia}
+                  onChangeText={(val) => {
+                    setdongia(val);
+                    console.log(val);
+                  }}
+                  // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                />
+              </View>
+            </View>
+
+            <View>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Ngày sản xuất
+              </Text>
+              <TouchableOpacity
+                style={styles.searchSection}
+                onPress={() => setShowPicker(true)}>
+                <Text style={styles.input}>{ngaysanxuat}</Text>
+                <Icon
+                  // style={styles.IconDate}
+                  name="calendar-today"
+                  size={20}
+                  color="#000"
+                />
+              </TouchableOpacity>
+            </View>
+            {showPicker ? (
+              <DateTimePicker
+                style={styles.text_input}
+                value={datesanxuat} // Initial date from state
+                mode={'date'}
+                is24Hour={false}
+                display="default"
+                onChange={(event: any, selectedDate: any) => {
+                  if (event.type == 'set') {
+                    setShowPicker(false);
+                    setDatesanxuat(selectedDate);
+                    setNgaysanxuat(
+                      selectedDate.getDate() +
+                        '/' +
+                        (selectedDate.getMonth() + 1) +
+                        '/' +
+                        selectedDate.getFullYear(),
+                    );
+                  }
+
+                  if (event.type == 'dismissed') {
+                    setShowPicker(false);
+                  }
+                }}
+              />
+            ) : null}
+
+            <View style={{flex: 1}}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Loại tem
+              </Text>
+              <Picker
+                selectedValue={Loaitem}
+                style={{height: 50}}
+                mode="dropdown"
+                onValueChange={(item: any) => {
+                  console.log(item);
+                  setLoaitem(item);
+                }}>
+                <Picker.Item label="Chọn loại tem..." value={undefined} />
+
+                <Picker.Item label="Tem 1" value={1} />
+              </Picker>
+              <Text
+                style={{
+                  width: '100%',
+                  height: 50,
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                }}>
+                {''}
+              </Text>
+            </View>
+
+            <View style={styles.inputEnd}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Số lượng tem
+              </Text>
+              <View style={styles.action}>
+                <FontAwesome name="pencil" color={colors.text} size={20} />
+                <TextInput
+                  placeholder="Nhập số lượng tem..."
+                  placeholderTextColor="#666666"
+                  keyboardType="numeric"
+                  style={[
+                    styles.textInput,
+                    {
+                      color: colors.text,
+                    },
+                  ]}
+                  autoCapitalize="none"
+                  value={SLTEM}
+                  onChangeText={(val) => {
+                    setSLTEM(val);
+                    console.log(val);
+                  }}
+                  // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputEnd}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Ghi chú
+              </Text>
+              <View style={styles.action}>
+                <FontAwesome name="pencil" color={colors.text} size={20} />
+                <TextInput
+                  placeholder="Nhập ghi chú..."
+                  placeholderTextColor="#666666"
+                  style={[
+                    styles.textInput,
+                    {
+                      color: colors.text,
+                    },
+                  ]}
+                  value={ghichu}
+                  autoCapitalize="none"
+                  multiline
+                  onChangeText={(val) => setghichu(val)}
+                  // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                />
+              </View>
+            </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{marginRight: 20}}>
+                <Text>Ký gửi</Text>
+                <RadioButton
+                  value="true"
+                  status={FlagKyGui === 'true' ? 'checked' : 'unchecked'}
+                  onPress={() => setFlagKyGui('true')}
+                />
+              </View>
+              <View>
+                <Text>Không ký gửi</Text>
+                <RadioButton
+                  value="false"
+                  status={FlagKyGui === 'false' ? 'checked' : 'unchecked'}
+                  onPress={() => setFlagKyGui('false')}
+                />
+              </View>
+            </View>
             <View style={styles.button}>
               <TouchableOpacity
                 style={styles.signIn}
@@ -302,7 +527,7 @@ function FormEditCommodity(props: EditCommodifyProps) {
   );
 }
 
-export default FormEditCommodity;
+export default FormEditCommodityEx;
 const styles = StyleSheet.create({
   leftComponent: {},
   heardComponent: {
@@ -331,7 +556,7 @@ const styles = StyleSheet.create({
 
   button: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 10,
   },
 
   signIn: {
@@ -401,5 +626,33 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+  },
+
+  searchSection: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingRight: 10,
+  },
+
+  text_input: {
+    width: '70%',
+    fontSize: 15,
+    paddingRight: 20,
+    textAlign: 'right',
+  },
+
+  input: {
+    flex: 1,
+    fontSize: 15,
+    paddingTop: 10,
+    // paddingRight: 20,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    textAlign: 'left',
+    backgroundColor: '#fff',
+    color: '#424242',
   },
 });

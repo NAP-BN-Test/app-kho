@@ -60,7 +60,7 @@ function get_donvitinh(req: any) {
   //   idsanpham:req.idsanpham
   // }
   console.log(req);
-  
+
   return axios
     .post(
       `${URL}/danhmuc/donvitinh?access_token=` +
@@ -87,7 +87,7 @@ function get_sanpham(req: any) {
   };
 
   console.log(body);
-  
+
   return axios
     .post(`${URL}/danhmuc/sanpham?access_token=` + access_token, body)
     .then((res: any) => {
@@ -112,14 +112,13 @@ function get_loaiitem() {
 //Start nhập tồn
 function get_tonkhotheodonvi(req: any) {
   let body = {
-    idkho: req.idsanpham,
-    idnhacungcap: req.idnhacungcap,
-    idkhachhang: req.idkhachhang,
+    idkho: req.idkho,
     tukhoa: req.tukhoa,
-    mavach: req.mavach,
   };
+  console.log('body tồn kho', body);
+
   return axios
-    .post(`${URL}/danhmuc/tonkhotheodonvi?access_token=` + access_token, body)
+    .post(`${URL}/kho/tonkhotheodonvi?access_token=` + access_token, body)
     .then((res: any) => {
       return res;
     })
@@ -128,19 +127,32 @@ function get_tonkhotheodonvi(req: any) {
     });
 }
 
+function get_AddPX(req: any) {
+  let body = req;
+  console.log('body add tồn kho', body);
+
+  return axios
+    .post(`${URL}/kho/capnhatphieuxuat?access_token=` + access_token, body)
+    .then((res: any) => {
+      return res;
+    })
+    .catch((err: any) => {
+      return {err};
+    });
+}
 
 function get_danhsachphieunhap(req: any) {
   let body = {
     idkho: req.idkho,
     idnguoinhap: req.idnguoinhap,
-    isadmin:req.isadmin,
+    isadmin: req.isadmin,
     loai: req.loai,
     tukhoa: req.tukhoa,
-    to: req.to,// datetime kết thúc
+    to: req.to, // datetime kết thúc
     from: req.from, // datetime bắt đầu
   };
   return axios
-    .post(`${URL}/danhsachphieunhap?access_token=` + access_token, body)
+    .post(`${URL}/kho/danhsachphieunhap?access_token=` + access_token, body)
     .then((res: any) => {
       return res;
     })
@@ -149,19 +161,18 @@ function get_danhsachphieunhap(req: any) {
     });
 }
 
-
 function get_danhsachphieuxuat(req: any) {
   let body = {
     idkho: req.idkho,
     idnguoinhap: req.idnguoinhap,
-    isadmin:req.isadmin,
+    isadmin: req.isadmin,
     loai: req.loai,
     tukhoa: req.tukhoa,
-    to: req.to,// datetime kết thúc
+    to: req.to, // datetime kết thúc
     from: req.from, // datetime bắt đầu
   };
   return axios
-    .post(`${URL}/danhsachphieuxuat?access_token=` + access_token, body)
+    .post(`${URL}/kho/danhsachphieuxuat?access_token=` + access_token, body)
     .then((res: any) => {
       return res;
     })
@@ -172,9 +183,8 @@ function get_danhsachphieuxuat(req: any) {
 
 //End nhập tồn
 
-
-
 export const Services = {
+  get_AddPX,
   get_tonkhotheodonvi,
   get_danhsachphieunhap,
   get_danhsachphieuxuat,

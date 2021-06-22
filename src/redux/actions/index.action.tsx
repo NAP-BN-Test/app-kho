@@ -1,8 +1,16 @@
 import * as constants from '../constants';
 import {Actions} from 'react-native-router-flux';
 import {Services} from '../../services/services';
-import {DONVITINH, KHACHHANG, KHO, NHACUNGCAP, SANPHAM, User} from '../../types';
+import {
+  DONVITINH,
+  KHACHHANG,
+  KHO,
+  NHACUNGCAP,
+  SANPHAM,
+  User,
+} from '../../types';
 import AsyncStorage from '@react-native-community/async-storage';
+import moment from 'moment';
 
 function act_alert_success(messages: string) {
   return {
@@ -71,8 +79,8 @@ function act_login(username: any, password: any) {
 
 function act_logout() {
   return (dispatch: any) => {
-    AsyncStorage.removeItem('username')
-    AsyncStorage.removeItem('password')
+    AsyncStorage.removeItem('username');
+    AsyncStorage.removeItem('password');
     let user: User = {
       userinfo: '',
       accesstoken: '',
@@ -88,7 +96,7 @@ function act_getkho() {
     Services.get_kho().then(async (res) => {
       if (res.status === 200) {
         console.log(res);
-        
+
         // dispatch(act_alert_success('Lấy dữ liệu thành công'));
         dispatch(get_dm_kho(res.data));
       } else {
@@ -127,14 +135,14 @@ function act_getkhachhang() {
 }
 
 function act_getsanpham(data: any) {
-  let body ={
+  let body = {
     idkho: data.idkho,
     idnhacungcap: data.idnhacungcap,
     idkhachhang: data.idkhachhang,
     tukhoa: data.tukhoa,
     mavach: data.mavach,
-    idkhoden:data.idkhoden
-  }
+    idkhoden: data.idkhoden,
+  };
   return (dispatch: any) => {
     Services.get_sanpham(body).then(async (res) => {
       if (res.status === 200) {
@@ -149,14 +157,14 @@ function act_getsanpham(data: any) {
 }
 
 function act_getdonvitinh(idsanpham: number) {
-  let body ={
+  let body = {
     idsanpham: idsanpham,
-  }
+  };
   return (dispatch: any) => {
     Services.get_donvitinh(body).then(async (res) => {
       if (res.status === 200) {
-        console.log("Đơn vị tính",res);
-        
+        console.log('Đơn vị tính', res.data);
+
         // dispatch(act_alert_success('Lấy dữ liệu thành công'));
         dispatch(get_dm_dvt(res.data));
       } else {
@@ -166,9 +174,83 @@ function act_getdonvitinh(idsanpham: number) {
   };
 }
 
+function act_get_tonkhotheodonvi(data: any) {
+  let body = {
+    idkho: data.idkho,
+    tukhoa: data.tukhoa,
+  };
+  return (dispatch: any) => {
+    Services.get_tonkhotheodonvi(body).then(async (res) => {
+      console.log(res);
 
+      if (res.status === 200) {
+        console.log('Danh sách tồn kho', res.data);
+
+        // dispatch(act_alert_success('Lấy dữ liệu thành công'));
+        // dispatch(get_dm_dvt(res.data));
+      } else {
+        dispatch(act_alert_error('Lấy dữ liệu không thành công'));
+      }
+    });
+  };
+}
+
+function act_add_px(data: any) {
+  console.log(data);
+
+  // let ListHangHoa = new Array();
+  // data?.ListHangHoa?.map((item: any) => {
+  //   ListHangHoa.push({
+  //     IDSanPham: item.sp.ID,
+  //     SoLuong: item.sl,
+  //     IDDvtXuat: item.dvt.Id,
+  //     DonGia: item.dongia,
+  //     NgaySanXuat: item.ngaysanxuat,
+  //     IDLoaiTem: item.IDLoaiTem,
+  //     SoLuongTem: item.sltem,
+  //     GhiChu: item.ghichu,
+  //     FlagKyGui: item.FlagKyGui,
+  //   });
+  // });
+  // let body = {
+  //   Code: 'PX.TestApp.1',
+  //   IDKho: data.IDKho,
+  //   EnumLoai: data.EnumLoai,
+  //   IDNguoiXuat: data.IDNguoiXuat,
+  //   NgayXuat: data.NgayXuat,
+  //   NgayTaoPhieu: moment(
+  //     new Date().toLocaleString('en-GB', {timeZone: 'Asia/Bangkok'}),
+  //   ).format('YYYY-MM-DD HH:mm:ss'),
+  //   IDKhachHang: data.IDKhachHang,
+  //   GhiChu: data.GhiChu,
+  //   SoKhoi: data.SoKhoi,
+  //   TrongLuong: data.TrongLuong,
+  //   IDKhoDen: data.IDKhoDen,
+  //   IDNhaCungCap: data.IDNhaCungCap,
+  //   ListHangHoa: ListHangHoa,
+  // };
+
+  // console.log(body);
+
+  // return (dispatch: any) => {
+  //   Services.get_AddPX(body).then(async (res) => {
+  //     console.log(res);
+
+  //     if (res.status === 200) {
+  //       console.log('Add tồn kho thành công', res);
+
+  //       dispatch(act_alert_success('Thêm thành công'));
+  //       // dispatch(get_dm_dvt(res.data));
+  //     } else {
+  //       dispatch(act_alert_error('Lấy dữ liệu không thành công'));
+  //     }
+  //   });
+  // };
+}
 
 export const Action = {
+  act_add_px,
+  act_get_tonkhotheodonvi,
   act_getdonvitinh,
   act_getsanpham,
   act_getkhachhang,

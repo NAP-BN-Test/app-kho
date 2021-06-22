@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StatusBar,
   Text,
@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   StyleSheet,
   TextInput,
+  RefreshControl,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,7 +18,25 @@ import stylesInventory from './inventory.css';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useTheme} from '@react-navigation/native';
 import Scan_import from '../ImportExport/import/scan_import';
+import {useDispatch} from 'react-redux';
+import {Action} from '../../redux/actions/index.action';
+const wait = (timeout: any) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 function Inventory() {
+  const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+  useEffect(() => {
+    const getlisttonkho = async () => {
+      dispatch(Action.act_get_tonkhotheodonvi({}));
+    };
+    getlisttonkho();
+  }, [refreshing]);
   const producs = [
     {
       id: 1,
@@ -131,13 +150,6 @@ function Inventory() {
           //     })
           //   }
         >
-          {/* <Image
-            source={{
-              uri: item.img,
-            }}
-            resizeMode="cover"
-            style={{width: 100, height: 100, borderRadius: 10}}
-          /> */}
           <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
             <Text
               style={[
@@ -171,6 +183,9 @@ function Inventory() {
           renderItem={renderItem}
           keyExtractor={(item) => `${item.id}`}
           showsVerticalScrollIndicator={false}
+          // refreshControl={
+          //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          // }
         />
       </View>
     );
@@ -207,7 +222,11 @@ function Inventory() {
             <FontAwesome name="barcode" color={colors.text} size={20} />
           </TouchableOpacity>
         </View>
-        <ScrollView style={{marginBottom: 60}}>
+        <ScrollView
+          style={{marginBottom: 60}}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           <View>{renderData()}</View>
         </ScrollView>
       </View>
