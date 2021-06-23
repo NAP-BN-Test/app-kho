@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  Scene,
-  Router,
-  Stack,
-  Actions,
-} from 'react-native-router-flux';
+import {Scene, Router, Stack, Actions} from 'react-native-router-flux';
 import login from './views/login/login';
 import main from './views/main/main';
 import Btn_import from './views/ImportExport/import/import';
@@ -15,10 +10,10 @@ import infoTransfer from './views/ImportExport/warehouseTransfer/infoTransfer';
 import {User} from './types';
 import {RootState} from './redux/reducers/index.reducer';
 import {useSelector} from 'react-redux';
+import danhsachphieuxuat from './views/ImportExport/export/ListExport/danhsachphieuxuat';
 const Routers = () => {
   const Auth: User = useSelector((state: RootState) => state.Auth);
   console.log(Auth);
-  
 
   return (
     <Router>
@@ -60,6 +55,14 @@ const Routers = () => {
             key="infoExport"
             component={infoExport}
             title="infoExport"
+            // initial={true}
+            hideNavBar={true}
+          />
+
+          <Scene
+            key="danhsachphieuxuat"
+            component={danhsachphieuxuat}
+            title="danhsachphieuxuat"
             // initial={true}
             hideNavBar={true}
           />

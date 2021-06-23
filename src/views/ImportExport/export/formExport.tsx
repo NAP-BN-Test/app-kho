@@ -502,6 +502,7 @@ function FormExport() {
             <TextInput
               placeholder="Nhập số khối ..."
               placeholderTextColor="#666666"
+              keyboardType="numeric"
               value={Sokhoi}
               style={[
                 styles.textInput,

@@ -6,7 +6,9 @@ import {
   KHACHHANG,
   KHO,
   NHACUNGCAP,
+  PHIEUXUAT,
   SANPHAM,
+  TONKHO,
   User,
 } from '../../types';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -47,6 +49,14 @@ function get_dm_sp(sp: SANPHAM) {
 
 function get_dm_dvt(dvt: DONVITINH) {
   return {type: constants.GET_DONVITINH, value: dvt};
+}
+
+function get_list_tonkho(data: TONKHO) {
+  return {type: constants.GET_LIST_TONKHO, value: data};
+}
+
+function get_list_phieuxuat(data: PHIEUXUAT) {
+  return {type: constants.GET_LIST_PHIEUXUAT, value: data};
 }
 
 function logout(user: User) {
@@ -187,7 +197,7 @@ function act_get_tonkhotheodonvi(data: any) {
         console.log('Danh sách tồn kho', res.data);
 
         // dispatch(act_alert_success('Lấy dữ liệu thành công'));
-        // dispatch(get_dm_dvt(res.data));
+        dispatch(get_list_tonkho(res.data));
       } else {
         dispatch(act_alert_error('Lấy dữ liệu không thành công'));
       }
@@ -202,22 +212,22 @@ function act_add_px(data: any) {
   data?.ListHangHoa?.map((item: any) => {
     ListHangHoa.push({
       IDSanPham: item.sp.ID,
-      SoLuong: item.sl,
+      SoLuong: Number(item.sl),
       IDDvtXuat: item.dvt.Id,
-      DonGia: item.dongia,
-      NgaySanXuat: item.ngaysanxuat,
+      DonGia:  Number(item.dongia),
+      NgaySanXuat: moment(item.ngaysanxuat).format('YYYY-MM-DD'),
       IDLoaiTem: item.IDLoaiTem,
-      SoLuongTem: item.sltem,
+      SoLuongTem: Number(item.sltem),
       GhiChu: item.ghichu,
-      FlagKyGui: item.FlagKyGui,
+      FlagKyGui: item.FlagKyGui === 'true'?true:false,
     });
   });
   let body = {
-    Code: 'PX.TestApp.1',
+    Code: data.Code,
     IDKho: data.IDKho,
     EnumLoai: data.EnumLoai,
     IDNguoiXuat: data.IDNguoiXuat,
-    NgayXuat: data.NgayXuat,
+    NgayXuat:  moment(data.NgayXuat).format('YYYY-MM-DD'),
     NgayTaoPhieu: moment(
       new Date().toLocaleString('en-GB', {timeZone: 'Asia/Bangkok'}),
     ).format('YYYY-MM-DD HH:mm:ss'),
@@ -242,6 +252,30 @@ function act_add_px(data: any) {
         dispatch(act_alert_success('Thêm thành công'));
         // dispatch(get_dm_dvt(res.data));
       } else {
+        dispatch(act_alert_error('Thao tác không thành công'));
+      }
+    });
+  };
+}
+
+function act_get_listPhieuxuat(data: any) {
+  let body = {
+    idkho: data.idkho,
+    idnguoinhap: data.idnguoinhap,
+    isadmin: data.isadmin,
+    loai: data.loai,
+    tukhoa: data.tukhoa,
+    to: data.to, // datetime kết thúc
+    from: data.from, // datetime bắt đầu
+  };
+  return (dispatch: any) => {
+    Services.get_danhsachphieuxuat(body).then(async (res) => {
+      if (res.status === 200) {
+        console.log('Danh sách phiếu xuất', res.data);
+
+        // dispatch(act_alert_success('Lấy dữ liệu thành công'));
+        dispatch(get_list_phieuxuat(res.data));
+      } else {
         dispatch(act_alert_error('Lấy dữ liệu không thành công'));
       }
     });
@@ -249,6 +283,7 @@ function act_add_px(data: any) {
 }
 
 export const Action = {
+  act_get_listPhieuxuat,
   act_add_px,
   act_get_tonkhotheodonvi,
   act_getdonvitinh,

@@ -9,6 +9,8 @@ export const GET_DMNCC = 'GET_DMNCC';
 export const GET_KHACHHANG = 'GET_KHACHHANG';
 export const GET_SANPHAM = 'GET_SANPHAM';
 export const GET_DONVITINH = 'GET_DONVITINH';
+export const GET_LIST_TONKHO = 'GET_LIST_TONKHO';
+export const GET_LIST_PHIEUXUAT = 'GET_LIST_PHIEUXUAT';
 
 //Type contact
 export type ALERT_SUCCESS = typeof ALERT_SUCCESS
@@ -21,3 +23,5 @@ export type GET_DMNCC = typeof GET_DMNCC;
 export type GET_KHACHHANG = typeof GET_KHACHHANG;
 export type GET_SANPHAM = typeof GET_SANPHAM;
 export type GET_DONVITINH = typeof GET_DONVITINH;
+export type GET_LIST_TONKHO = typeof GET_LIST_TONKHO;
+export type GET_LIST_PHIEUXUAT = typeof GET_LIST_PHIEUXUAT;

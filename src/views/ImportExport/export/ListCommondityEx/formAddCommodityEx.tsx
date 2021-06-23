@@ -59,6 +59,7 @@ function FormAddCommodityEx(props: AddCommodifyProps) {
   );
   const [datesanxuat, setDatesanxuat] = useState(new Date());
   console.log(ngaysanxuat);
+  console.log(datesanxuat);
 
   const {colors} = useTheme();
 
@@ -68,8 +69,17 @@ function FormAddCommodityEx(props: AddCommodifyProps) {
 
   const toggleCodeBar: any = (code: any) => {
     // setmodalVisibleCamera(false);
-    console.log(code.data);
-    setcodebar(code.data);
+    const getsp = props.listsp.find((sp: any) => sp.MaVach === code.data);
+    // "MaVach"
+    console.log(getsp);
+    if (getsp === undefined) {
+      dispatch(Action.act_alert_error('Không tìm thấy sản phẩm'));
+    } else {
+      setSelectedSP(getsp.ID);
+    }
+
+    // console.log(code.data);
+    // setcodebar(code.data);
   };
 
   function submit() {
@@ -88,12 +98,12 @@ function FormAddCommodityEx(props: AddCommodifyProps) {
         sl: SL,
         dvt: getdvt,
         sp: getsp,
-        ngaysanxuat: ngaysanxuat,
+        ngaysanxuat: datesanxuat,
         Loaitem: Loaitem,
         sltem: SLTEM,
         ghichu: ghichu,
         FlagKyGui: FlagKyGui,
-        dongia: dongia
+        dongia: dongia,
       };
       console.log(body);
 
@@ -157,347 +167,317 @@ function FormAddCommodityEx(props: AddCommodifyProps) {
         <View style={styles.action}></View>
 
         <View>
-          <Scan_import
-            toggleCloseModalCamera={toggleCloseModalCamera}
-            toggleCodeBar={toggleCodeBar}
-            visible={modalVisibleCamera}
-          />
-        </View>
-
-        <View>
-          <Formik
+          {/* <Formik
             initialValues={{mahang: '', tenhang: '', soluong: ''}}
             onSubmit={(values) => {
               console.log(values);
             }}>
-            {(prop) => (
-              <View>
-                <ScrollView>
-                  <View>
-                    {/* <Text
-                      style={[
-                        stylesGlobal.text_footer,
-                        {
-                          color: colors.text,
-                        },
-                      ]}>
-                      Nhập sản phẩm
-                    </Text> */}
-                    <DropDownPicker
-                      // {...props}
-                      items={itemsSP}
-                      onChangeValue={(item: any) => {
-                        if (item > 0 && item != undefined) {
-                          dispatch(Action.act_getdonvitinh(item));
-                        }
-                      }}
-                      open={openSP}
-                      value={SelectedSP}
-                      setOpen={setOpenSP}
-                      setValue={setSelectedSP}
-                      setItems={setItemsSP}
-                      searchable={true}
-                      schema={{
-                        label: 'NameVI',
-                        value: 'ID',
-                        icon: 'icon',
-                        parent: 'parent',
-                        selectable: 'selectable',
-                        disabled: 'disabled',
-                      }}
-                    />
-                  </View>
+            {(prop) => ( */}
+          <View>
+            <DropDownPicker
+            style={{marginBottom: 10}}
+              // {...props}
+              items={itemsSP}
+              onChangeValue={(item: any) => {
+                if (item > 0 && item != undefined) {
+                  dispatch(Action.act_getdonvitinh(item));
+                }
+              }}
+              open={openSP}
+              value={SelectedSP}
+              setOpen={setOpenSP}
+              setValue={setSelectedSP}
+              setItems={setItemsSP}
+              searchable={true}
+              schema={{
+                label: 'NameVI',
+                value: 'ID',
+                icon: 'icon',
+                parent: 'parent',
+                selectable: 'selectable',
+                disabled: 'disabled',
+              }}
+            />
+          </View>
+          <ScrollView style={{marginBottom: 110}}>
+            <View style={{flex: 1}}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Đơn vị tính
+              </Text>
+              <Picker
+                selectedValue={DVT}
+                style={{height: 50}}
+                mode="dropdown"
+                onValueChange={(item: any) => {
+                  console.log(item);
+                  setDVT(item);
+                }}>
+                <Picker.Item label="Chọn đơn vị tính..." value={undefined} />
+                {dvt?.map((values, index) => (
+                  <Picker.Item
+                    key={index}
+                    label={values.NameVI}
+                    value={values.Id}
+                  />
+                ))}
+              </Picker>
+              <Text
+                style={{
+                  width: '100%',
+                  height: 50,
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                }}>
+                {''}
+              </Text>
+            </View>
 
-                  <View style={{flex: 1}}>
-                    <Text
-                      style={[
-                        stylesGlobal.text_footer,
-                        {
-                          color: colors.text,
-                        },
-                      ]}>
-                      Đơn vị tính
-                    </Text>
-                    <Picker
-                      selectedValue={DVT}
-                      style={{height: 50}}
-                      mode="dropdown"
-                      onValueChange={(item: any) => {
-                        console.log(item);
-                        setDVT(item);
-                      }}>
-                      <Picker.Item
-                        label="Chọn đơn vị tính..."
-                        value={undefined}
-                      />
-                      {dvt?.map((values, index) => (
-                        <Picker.Item
-                          key={index}
-                          label={values.NameVI}
-                          value={values.Id}
-                        />
-                      ))}
-                    </Picker>
-                    <Text
-                      style={{
-                        width: '100%',
-                        height: 50,
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                      }}>
-                      {''}
-                    </Text>
-                  </View>
-
-                  <View style={styles.inputEnd}>
-                    <Text
-                      style={[
-                        stylesGlobal.text_footer,
-                        {
-                          color: colors.text,
-                        },
-                      ]}>
-                      Số lượng
-                    </Text>
-                    <View style={styles.action}>
-                      <FontAwesome
-                        name="pencil"
-                        color={colors.text}
-                        size={20}
-                      />
-                      <TextInput
-                        placeholder="Nhập số lượng..."
-                        placeholderTextColor="#666666"
-                        keyboardType="numeric"
-                        style={[
-                          styles.textInput,
-                          {
-                            color: colors.text,
-                          },
-                        ]}
-                        autoCapitalize="none"
-                        value={SL}
-                        onChangeText={(val) => {
-                          setSL(val);
-                          console.log(val);
-                        }}
-                        // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-                      />
-                    </View>
-                  </View>
-
-                  <View style={styles.inputEnd}>
-                    <Text
-                      style={[
-                        stylesGlobal.text_footer,
-                        {
-                          color: colors.text,
-                        },
-                      ]}>
-                      Đơn giá
-                    </Text>
-                    <View style={styles.action}>
-                      <FontAwesome
-                        name="pencil"
-                        color={colors.text}
-                        size={20}
-                      />
-                      <TextInput
-                        placeholder="Nhập giá..."
-                        placeholderTextColor="#666666"
-                        keyboardType="numeric"
-                        style={[
-                          styles.textInput,
-                          {
-                            color: colors.text,
-                          },
-                        ]}
-                        autoCapitalize="none"
-                        value={dongia}
-                        onChangeText={(val) => {
-                          setdongia(val);
-                          console.log(val);
-                        }}
-                        // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-                      />
-                    </View>
-                  </View>
-
-                  <View>
-                    <Text
-                      style={[
-                        stylesGlobal.text_footer,
-                        {
-                          color: colors.text,
-                        },
-                      ]}>
-                      Ngày sản xuất
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.searchSection}
-                      onPress={() => setShowPicker(true)}>
-                      <Text style={styles.input}>{ngaysanxuat}</Text>
-                      <Icon
-                        // style={styles.IconDate}
-                        name="calendar-today"
-                        size={20}
-                        color="#000"
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  {showPicker ? (
-                    <DateTimePicker
-                      style={styles.text_input}
-                      value={datesanxuat} // Initial date from state
-                      mode={'date'}
-                      is24Hour={false}
-                      display="default"
-                      onChange={(event: any, selectedDate: any) => {
-                        if (event.type == 'set') {
-                          setShowPicker(false);
-                          setDatesanxuat(selectedDate);
-                          setNgaysanxuat(
-                            selectedDate.getDate() +
-                              '/' +
-                              (selectedDate.getMonth() + 1) +
-                              '/' +
-                              selectedDate.getFullYear(),
-                          );
-                        }
-
-                        if (event.type == 'dismissed') {
-                          setShowPicker(false);
-                        }
-                      }}
-                    />
-                  ) : null}
-
-                  <View style={{flex: 1}}>
-                    <Text
-                      style={[
-                        stylesGlobal.text_footer,
-                        {
-                          color: colors.text,
-                        },
-                      ]}>
-                      Loại tem
-                    </Text>
-                    <Picker
-                      selectedValue={Loaitem}
-                      style={{height: 50}}
-                      mode="dropdown"
-                      onValueChange={(item: any) => {
-                        console.log(item);
-                        setLoaitem(item);
-                      }}>
-                      <Picker.Item label="Chọn loại tem..." value={undefined} />
-
-                      <Picker.Item label="Tem 1" value={1} />
-                    </Picker>
-                    <Text
-                      style={{
-                        width: '100%',
-                        height: 50,
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                      }}>
-                      {''}
-                    </Text>
-                  </View>
-
-                  <View style={styles.inputEnd}>
-                    <Text
-                      style={[
-                        stylesGlobal.text_footer,
-                        {
-                          color: colors.text,
-                        },
-                      ]}>
-                      Số lượng tem
-                    </Text>
-                    <View style={styles.action}>
-                      <FontAwesome
-                        name="pencil"
-                        color={colors.text}
-                        size={20}
-                      />
-                      <TextInput
-                        placeholder="Nhập số lượng tem..."
-                        placeholderTextColor="#666666"
-                        keyboardType="numeric"
-                        style={[
-                          styles.textInput,
-                          {
-                            color: colors.text,
-                          },
-                        ]}
-                        autoCapitalize="none"
-                        value={SLTEM}
-                        onChangeText={(val) => {
-                          setSLTEM(val);
-                          console.log(val);
-                        }}
-                        // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-                      />
-                    </View>
-                  </View>
-
-                  <View style={styles.inputEnd}>
-                    <Text
-                      style={[
-                        stylesGlobal.text_footer,
-                        {
-                          color: colors.text,
-                        },
-                      ]}>
-                      Ghi chú
-                    </Text>
-                    <View style={styles.action}>
-                      <FontAwesome
-                        name="pencil"
-                        color={colors.text}
-                        size={20}
-                      />
-                      <TextInput
-                        placeholder="Nhập ghi chú..."
-                        placeholderTextColor="#666666"
-                        style={[
-                          styles.textInput,
-                          {
-                            color: colors.text,
-                          },
-                        ]}
-                        autoCapitalize="none"
-                        multiline
-                        onChangeText={(val) => setghichu(val)}
-                        // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-                      />
-                    </View>
-                  </View>
-                  <View style={{flex: 1, flexDirection: 'row'}}>
-                    <View style={{marginRight: 20}}>
-                      <Text>Ký gửi</Text>
-                      <RadioButton
-                        value="true"
-                        status={FlagKyGui === 'true' ? 'checked' : 'unchecked'}
-                        onPress={() => setFlagKyGui('true')}
-                      />
-                    </View>
-                    <View>
-                      <Text>Không ký gửi</Text>
-                      <RadioButton
-                        value="false"
-                        status={FlagKyGui === 'false' ? 'checked' : 'unchecked'}
-                        onPress={() => setFlagKyGui('false')}
-                      />
-                    </View>
-                  </View>
-                </ScrollView>
+            <View style={styles.inputEnd}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Số lượng
+              </Text>
+              <View style={styles.action}>
+                <FontAwesome name="pencil" color={colors.text} size={20} />
+                <TextInput
+                  placeholder="Nhập số lượng..."
+                  placeholderTextColor="#666666"
+                  keyboardType="numeric"
+                  style={[
+                    styles.textInput,
+                    {
+                      color: colors.text,
+                    },
+                  ]}
+                  autoCapitalize="none"
+                  value={SL}
+                  onChangeText={(val) => {
+                    setSL(val);
+                    console.log(val);
+                  }}
+                  // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                />
               </View>
-            )}
-          </Formik>
+            </View>
+
+            <View style={styles.inputEnd}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Đơn giá
+              </Text>
+              <View style={styles.action}>
+                <FontAwesome name="pencil" color={colors.text} size={20} />
+                <TextInput
+                  placeholder="Nhập giá..."
+                  placeholderTextColor="#666666"
+                  keyboardType="numeric"
+                  style={[
+                    styles.textInput,
+                    {
+                      color: colors.text,
+                    },
+                  ]}
+                  autoCapitalize="none"
+                  value={dongia}
+                  onChangeText={(val) => {
+                    setdongia(val);
+                    console.log(val);
+                  }}
+                  // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                />
+              </View>
+            </View>
+
+            <View>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Ngày sản xuất
+              </Text>
+              <TouchableOpacity
+                style={styles.searchSection}
+                onPress={() => setShowPicker(true)}>
+                <Text style={styles.input}>{ngaysanxuat}</Text>
+                <Icon
+                  // style={styles.IconDate}
+                  name="calendar-today"
+                  size={20}
+                  color="#000"
+                />
+              </TouchableOpacity>
+            </View>
+            {showPicker ? (
+              <DateTimePicker
+                style={styles.text_input}
+                value={datesanxuat} // Initial date from state
+                mode={'date'}
+                is24Hour={false}
+                display="default"
+                onChange={(event: any, selectedDate: any) => {
+                  if (event.type == 'set') {
+                    setShowPicker(false);
+                    setDatesanxuat(selectedDate);
+                    setNgaysanxuat(
+                      selectedDate.getDate() +
+                        '/' +
+                        (selectedDate.getMonth() + 1) +
+                        '/' +
+                        selectedDate.getFullYear(),
+                    );
+                  }
+
+                  if (event.type == 'dismissed') {
+                    setShowPicker(false);
+                  }
+                }}
+              />
+            ) : null}
+
+            <View style={{flex: 1}}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Loại tem
+              </Text>
+              <Picker
+                selectedValue={Loaitem}
+                style={{height: 50}}
+                mode="dropdown"
+                onValueChange={(item: any) => {
+                  console.log(item);
+                  setLoaitem(item);
+                }}>
+                <Picker.Item label="Chọn loại tem..." value={undefined} />
+
+                <Picker.Item label="Tem 1" value={1} />
+              </Picker>
+              <Text
+                style={{
+                  width: '100%',
+                  height: 50,
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                }}>
+                {''}
+              </Text>
+            </View>
+
+            <View style={styles.inputEnd}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Số lượng tem
+              </Text>
+              <View style={styles.action}>
+                <FontAwesome name="pencil" color={colors.text} size={20} />
+                <TextInput
+                  placeholder="Nhập số lượng tem..."
+                  placeholderTextColor="#666666"
+                  keyboardType="numeric"
+                  style={[
+                    styles.textInput,
+                    {
+                      color: colors.text,
+                    },
+                  ]}
+                  autoCapitalize="none"
+                  value={SLTEM}
+                  onChangeText={(val) => {
+                    setSLTEM(val);
+                    console.log(val);
+                  }}
+                  // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputEnd}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Ghi chú
+              </Text>
+              <View style={styles.action}>
+                <FontAwesome name="pencil" color={colors.text} size={20} />
+                <TextInput
+                  placeholder="Nhập ghi chú..."
+                  placeholderTextColor="#666666"
+                  style={[
+                    styles.textInput,
+                    {
+                      color: colors.text,
+                    },
+                  ]}
+                  autoCapitalize="none"
+                  multiline
+                  onChangeText={(val) => setghichu(val)}
+                  // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                />
+              </View>
+            </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{marginRight: 20}}>
+                <Text>Ký gửi</Text>
+                <RadioButton
+                  value="true"
+                  status={FlagKyGui === 'true' ? 'checked' : 'unchecked'}
+                  onPress={() => setFlagKyGui('true')}
+                />
+              </View>
+              <View>
+                <Text>Không ký gửi</Text>
+                <RadioButton
+                  value="false"
+                  status={FlagKyGui === 'false' ? 'checked' : 'unchecked'}
+                  onPress={() => setFlagKyGui('false')}
+                />
+              </View>
+            </View>
+          </ScrollView>
+          {/* )} */}
+          {/* </Formik> */}
+
+          <View>
+            <Scan_import
+              toggleCloseModalCamera={toggleCloseModalCamera}
+              toggleCodeBar={toggleCodeBar}
+              visible={modalVisibleCamera}
+            />
+          </View>
         </View>
       </View>
     </View>

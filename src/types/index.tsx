@@ -66,3 +66,50 @@ export interface SANPHAM {
   FlagDichVu: string;
   MaVach: string;
 }
+
+export interface TONKHO {
+  ID: number;
+  IDKho: number;
+  IDSanPham: number;
+  IDDonViTinh: number;
+  SoLuongTon: number;
+  lub: number;
+  lud: string;
+  IDKhachHang: number;
+  FlagKyGui: boolean;
+  MaHang: string;
+  TenHang: string;
+  MaKhoText: string;
+  TenKhoText: string;
+  KhachHangText: string;
+  DVTText: string;
+}
+
+export interface PHIEUXUAT {
+  ID: number;
+  Code: string;
+  IDNguoiNhap: number;
+  NgayNhap: string;
+  IDNguoiGiao: number;
+  NguoiGiao: string;
+  NgayTaoPhieu: string;
+  IDKho: number;
+  IDNhaCungCap: number;
+  IDKhachHang: number;
+  MaDonHang: string;
+  EnumLoai: number;
+  Loai: string;
+  IDPhieuXuat: number;
+  GhiChu: string;
+  cd: string;
+  cb: number;
+  lud: string;
+  lub: string;
+  FlagDeleted: boolean;
+  NguoiNhapText: string;
+  TenKhoText: string;
+  NhaCungCapText: string;
+  KhachHangText: string;
+  LoaiText: string;
+  edit: number;
+}

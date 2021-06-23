@@ -171,6 +171,8 @@ function get_danhsachphieuxuat(req: any) {
     to: req.to, // datetime kết thúc
     from: req.from, // datetime bắt đầu
   };
+  console.log(body);
+  
   return axios
     .post(`${URL}/kho/danhsachphieuxuat?access_token=` + access_token, body)
     .then((res: any) => {

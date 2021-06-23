@@ -6,7 +6,9 @@ import rdc_dm_kh from './khachhang.reducer';
 import rdc_dm_kho from './kho.reducer';
 import rdc_login from './login.reducer';
 import rdc_dm_ncc from './nhacungcap.reducer';
+import rdc_phieuxuat from './phieuxuat.reducer';
 import rdc_dm_sanpham from './sanpham.reducer';
+import rdc_tonkho from './tonkho.reducer';
 
 export const rootReducer = combineReducers({
     alerts: rdc_alert,
@@ -17,6 +19,8 @@ export const rootReducer = combineReducers({
     dmkh: rdc_dm_kh,
     dmsp: rdc_dm_sanpham,
     dmdvt: rdc_dm_dvt,
+    tonkho: rdc_tonkho,
+    phieuxuat: rdc_phieuxuat,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

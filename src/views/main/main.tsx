@@ -10,8 +10,6 @@ import info from '../Info/index';
 
 const Tab = createBottomTabNavigator();
 function main() {
-  
-  
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -72,6 +70,17 @@ function main() {
             ),
           }}
         />
+{/* 
+        <Tab.Screen
+          name="Info"
+          component={info}
+          options={{
+            tabBarLabel: 'Info',
+            tabBarIcon: ({color, size}) => (
+              <Icon name="user" color={color} size={size} />
+            ),
+          }}
+        /> */}
       </Tab.Navigator>
     </NavigationContainer>
   );

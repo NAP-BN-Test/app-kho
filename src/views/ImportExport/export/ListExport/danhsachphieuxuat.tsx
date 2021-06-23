@@ -10,41 +10,73 @@ import {
   StyleSheet,
   TextInput,
   RefreshControl,
+  Modal,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import stylesGlobal from '../../css/cssGlobal.css';
-import stylesInventory from './inventory.css';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useTheme} from '@react-navigation/native';
-import Scan_import from '../ImportExport/import/scan_import';
 import {useDispatch, useSelector} from 'react-redux';
-import {Action} from '../../redux/actions/index.action';
-import {TONKHO} from '../../types';
-import {RootState} from '../../redux/reducers/index.reducer';
+import {Action} from '../../../../redux/actions/index.action';
+import stylesGlobal from '../../../../css/cssGlobal.css';
+import Scan_import from '../../import/scan_import';
+import moment from 'moment';
+import {RootState} from '../../../../redux/reducers/index.reducer';
+import {PHIEUXUAT} from '../../../../types';
+import DateRangePicker, {
+  IDateRange,
+} from '../../../../component/Date/RangeDate';
+import {addDays, differenceInDays, format, addYears} from 'date-fns';
+// import {DatePickerModal} from 'react-native-paper-dates';
+// import DateRangePicker from "react-native-daterange-picker";
+// import Calendar from 'react-native-calendar-range-picker';
+// import DatepickerRange from 'react-native-range-datepicker';
 const wait = (timeout: any) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
-function Inventory() {
+function danhsachphieuxuat() {
   const dispatch = useDispatch();
   const [refreshing, setRefreshing] = React.useState(false);
-  const tonkho: Array<TONKHO> = useSelector((state: RootState) => state.tonkho);
-  console.log('tồn kho', tonkho);
+
+  const phieuxuat: Array<PHIEUXUAT> = useSelector(
+    (state: RootState) => state.phieuxuat,
+  );
+
+  console.log(phieuxuat);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
   useEffect(() => {
-    const getlisttonkho = async () => {
-      dispatch(Action.act_get_tonkhotheodonvi({}));
+    const getlistphieuxuat = async () => {
+      dispatch(
+        Action.act_get_listPhieuxuat({
+          to: moment().format('YYYY-MM-DD'),
+          from: moment().subtract(1, 'months').format('YYYY-MM-DD'),
+          isadmin: true,
+        }),
+      );
     };
-    getlisttonkho();
+    getlistphieuxuat();
   }, [refreshing]);
 
   const {colors} = useTheme();
   const [modalVisibleCamera, setmodalVisibleCamera] = useState(false);
+  const [modalVisibleDate, setmodalVisibleDate] = useState(false);
   const [valueSearch, setvalueSearch] = useState('');
+  const [range, setRange] = useState({
+    startDate: new Date(),
+    endDate: addDays(new Date(), 1),
+  });
+
+  //   const [range, setRange] = React.useState<{
+  //     startDate: Date | undefined;
+  //     endDate: Date | undefined;
+  //   }>({startDate: undefined, endDate: undefined});
+
+  console.log(range);
+
   const toggleCloseModalCamera: any = () => {
     setmodalVisibleCamera(false);
   };
@@ -52,7 +84,7 @@ function Inventory() {
   const toggleCodeBar: any = (code: any) => {
     // setmodalVisibleCamera(false);
     setvalueSearch(code.data);
-    dispatch(Action.act_get_tonkhotheodonvi({tukhoa: code.data}));
+    // dispatch(Action.act_get_tonkhotheodonvi({tukhoa: code.data}));
     console.log(code.data);
     // setcodebar(code.data);
   };
@@ -77,7 +109,7 @@ function Inventory() {
                   fontWeight: 'bold',
                 },
               ]}>
-              {item.TenHang}
+              {item.Code}
             </Text>
             <Text>Kho: {item.TenKhoText}</Text>
             {item.IDKhachHang === null ? null : (
@@ -86,12 +118,16 @@ function Inventory() {
 
             <View style={styles.flexRow}>
               <View style={{marginRight: 10}}>
-                <Text>Số lượng: {item.SoLuongTon}</Text>
+                <Text>
+                  Ngày tạo: {moment(item.NgayTaoPhieu).format('YYYY-MM-DD')}
+                </Text>
               </View>
               <View>
-                <Text>Đơn vị tính: {item.DVTText}</Text>
+                <Text>Loại: {item.Loai}</Text>
               </View>
             </View>
+
+            <Text>Ghi chú: {item.ghichu}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -100,7 +136,7 @@ function Inventory() {
     return (
       <View style={{flex: 1}}>
         <FlatList
-          data={tonkho}
+          data={phieuxuat}
           renderItem={renderItem}
           keyExtractor={(item) => `${item.ID}`}
           showsVerticalScrollIndicator={false}
@@ -111,11 +147,18 @@ function Inventory() {
       </View>
     );
   }
+
+  const [open, setOpen] = React.useState(false);
+
+  const onDismiss = React.useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+
   return (
     <View style={stylesGlobal.container}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <View style={stylesGlobal.header}>
-        <Text style={stylesGlobal.text_header}>Quản lý tồn kho</Text>
+        <Text style={stylesGlobal.text_header}>Danh sách phiếu xuất</Text>
       </View>
 
       <View style={stylesGlobal.footer}>
@@ -136,14 +179,55 @@ function Inventory() {
               // onChangeText={(value) => setwarehouse(value)}
               onChangeText={(val) => {
                 setvalueSearch(val);
-                dispatch(Action.act_get_tonkhotheodonvi({tukhoa: val}));
+                dispatch(
+                  Action.act_get_listPhieuxuat({
+                    to: range.endDate,
+                    from: range.startDate,
+                    isadmin: true,
+                    tukhoa: val,
+                  }),
+                );
               }}
               // onEndEditing={(e) => console.log(e)}
             />
           </View>
-          <TouchableOpacity onPress={() => setmodalVisibleCamera(true)}>
-            <FontAwesome name="barcode" color={colors.text} size={20} />
+          <TouchableOpacity onPress={() => setmodalVisibleDate(true)}>
+            <FontAwesome name="calendar" color={colors.text} size={20} />
           </TouchableOpacity>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisibleDate}>
+            <DateRangePicker
+              initialRange={{from: range.startDate, to: range.endDate}}
+              minDate={addYears(new Date(), -1)}
+              maxDate={addYears(new Date(), 1)}
+              onFromOnlySelected={(from: any) => {
+                // console.warn(from);
+                console.log(from);
+              }}
+              onFullRangeSelected={(range: IDateRange) => {
+                // console.warn(range);
+                setmodalVisibleDate(false);
+                dispatch(
+                  Action.act_get_listPhieuxuat({
+                    to: range.to,
+                    from: range.from,
+                    isadmin: true,
+                  }),
+                );
+                setRange({
+                  startDate: range.from,
+                  endDate: range.to,
+                });
+              }}
+              firstDay={1} //Sunday is 0, Monday is 1...
+              width={'100%'} // style.width -> number | string
+              color={'#00ff00'}
+              textColor={'#000000'}
+            />
+          </Modal>
         </View>
         <ScrollView
           style={{marginBottom: 60}}
@@ -165,7 +249,7 @@ function Inventory() {
   );
 }
 
-export default Inventory;
+export default danhsachphieuxuat;
 const styles = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',

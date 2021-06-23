@@ -1,5 +1,5 @@
 import {useTheme} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,9 @@ import {
   StyleSheet,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useDispatch} from 'react-redux';
 import stylesGlobal from '../../css/cssGlobal.css';
+import {Action} from '../../redux/actions/index.action';
 import AddCommodity from './addCommodity';
 
 function commodity() {
@@ -21,6 +23,14 @@ function commodity() {
   const toggleCloseModal: any = () => {
     setModalVisible(false);
   };
+  const dispatch = useDispatch();
+  // const getlistphieuxuat = async () => {
+  //   dispatch(Action.act_get_listPhieuxuat({isadmin: true}));
+  // };
+
+  // useEffect(() => {
+  //   getlistphieuxuat();
+  // }, []);
 
   const toggleCommodity: any = (data: any) => {};
 

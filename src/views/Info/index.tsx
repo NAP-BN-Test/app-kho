@@ -25,7 +25,7 @@ function info() {
           <Text style={stylesGlobal.text_footer}>Ngày sinh: 03/01/1999</Text>
           <Text style={stylesGlobal.text_footer}>Giới tính: Nam</Text>
           <Text style={stylesGlobal.text_footer}>Email: dung123@gmail.com</Text>
-          <Text style={stylesGlobal.text_footer}>SĐT: 0333.968.599</Text>
+          <Text style={stylesGlobal.text_footer}>SĐT: 0333.968.999</Text>
         </View>
         <View style={stylesInfo.button}>
           <TouchableOpacity style={stylesInfo.signIn} onPress={toggleLogout}>
