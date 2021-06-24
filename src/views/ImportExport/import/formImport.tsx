@@ -26,7 +26,7 @@ import ListCommodity from './ListCommodity';
 import {useDispatch, useSelector} from 'react-redux';
 import {Action} from '../../../redux/actions/index.action';
 import {RootState} from '../../../redux/reducers/index.reducer';
-import {KHACHHANG, KHO, NHACUNGCAP} from '../../../types';
+import {KHACHHANG, KHO, NHACUNGCAP, NHANSU} from '../../../types';
 const initialValues = {
   email: '',
   password: '',
@@ -38,11 +38,14 @@ function FormImport() {
   const dmncc: Array<NHACUNGCAP> = useSelector(
     (state: RootState) => state.dmncc,
   );
+  const dmnhansu: Array<NHANSU> = useSelector(
+    (state: RootState) => state.dmnhansu,
+  );
   const dmkh: Array<KHACHHANG> = useSelector((state: RootState) => state.dmkh);
-  console.log('dmkho:', dmkho);
-  console.log('dmncc:', dmncc);
-  console.log('dmkh:', dmkh);
 
+  const getlisnhansu = async () => {
+    dispatch(Action.act_getNhansu());
+  };
   const dispatch = useDispatch();
   const getlistkho = async () => {
     dispatch(Action.act_getkho());
@@ -59,6 +62,13 @@ function FormImport() {
     getlistkho();
     get_nhacungcap();
     get_khachhang();
+    getlisnhansu()
+    setSophieu(
+      'PX' +
+        moment(
+          new Date().toLocaleString('en-GB', {timeZone: 'Asia/Bangkok'}),
+        ).format('YYMMDDHHmmss'),
+    );
   }, []);
   const onSubmit = (values: any) => {
     console.log(values);
@@ -86,7 +96,8 @@ function FormImport() {
   const {colors} = useTheme();
   const [selectedKHO, setSelectedKHO] = useState('' as any);
   const [selectedNCC, setSelectedNCC] = useState('' as any);
-  const [SelectedLOAI, setSelectedLOAI] = useState('Mua hàng');
+  const [SelectedLOAI, setSelectedLOAI] = useState('1');
+  const [Sophieu, setSophieu] = useState('');
   const [Nguoinhan, setNguoinhan] = useState('Dũng');
   const [Phieuxuat, setPhieuxuat] = useState('ABC');
   const [SelectedKH, setSelectedKH] = useState('' as any);
@@ -118,6 +129,7 @@ function FormImport() {
   function func_ModalList(e: any) {
     setmodalList(e);
   }
+
   return (
     <View>
       <ScrollView>
@@ -138,7 +150,7 @@ function FormImport() {
             // onValueChange={handleChange("type")}>
             onValueChange={(item: string) => {
               setSelectedKHO(item);
-              setCommoditys([])
+              setCommoditys([]);
             }}>
             <Picker.Item label="Chọn kho..." value={undefined} />
             {dmkho?.map((items: any) => {
@@ -174,12 +186,12 @@ function FormImport() {
             mode="dropdown"
             // onValueChange={handleChange("type")}>
             onValueChange={(item: string) => setSelectedLOAI(item)}>
-            <Picker.Item label="Mua hàng" value="Mua hàng" />
-            <Picker.Item label="Ký gửi" value="Ký gửi" />
-            <Picker.Item label="Chuyển kho" value="Chuyển kho" />
-            <Picker.Item label="Tồn đầu kỳ" value="Tồn đầu kỳ" />
-            <Picker.Item label="Trả lại hàng" value="Trả lại hàng" />
-            <Picker.Item label="Loại khác" value="Loại khác" />
+            <Picker.Item label="Mua hàng" value="1" />
+            <Picker.Item label="Ký gửi" value="2" />
+            <Picker.Item label="Chuyển kho" value="3" />
+            <Picker.Item label="Tồn đầu kỳ" value="4" />
+            <Picker.Item label="Trả lại hàng" value="5" />
+            <Picker.Item label="Loại khác" value="16" />
           </Picker>
           <Text
             style={{
@@ -208,6 +220,7 @@ function FormImport() {
             <TextInput
               placeholder="Nhập số phiếu..."
               placeholderTextColor="#666666"
+              value={Sophieu}
               style={[
                 styles.textInput,
                 {
@@ -221,7 +234,7 @@ function FormImport() {
           </View>
         </View>
 
-        {SelectedLOAI === 'Chuyển kho' ? (
+        {SelectedLOAI === '3' ? (
           <View style={{flex: 1}}>
             <Text
               style={[
@@ -257,7 +270,7 @@ function FormImport() {
           </View>
         ) : null}
 
-        <View style={{flex: 1}}>
+        {/* <View style={{flex: 1}}>
           <Text
             style={[
               stylesGlobal.text_footer,
@@ -288,8 +301,7 @@ function FormImport() {
             }}>
             {''}
           </Text>
-          {/* Cho cái trên vào để select không lỗi đóng app (Đéo hiểu) */}
-        </View>
+        </View> */}
 
         <View>
           <Text
@@ -339,7 +351,7 @@ function FormImport() {
             }}
           />
         ) : null}
-        <View style={styles.inputEnd}>
+        {/* <View style={styles.inputEnd}>
           <Text
             style={[
               stylesGlobal.text_footer,
@@ -365,9 +377,9 @@ function FormImport() {
               // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
             />
           </View>
-        </View>
+        </View> */}
 
-        {SelectedLOAI === 'Ký gửi' ? (
+        {SelectedLOAI === '2' ? (
           <>
             <View style={{flex: 1}}>
               <Text
@@ -406,7 +418,7 @@ function FormImport() {
               </Text>
             </View>
 
-            <View style={styles.inputEnd}>
+            {/* <View style={styles.inputEnd}>
               <Text
                 style={[
                   stylesGlobal.text_footer,
@@ -432,11 +444,11 @@ function FormImport() {
                   // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
                 />
               </View>
-            </View>
+            </View> */}
           </>
         ) : null}
 
-        {SelectedLOAI === 'Mua hàng' ||
+        {SelectedLOAI === '1' ||
         SelectedLOAI === 'Tồn kho đầu kỳ' ||
         SelectedLOAI === 'Loại khác' ? (
           <View style={{flex: 1}}>
@@ -477,7 +489,7 @@ function FormImport() {
           </View>
         ) : null}
 
-        {SelectedLOAI === 'Mua hàng' ? (
+        {/* {SelectedLOAI === '1' ? (
           <View style={styles.inputEnd}>
             <Text
               style={[
@@ -504,7 +516,7 @@ function FormImport() {
               />
             </View>
           </View>
-        ) : null}
+        ) : null} */}
 
         <View style={styles.inputEnd}>
           <Text

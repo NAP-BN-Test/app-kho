@@ -113,3 +113,26 @@ export interface PHIEUXUAT {
   LoaiText: string;
   edit: number;
 }
+
+export interface CHITIETPHIEUXUAT {
+  ID: number;
+  Code: string;
+  NguoiXuat: string;
+  NgayXuat: string;
+  NguoiNhan: string;
+  NgayTaoPhieu: string;
+  KhoXuat: string;
+  KhoNhan: string;
+  KhachHang: string;
+  Loai: string;
+  GhiChu: string;
+  TrongLuong: string;
+  SoKhoi: string;
+  ListHangHoa: [];
+}
+
+export interface NHANSU {
+  Id: Number;
+  Code: string;
+  HoTen: string;
+}

@@ -16,6 +16,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useTheme} from '@react-navigation/native';
+import {Icon} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import {Action} from '../../../../redux/actions/index.action';
 import stylesGlobal from '../../../../css/cssGlobal.css';
@@ -27,10 +28,7 @@ import DateRangePicker, {
   IDateRange,
 } from '../../../../component/Date/RangeDate';
 import {addDays, differenceInDays, format, addYears} from 'date-fns';
-// import {DatePickerModal} from 'react-native-paper-dates';
-// import DateRangePicker from "react-native-daterange-picker";
-// import Calendar from 'react-native-calendar-range-picker';
-// import DatepickerRange from 'react-native-range-datepicker';
+import DetailPhieuxuat from './detailPhieuxuat';
 const wait = (timeout: any) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
@@ -46,7 +44,13 @@ function danhsachphieuxuat() {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
+    wait(2000).then(() => {
+      setRefreshing(false);
+      setRange({
+        startDate: new Date(),
+        endDate: addDays(new Date(), 1),
+      });
+    });
   }, []);
   useEffect(() => {
     const getlistphieuxuat = async () => {
@@ -64,6 +68,7 @@ function danhsachphieuxuat() {
   const {colors} = useTheme();
   const [modalVisibleCamera, setmodalVisibleCamera] = useState(false);
   const [modalVisibleDate, setmodalVisibleDate] = useState(false);
+  const [modaldetail, setmodaldetail] = useState(false);
   const [valueSearch, setvalueSearch] = useState('');
   const [range, setRange] = useState({
     startDate: new Date(),
@@ -76,6 +81,10 @@ function danhsachphieuxuat() {
   //   }>({startDate: undefined, endDate: undefined});
 
   console.log(range);
+
+  const toggleCloseModalDetail: any = () => {
+    setmodaldetail(false);
+  };
 
   const toggleCloseModalCamera: any = () => {
     setmodalVisibleCamera(false);
@@ -94,12 +103,12 @@ function danhsachphieuxuat() {
       <View style={{marginLeft: 10, marginRight: 10}}>
         <TouchableOpacity
           style={{flex: 1, flexDirection: 'row', marginBottom: 5}}
-          //   onPress={() =>
-          //     navigation.navigate('BookDetail', {
-          //       book: item,
-          //     })
-          //   }
-        >
+          onPress={() => {
+            // console.log('item',item);
+
+            dispatch(Action.act_getDetailPhieuxuat(item.ID));
+            setmodaldetail(true);
+          }}>
           <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
             <Text
               style={[
@@ -127,7 +136,7 @@ function danhsachphieuxuat() {
               </View>
             </View>
 
-            <Text>Ghi chú: {item.ghichu}</Text>
+            {/* <Text>Ghi chú: {item.ghichu}</Text> */}
           </View>
         </TouchableOpacity>
       </View>
@@ -196,37 +205,49 @@ function danhsachphieuxuat() {
           </TouchableOpacity>
 
           <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
-            visible={modalVisibleDate}>
-            <DateRangePicker
-              initialRange={{from: range.startDate, to: range.endDate}}
-              minDate={addYears(new Date(), -1)}
-              maxDate={addYears(new Date(), 1)}
-              onFromOnlySelected={(from: any) => {
-                // console.warn(from);
-                console.log(from);
-              }}
-              onFullRangeSelected={(range: IDateRange) => {
-                // console.warn(range);
-                setmodalVisibleDate(false);
-                dispatch(
-                  Action.act_get_listPhieuxuat({
-                    to: range.to,
-                    from: range.from,
-                    isadmin: true,
-                  }),
-                );
-                setRange({
-                  startDate: range.from,
-                  endDate: range.to,
-                });
-              }}
-              firstDay={1} //Sunday is 0, Monday is 1...
-              width={'100%'} // style.width -> number | string
-              color={'#00ff00'}
-              textColor={'#000000'}
-            />
+            visible={modalVisibleDate}
+            // onRequestClose={setmodalVisibleDate(false)}
+          >
+            <View style={styles.modalView}>
+              <DateRangePicker
+                initialRange={{from: range.startDate, to: range.endDate}}
+                minDate={addYears(new Date(), -1)}
+                maxDate={addYears(new Date(), 1)}
+                onFromOnlySelected={(from: any) => {
+                  // console.warn(from);
+                  console.log(from);
+                }}
+                onFullRangeSelected={(range: IDateRange) => {
+                  // console.warn(range);
+                  // setmodalVisibleDate(false);
+                  dispatch(
+                    Action.act_get_listPhieuxuat({
+                      to: range.to,
+                      from: range.from,
+                      isadmin: true,
+                    }),
+                  );
+                  setRange({
+                    startDate: range.from,
+                    endDate: range.to,
+                  });
+                }}
+                firstDay={1} //Sunday is 0, Monday is 1...
+                width={'100%'} // style.width -> number | string
+                color={'#00ff00'}
+                textColor={'#000000'}
+              />
+              <View>
+                <Icon
+                  name="close"
+                  size={30}
+                  color="black"
+                  onPress={() => setmodalVisibleDate(false)}
+                />
+              </View>
+            </View>
           </Modal>
         </View>
         <ScrollView
@@ -244,6 +265,16 @@ function danhsachphieuxuat() {
           toggleCodeBar={toggleCodeBar}
           visible={modalVisibleCamera}
         />
+      </View>
+
+      <View>
+        <Modal animationType="slide" transparent={true} visible={modaldetail}>
+          <DetailPhieuxuat
+            // VisibleModal={modalVisibleCamera}
+            // data={}
+            toggleCloseModalDetail={toggleCloseModalDetail}
+          />
+        </Modal>
       </View>
     </View>
   );
@@ -266,5 +297,21 @@ const styles = StyleSheet.create({
   StartEnd: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+
+  modalView: {
+    backgroundColor: 'white',
+    padding: 20,
+    // borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: '100%',
+    width: '100%',
   },
 });

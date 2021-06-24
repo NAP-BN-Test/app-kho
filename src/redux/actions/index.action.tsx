@@ -2,10 +2,12 @@ import * as constants from '../constants';
 import {Actions} from 'react-native-router-flux';
 import {Services} from '../../services/services';
 import {
+  CHITIETPHIEUXUAT,
   DONVITINH,
   KHACHHANG,
   KHO,
   NHACUNGCAP,
+  NHANSU,
   PHIEUXUAT,
   SANPHAM,
   TONKHO,
@@ -57,6 +59,14 @@ function get_list_tonkho(data: TONKHO) {
 
 function get_list_phieuxuat(data: PHIEUXUAT) {
   return {type: constants.GET_LIST_PHIEUXUAT, value: data};
+}
+
+function get_detail_phieuxuat(data: CHITIETPHIEUXUAT) {
+  return {type: constants.GET_DETAILPHIEUXUAT, value: data};
+}
+
+function get_list_nhansu(data: NHANSU) {
+  return {type: constants.GET_LIST_NHANSU, value: data};
 }
 
 function logout(user: User) {
@@ -214,12 +224,12 @@ function act_add_px(data: any) {
       IDSanPham: item.sp.ID,
       SoLuong: Number(item.sl),
       IDDvtXuat: item.dvt.Id,
-      DonGia:  Number(item.dongia),
+      DonGia: Number(item.dongia),
       NgaySanXuat: moment(item.ngaysanxuat).format('YYYY-MM-DD'),
       IDLoaiTem: item.IDLoaiTem,
       SoLuongTem: Number(item.sltem),
       GhiChu: item.ghichu,
-      FlagKyGui: item.FlagKyGui === 'true'?true:false,
+      FlagKyGui: item.FlagKyGui === 'true' ? true : false,
     });
   });
   let body = {
@@ -227,7 +237,7 @@ function act_add_px(data: any) {
     IDKho: data.IDKho,
     EnumLoai: data.EnumLoai,
     IDNguoiXuat: data.IDNguoiXuat,
-    NgayXuat:  moment(data.NgayXuat).format('YYYY-MM-DD'),
+    NgayXuat: moment(data.NgayXuat).format('YYYY-MM-DD'),
     NgayTaoPhieu: moment(
       new Date().toLocaleString('en-GB', {timeZone: 'Asia/Bangkok'}),
     ).format('YYYY-MM-DD HH:mm:ss'),
@@ -247,12 +257,12 @@ function act_add_px(data: any) {
       console.log(res);
 
       if (res.status === 200) {
-        console.log('Add tồn kho thành công', res);
+        console.log('Add phieeu xuat thanh công', res);
 
         dispatch(act_alert_success('Thêm thành công'));
         // dispatch(get_dm_dvt(res.data));
       } else {
-        dispatch(act_alert_error('Thao tác không thành công'));
+        dispatch(act_alert_error(res.data));
       }
     });
   };
@@ -282,7 +292,39 @@ function act_get_listPhieuxuat(data: any) {
   };
 }
 
+function act_getDetailPhieuxuat(id: any) {
+  return (dispatch: any) => {
+    Services.get_detailphieuxuat(id).then(async (res) => {
+      if (res.status === 200) {
+        console.log('Detail phieeus xuaats', res.data);
+
+        // dispatch(act_alert_success('Lấy dữ liệu thành công'));
+        dispatch(get_detail_phieuxuat(res.data));
+      } else {
+        dispatch(act_alert_error('Lấy dữ liệu không thành công'));
+      }
+    });
+  };
+}
+
+function act_getNhansu() {
+  return (dispatch: any) => {
+    Services.get_nhansu().then(async (res) => {
+      if (res.status === 200) {
+        console.log('Nhân sự', res.data);
+
+        // dispatch(act_alert_success('Lấy dữ liệu thành công'));
+        dispatch(get_list_nhansu(res.data));
+      } else {
+        dispatch(act_alert_error('Lấy dữ liệu không thành công'));
+      }
+    });
+  };
+}
+
 export const Action = {
+  act_getDetailPhieuxuat,
+  act_getNhansu,
   act_get_listPhieuxuat,
   act_add_px,
   act_get_tonkhotheodonvi,

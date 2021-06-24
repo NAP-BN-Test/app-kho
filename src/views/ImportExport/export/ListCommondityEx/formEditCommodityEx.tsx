@@ -73,7 +73,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
     setLoaitem(props.data.Loaitem);
     setSLTEM(props.data.sltem);
     // setDatesanxuat(props.data.ngaysanxuat)
-    setNgaysanxuat(props.data.ngaysanxuat);
+    setNgaysanxuat(moment(props.data.ngaysanxuat).format('DD-MM-YYYY'));
     setghichu(props.data.ghichu);
     setdongia(props.data.dongia);
   }, [props.data]);
@@ -108,12 +108,12 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
         sl: SL,
         dvt: getdvt,
         sp: getsp,
-        ngaysanxuat: ngaysanxuat,
+        ngaysanxuat: datesanxuat,
         Loaitem: Loaitem,
         sltem: SLTEM,
         ghichu: ghichu,
         FlagKyGui: FlagKyGui,
-        dongia: dongia
+        dongia: dongia,
       };
       props.toggleEditCommodity(body);
       props.VisibleModal(false);

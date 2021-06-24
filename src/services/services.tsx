@@ -86,7 +86,7 @@ function get_sanpham(req: any) {
     idkhoden: req.idkhoden,
   };
 
-  console.log(body);
+  console.log('body get san pham', body);
 
   return axios
     .post(`${URL}/danhmuc/sanpham?access_token=` + access_token, body)
@@ -101,6 +101,17 @@ function get_sanpham(req: any) {
 function get_loaiitem() {
   return axios
     .post(`${URL}/danhmuc/loaitem?access_token=` + access_token)
+    .then((res: any) => {
+      return res;
+    })
+    .catch((err: any) => {
+      return {err};
+    });
+}
+
+function get_nhansu() {
+  return axios
+    .get(`${URL}/danhmuc/nhansu?access_token=` + access_token)
     .then((res: any) => {
       return res;
     })
@@ -172,9 +183,24 @@ function get_danhsachphieuxuat(req: any) {
     from: req.from, // datetime bắt đầu
   };
   console.log(body);
-  
+
   return axios
     .post(`${URL}/kho/danhsachphieuxuat?access_token=` + access_token, body)
+    .then((res: any) => {
+      return res;
+    })
+    .catch((err: any) => {
+      return {err};
+    });
+}
+
+function get_detailphieuxuat(id: any) {
+  console.log("id detail", id);
+  
+  return axios
+    .get(
+      `${URL}/kho/chitietphieuxuat?access_token=` + access_token + `&id=` + id,
+    )
     .then((res: any) => {
       return res;
     })
@@ -186,6 +212,8 @@ function get_danhsachphieuxuat(req: any) {
 //End nhập tồn
 
 export const Services = {
+  get_detailphieuxuat,
+  get_nhansu,
   get_AddPX,
   get_tonkhotheodonvi,
   get_danhsachphieunhap,

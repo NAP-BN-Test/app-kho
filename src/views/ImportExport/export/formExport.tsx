@@ -20,7 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import {RootState} from '../../../redux/reducers/index.reducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {KHACHHANG, KHO, NHACUNGCAP} from '../../../types';
+import {KHACHHANG, KHO, NHACUNGCAP, NHANSU} from '../../../types';
 import {Action} from '../../../redux/actions/index.action';
 import {styles} from './formExport.css';
 import ListCommodityEx from '../export/ListCommondityEx';
@@ -30,10 +30,18 @@ function FormExport() {
   );
   const dmkh: Array<KHACHHANG> = useSelector((state: RootState) => state.dmkh);
   const dmkho: Array<KHO> = useSelector((state: RootState) => state.dmkho);
+  const dmnhansu: Array<NHANSU> = useSelector(
+    (state: RootState) => state.dmnhansu,
+  );
+  console.log(dmnhansu);
 
   const dispatch = useDispatch();
   const getlistkho = async () => {
     dispatch(Action.act_getkho());
+  };
+
+  const getlisnhansu = async () => {
+    dispatch(Action.act_getNhansu());
   };
 
   const get_nhacungcap = async () => {
@@ -44,6 +52,7 @@ function FormExport() {
     dispatch(Action.act_getkhachhang());
   };
   useEffect(() => {
+    getlisnhansu();
     getlistkho();
     get_nhacungcap();
     get_khachhang();
@@ -117,7 +126,7 @@ function FormExport() {
       Code: Sophieu,
       IDKho: selectedKHO,
       EnumLoai: 1,
-      IDNguoiXuat: 1,
+      IDNguoiXuat: Nguoixuat,
       NgayXuat: datexuat,
       IDKhachHang: SelectedKH,
       GhiChu: Ghichu,
@@ -131,8 +140,8 @@ function FormExport() {
     if (selectedKHO === undefined) {
       dispatch(Action.act_alert_error('Bạn chưa chọn kho!'));
     } else {
-      console.log("data");
-      
+      console.log('data');
+
       dispatch(Action.act_add_px(data));
     }
   }
@@ -191,7 +200,17 @@ function FormExport() {
             style={{height: 50}}
             mode="dropdown"
             // onValueChange={handleChange("type")}>
-            onValueChange={(item: string) => setSelectedLOAI(item)}>
+            onValueChange={(item: string) => {
+              setSelectedLOAI(item);
+              if (item === '1' || item === '2') {
+                setSelectedKHODEN(undefined);
+              } else if (item === '3') {
+                setSelectedKH(undefined);
+              } else if (item === '5' || item === '16') {
+                setSelectedKHODEN(undefined);
+                setSelectedKH(undefined);
+              }
+            }}>
             <Picker.Item label="Bán hàng" value="1" />
             <Picker.Item label="Ký gửi" value="2" />
             <Picker.Item label="Chuyển kho" value="3" />
@@ -255,7 +274,10 @@ function FormExport() {
             mode="dropdown"
             // onValueChange={handleChange("type")}>
             onValueChange={(item: string) => setNguoixuat(item)}>
-            <Picker.Item label="DŨNG" value="1" />
+            <Picker.Item label="Chọn người xuất..." value={undefined} />
+            {dmnhansu?.map((items: any) => {
+              return <Picker.Item label={items.HoTen} value={items.Id} />;
+            })}
           </Picker>
           <Text
             style={{
@@ -364,6 +386,7 @@ function FormExport() {
               // onValueChange={handleChange("type")}>
               onValueChange={(item: string) => {
                 setSelectedKH(item);
+                setCommoditys([]);
               }}>
               <Picker.Item label="Chọn khách hàng..." value={undefined} />
               {dmkh?.map((items: any) => {
@@ -586,7 +609,7 @@ function FormExport() {
                 idkhachhang: SelectedKH,
                 tukhoa: null,
                 mavach: null,
-                idkhoden: null,
+                idkhoden: selectedKHODEN,
               };
 
               dispatch(Action.act_getsanpham(body));
