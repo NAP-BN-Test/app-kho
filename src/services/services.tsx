@@ -140,10 +140,24 @@ function get_tonkhotheodonvi(req: any) {
 
 function get_AddPX(req: any) {
   let body = req;
-  console.log('body add tồn kho', body);
+  console.log('body phieu xuat', body);
 
   return axios
     .post(`${URL}/kho/capnhatphieuxuat?access_token=` + access_token, body)
+    .then((res: any) => {
+      return res;
+    })
+    .catch((err: any) => {
+      return {err};
+    });
+}
+
+function get_AddPN(req: any) {
+  let body = req;
+  console.log('body phieu nhap', body);
+
+  return axios
+    .post(`${URL}/kho/capnhatphieunhap?access_token=` + access_token, body)
     .then((res: any) => {
       return res;
     })
@@ -212,6 +226,7 @@ function get_detailphieuxuat(id: any) {
 //End nhập tồn
 
 export const Services = {
+  get_AddPN,
   get_detailphieuxuat,
   get_nhansu,
   get_AddPX,

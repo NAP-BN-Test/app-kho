@@ -29,7 +29,8 @@ function main() {
             paddingBottom: 5,
           },
         }}>
-        <Tab.Screen
+
+        {/* <Tab.Screen
           name="commodity"
           component={commodity}
           options={{
@@ -38,7 +39,9 @@ function main() {
               <Icon name="truck" color={color} size={size} />
             ),
           }}
-        />
+        /> */}
+
+
 
         <Tab.Screen
           name="ImportExport"
@@ -70,17 +73,7 @@ function main() {
             ),
           }}
         />
-{/* 
-        <Tab.Screen
-          name="Info"
-          component={info}
-          options={{
-            tabBarLabel: 'Info',
-            tabBarIcon: ({color, size}) => (
-              <Icon name="user" color={color} size={size} />
-            ),
-          }}
-        /> */}
+        
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -307,6 +307,58 @@ function act_getDetailPhieuxuat(id: any) {
   };
 }
 
+function act_add_pn(data: any) {
+  console.log('data truyeefn vaof action' , data );
+  console.log('data danh sach hang hoa truyeefn vaof action' , data.ListHangHoa );
+
+  let ListHangHoa = new Array();
+  data?.ListHangHoa?.map((item: any) => {
+    ListHangHoa.push({
+      IDSanPham: item.sp.ID,
+      SoLuong: Number(item.sl),
+      IDDvtNhap: item.dvt.Id,
+      DonGia: Number(item.dongia),
+      NgaySanXuat: moment(item.ngaysanxuat).format('YYYY-MM-DD'),
+      IDLoaiTem: item.IDLoaiTem,
+      SoLuongTem: Number(item.sltem),
+      GhiChu: item.ghichu,
+      FlagKyGui: item.FlagKyGui === 'true' ? true : false,
+      IDKhachHang: item.IDKhachHang,
+    });
+  });
+  let body = {
+    Code: data.Code,
+    IDKho: data.IDKho,
+    EnumLoai: data.EnumLoai,
+    IDNguoiNhap: data.IDNguoiNhap,
+    NgayNhap: moment(data.NgayNhap).format('YYYY-MM-DD'),
+    NgayTaoPhieu: moment(
+      new Date().toLocaleString('en-GB', {timeZone: 'Asia/Bangkok'}),
+    ).format('YYYY-MM-DD HH:mm:ss'),
+    IDKhachHang: data.IDKhachHang,
+    GhiChu: data.GhiChu,
+    IDNhaCungCap: data.IDNhaCungCap,
+    IDPhieuXuat: data.IDPhieuXuat,
+    ListHangHoa: ListHangHoa,
+  };
+
+
+  return (dispatch: any) => {
+    Services.get_AddPN(body).then(async (res) => {
+      console.log(res);
+
+      if (res.status === 200) {
+        console.log('Add phieeu nhap thanh công', res);
+
+        dispatch(act_alert_success('Thêm thành công'));
+        // dispatch(get_dm_dvt(res.data));
+      } else {
+        dispatch(act_alert_error(res.data));
+      }
+    });
+  };
+}
+
 function act_getNhansu() {
   return (dispatch: any) => {
     Services.get_nhansu().then(async (res) => {
@@ -323,6 +375,7 @@ function act_getNhansu() {
 }
 
 export const Action = {
+  act_add_pn,
   act_getDetailPhieuxuat,
   act_getNhansu,
   act_get_listPhieuxuat,

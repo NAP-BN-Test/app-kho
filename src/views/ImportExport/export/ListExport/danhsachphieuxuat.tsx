@@ -27,12 +27,17 @@ import {PHIEUXUAT} from '../../../../types';
 import DateRangePicker, {
   IDateRange,
 } from '../../../../component/Date/RangeDate';
+import {Header} from 'react-native-elements';
 import {addDays, differenceInDays, format, addYears} from 'date-fns';
 import DetailPhieuxuat from './detailPhieuxuat';
 const wait = (timeout: any) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
-function danhsachphieuxuat() {
+
+interface modalList {
+  VisibleModalList: any;
+}
+function Danhsachphieuxuat(props: modalList) {
   const dispatch = useDispatch();
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -165,12 +170,44 @@ function danhsachphieuxuat() {
 
   return (
     <View style={stylesGlobal.container}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <Header
+        backgroundColor={'#009387'}
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => {
+              props.VisibleModalList(false);
+            }}>
+            <Icon
+              //   containerStyle={{paddingRight: 16}}
+              name="arrow-back"
+              size={30}
+              color="white"
+            />
+          </TouchableOpacity>
+        }
+        centerComponent={{
+          text: 'Danh sách phiếu xuất',
+          style: {color: '#fff', fontSize: 18},
+        }}
+        rightComponent={
+          <></>
+          // <TouchableOpacity onPress={() => submit()}
+          // >
+          //   <Icon
+          //     //   containerStyle={{paddingRight: 16}}
+          //     name="save"
+          //     size={30}
+          //     color="white"
+          //   />
+          // </TouchableOpacity>
+        }
+      />
+      {/* <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <View style={stylesGlobal.header}>
         <Text style={stylesGlobal.text_header}>Danh sách phiếu xuất</Text>
-      </View>
+      </View> */}
 
-      <View style={stylesGlobal.footer}>
+      <View style={styles.footer}>
         <View style={styles.StartEnd}>
           <View style={[styles.flexRow, {width: '80%'}]}>
             <FontAwesome name="search" color={colors.text} size={20} />
@@ -251,7 +288,7 @@ function danhsachphieuxuat() {
           </Modal>
         </View>
         <ScrollView
-          style={{marginBottom: 60}}
+          style={{marginBottom: 30}}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
@@ -280,7 +317,7 @@ function danhsachphieuxuat() {
   );
 }
 
-export default danhsachphieuxuat;
+export default Danhsachphieuxuat;
 const styles = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',
@@ -297,6 +334,15 @@ const styles = StyleSheet.create({
   StartEnd: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+
+  footer: {
+    flex: 5,
+    backgroundColor: '#fff',
+    // borderTopLeftRadius: 30,
+    // borderTopRightRadius: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
   },
 
   modalView: {

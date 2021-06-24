@@ -103,5 +103,14 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       borderRadius: 5,
     },
+
+    footer: {
+      flex: 5,
+      backgroundColor: '#fff',
+      // borderTopLeftRadius: 30,
+      // borderTopRightRadius: 30,
+      paddingHorizontal: 20,
+      paddingVertical: 30,
+    },
   });
   

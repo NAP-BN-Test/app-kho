@@ -11,7 +11,7 @@ function infoImport() {
         <Text style={styles.text_header}>Quản lý nhập hàng</Text>
       </View>
       <View style={stylesGlobal.footer}>
-        <FormImport key={1}/>
+        {/* <FormImport key={1}/> */}
       </View>
     </View>
   );

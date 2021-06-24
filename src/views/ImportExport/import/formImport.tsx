@@ -26,14 +26,18 @@ import ListCommodity from './ListCommodity';
 import {useDispatch, useSelector} from 'react-redux';
 import {Action} from '../../../redux/actions/index.action';
 import {RootState} from '../../../redux/reducers/index.reducer';
-import {KHACHHANG, KHO, NHACUNGCAP, NHANSU} from '../../../types';
+import {KHACHHANG, KHO, NHACUNGCAP, NHANSU, PHIEUXUAT} from '../../../types';
 const initialValues = {
   email: '',
   password: '',
   type: '',
   test: [{name: 'jared'}, {name: 'brent'}, {name: 'ian'}],
 };
-function FormImport() {
+
+interface modalFormimport {
+  VisibleModal: any;
+}
+function FormImport(props: modalFormimport) {
   const dmkho: Array<KHO> = useSelector((state: RootState) => state.dmkho);
   const dmncc: Array<NHACUNGCAP> = useSelector(
     (state: RootState) => state.dmncc,
@@ -42,6 +46,19 @@ function FormImport() {
     (state: RootState) => state.dmnhansu,
   );
   const dmkh: Array<KHACHHANG> = useSelector((state: RootState) => state.dmkh);
+
+  const phieuxuat: Array<PHIEUXUAT> = useSelector(
+    (state: RootState) => state.phieuxuat,
+  );
+  const getlistphieuxuat = async () => {
+    dispatch(
+      Action.act_get_listPhieuxuat({
+        to: moment().format('YYYY-MM-DD'),
+        from: moment().subtract(1, 'months').format('YYYY-MM-DD'),
+        isadmin: true,
+      }),
+    );
+  };
 
   const getlisnhansu = async () => {
     dispatch(Action.act_getNhansu());
@@ -59,10 +76,10 @@ function FormImport() {
     dispatch(Action.act_getkhachhang());
   };
   useEffect(() => {
-    getlistkho();
+    getlistphieuxuat(), getlistkho();
     get_nhacungcap();
     get_khachhang();
-    getlisnhansu()
+    getlisnhansu();
     setSophieu(
       'PX' +
         moment(
@@ -94,13 +111,13 @@ function FormImport() {
     handleSubmit,
   } = formik;
   const {colors} = useTheme();
-  const [selectedKHO, setSelectedKHO] = useState('' as any);
-  const [selectedNCC, setSelectedNCC] = useState('' as any);
+  const [selectedKHO, setSelectedKHO] = useState(undefined as any);
+  const [selectedNCC, setSelectedNCC] = useState(undefined as any);
   const [SelectedLOAI, setSelectedLOAI] = useState('1');
   const [Sophieu, setSophieu] = useState('');
-  const [Nguoinhan, setNguoinhan] = useState('Dũng');
+  const [Nguoinhap, setNguoinhap] = useState('Dũng');
   const [Phieuxuat, setPhieuxuat] = useState('ABC');
-  const [SelectedKH, setSelectedKH] = useState('' as any);
+  const [SelectedKH, setSelectedKH] = useState(undefined as any);
   const [datenhap, setDatenhap] = useState(new Date());
   const [ngaynhap, setNgaynhap] = useState(moment(Date()).format('DD-MM-YYYY'));
   const [showPicker, setShowPicker] = useState(false);
@@ -131,110 +148,41 @@ function FormImport() {
   }
 
   return (
-    <View>
-      <ScrollView>
-        <View style={{flex: 1}}>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Kho
-          </Text>
-          <Picker
-            selectedValue={selectedKHO}
-            style={{height: 50}}
-            mode="dropdown"
-            // onValueChange={handleChange("type")}>
-            onValueChange={(item: string) => {
-              setSelectedKHO(item);
-              setCommoditys([]);
+    <View style={stylesGlobal.container}>
+      <Header
+        backgroundColor={'#009387'}
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => {
+              props.VisibleModal(false);
             }}>
-            <Picker.Item label="Chọn kho..." value={undefined} />
-            {dmkho?.map((items: any) => {
-              return <Picker.Item label={items.NameVI} value={items.Id} />;
-            })}
-          </Picker>
-          <Text
-            style={{
-              width: '100%',
-              height: 50,
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-            }}>
-            {''}
-          </Text>
-        </View>
-
-        <View style={{flex: 1}}>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Loại phiếu
-          </Text>
-          <Picker
-            // selectedKHO={selectedKHO}
-            selectedValue={SelectedLOAI}
-            style={{height: 50}}
-            mode="dropdown"
-            // onValueChange={handleChange("type")}>
-            onValueChange={(item: string) => setSelectedLOAI(item)}>
-            <Picker.Item label="Mua hàng" value="1" />
-            <Picker.Item label="Ký gửi" value="2" />
-            <Picker.Item label="Chuyển kho" value="3" />
-            <Picker.Item label="Tồn đầu kỳ" value="4" />
-            <Picker.Item label="Trả lại hàng" value="5" />
-            <Picker.Item label="Loại khác" value="16" />
-          </Picker>
-          <Text
-            style={{
-              width: '100%',
-              height: 50,
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-            }}>
-            {''}
-          </Text>
-        </View>
-
-        <View style={styles.inputEnd}>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Số phiếu
-          </Text>
-          <View style={styles.action}>
-            <FontAwesome name="pencil" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Nhập số phiếu..."
-              placeholderTextColor="#666666"
-              value={Sophieu}
-              style={[
-                styles.textInput,
-                {
-                  color: colors.text,
-                },
-              ]}
-              autoCapitalize="none"
-              // onChangeText={(val) => setUserName(val)}
-              // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+            <Icon
+              //   containerStyle={{paddingRight: 16}}
+              name="arrow-back"
+              size={30}
+              color="white"
             />
-          </View>
-        </View>
-
-        {SelectedLOAI === '3' ? (
+          </TouchableOpacity>
+        }
+        centerComponent={{
+          text: 'Quản lý nhập hàng',
+          style: {color: '#fff', fontSize: 18},
+        }}
+        rightComponent={
+          <></>
+          // <TouchableOpacity onPress={() => submit()}
+          // >
+          //   <Icon
+          //     //   containerStyle={{paddingRight: 16}}
+          //     name="save"
+          //     size={30}
+          //     color="white"
+          //   />
+          // </TouchableOpacity>
+        }
+      />
+      <View style={styles.footer}>
+        <ScrollView>
           <View style={{flex: 1}}>
             <Text
               style={[
@@ -243,18 +191,21 @@ function FormImport() {
                   color: colors.text,
                 },
               ]}>
-              Phiếu xuất
+              Kho
             </Text>
             <Picker
-              // selectedKHO={selectedKHO}
-              selectedValue={Phieuxuat}
+              selectedValue={selectedKHO}
               style={{height: 50}}
               mode="dropdown"
               // onValueChange={handleChange("type")}>
-              onValueChange={(item: string) => setPhieuxuat(item)}>
-              <Picker.Item label="ABC" value="ABC" />
-              <Picker.Item label="BBB" value="BBB" />
-              <Picker.Item label="CCC" value="CCC" />
+              onValueChange={(item: string) => {
+                setSelectedKHO(item);
+                setCommoditys([]);
+              }}>
+              <Picker.Item label="Chọn kho..." value={undefined} />
+              {dmkho?.map((items: any) => {
+                return <Picker.Item label={items.NameVI} value={items.Id} />;
+              })}
             </Picker>
             <Text
               style={{
@@ -266,92 +217,205 @@ function FormImport() {
               }}>
               {''}
             </Text>
-            {/* Cho cái trên vào để select không lỗi đóng app (Đéo hiểu) */}
           </View>
-        ) : null}
 
-        {/* <View style={{flex: 1}}>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Người nhận
-          </Text>
-          <Picker
-            // selectedKHO={selectedKHO}
-            selectedValue={Nguoinhan}
-            style={{height: 50}}
-            mode="dropdown"
-            // onValueChange={handleChange("type")}>
-            onValueChange={(item: string) => setNguoinhan(item)}>
-            <Picker.Item label="Dũng" value="Dũng" />
-            <Picker.Item label="Hưng" value="Hưng" />
-            <Picker.Item label="Tùng" value="Tùng" />
-          </Picker>
-          <Text
-            style={{
-              width: '100%',
-              height: 50,
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-            }}>
-            {''}
-          </Text>
-        </View> */}
+          <View style={{flex: 1}}>
+            <Text
+              style={[
+                stylesGlobal.text_footer,
+                {
+                  color: colors.text,
+                },
+              ]}>
+              Loại phiếu
+            </Text>
+            <Picker
+              // selectedKHO={selectedKHO}
+              selectedValue={SelectedLOAI}
+              style={{height: 50}}
+              mode="dropdown"
+              // onValueChange={handleChange("type")}>
+              onValueChange={(item: string) => {
+                setSelectedLOAI(item);
+                if (
+                  item === '1' ||
+                  item === '3' ||
+                  item === '4' ||
+                  item === '5'
+                ) {
+                  setSelectedKH(undefined);
+                } else if (item === '12' || item === '3' || item === '5') {
+                  setSelectedNCC(undefined);
+                }
+              }}>
+              <Picker.Item label="Mua hàng" value="1" />
+              <Picker.Item label="Ký gửi" value="2" />
+              <Picker.Item label="Chuyển kho" value="3" />
+              <Picker.Item label="Tồn đầu kỳ" value="4" />
+              <Picker.Item label="Trả nhà cung cấp" value="5" />
+              <Picker.Item label="Loại khác" value="16" />
+            </Picker>
+            <Text
+              style={{
+                width: '100%',
+                height: 50,
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+              }}>
+              {''}
+            </Text>
+          </View>
 
-        <View>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Ngày nhập
-          </Text>
-          <TouchableOpacity
-            style={styles.searchSection}
-            onPress={() => setShowPicker(true)}>
-            <Text style={styles.input}>{ngaynhap}</Text>
-            <Icon
-              style={styles.IconDate}
-              name="calendar-today"
-              size={20}
-              color="#000"
+          <View style={styles.inputEnd}>
+            <Text
+              style={[
+                stylesGlobal.text_footer,
+                {
+                  color: colors.text,
+                },
+              ]}>
+              Số phiếu
+            </Text>
+            <View style={styles.action}>
+              <FontAwesome name="pencil" color={colors.text} size={20} />
+              <TextInput
+                placeholder="Nhập số phiếu..."
+                placeholderTextColor="#666666"
+                value={Sophieu}
+                style={[
+                  styles.textInput,
+                  {
+                    color: colors.text,
+                  },
+                ]}
+                autoCapitalize="none"
+                // onChangeText={(val) => setUserName(val)}
+                // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+              />
+            </View>
+          </View>
+
+          {SelectedLOAI === '3' ? (
+            <View style={{flex: 1}}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Phiếu xuất
+              </Text>
+              <Picker
+                // selectedKHO={selectedKHO}
+                selectedValue={Phieuxuat}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => setPhieuxuat(item)}>
+                <Picker.Item label="Chọn phiếu xuất..." value={undefined} />
+                {phieuxuat?.map((items: any) => {
+                  return <Picker.Item label={items.Code} value={items.ID} />;
+                })}
+              </Picker>
+              <Text
+                style={{
+                  width: '100%',
+                  height: 50,
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                }}>
+                {''}
+              </Text>
+              {/* Cho cái trên vào để select không lỗi đóng app (Đéo hiểu) */}
+            </View>
+          ) : null}
+
+          <View style={{flex: 1}}>
+            <Text
+              style={[
+                stylesGlobal.text_footer,
+                {
+                  color: colors.text,
+                },
+              ]}>
+              Người nhập
+            </Text>
+            <Picker
+              // selectedKHO={selectedKHO}
+              selectedValue={Nguoinhap}
+              style={{height: 50}}
+              mode="dropdown"
+              // onValueChange={handleChange("type")}>
+              onValueChange={(item: string) => setNguoinhap(item)}>
+              <Picker.Item label="Chọn người nhập..." value={undefined} />
+              {dmnhansu?.map((items: any) => {
+                return <Picker.Item label={items.HoTen} value={items.Id} />;
+              })}
+            </Picker>
+            <Text
+              style={{
+                width: '100%',
+                height: 50,
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+              }}>
+              {''}
+            </Text>
+          </View>
+
+          <View>
+            <Text
+              style={[
+                stylesGlobal.text_footer,
+                {
+                  color: colors.text,
+                },
+              ]}>
+              Ngày nhập
+            </Text>
+            <TouchableOpacity
+              style={styles.searchSection}
+              onPress={() => setShowPicker(true)}>
+              <Text style={styles.input}>{ngaynhap}</Text>
+              <Icon
+                style={styles.IconDate}
+                name="calendar-today"
+                size={20}
+                color="#000"
+              />
+            </TouchableOpacity>
+          </View>
+          {showPicker ? (
+            <DateTimePicker
+              style={styles.text_input}
+              value={datenhap} // Initial date from state
+              mode={'date'}
+              is24Hour={false}
+              display="default"
+              onChange={(event: any, selectedDate: any) => {
+                if (event.type == 'set') {
+                  setShowPicker(false);
+                  setDatenhap(selectedDate);
+                  setNgaynhap(
+                    selectedDate.getDate() +
+                      '/' +
+                      (selectedDate.getMonth() + 1) +
+                      '/' +
+                      selectedDate.getFullYear(),
+                  );
+                }
+
+                if (event.type == 'dismissed') {
+                  setShowPicker(false);
+                }
+              }}
             />
-          </TouchableOpacity>
-        </View>
-        {showPicker ? (
-          <DateTimePicker
-            style={styles.text_input}
-            value={datenhap} // Initial date from state
-            mode={'date'}
-            is24Hour={false}
-            display="default"
-            onChange={(event: any, selectedDate: any) => {
-              if (event.type == 'set') {
-                setShowPicker(false);
-                setDatenhap(selectedDate);
-                setNgaynhap(
-                  selectedDate.getDate() +
-                    '/' +
-                    (selectedDate.getMonth() + 1) +
-                    '/' +
-                    selectedDate.getFullYear(),
-                );
-              }
-
-              if (event.type == 'dismissed') {
-                setShowPicker(false);
-              }
-            }}
-          />
-        ) : null}
-        {/* <View style={styles.inputEnd}>
+          ) : null}
+          {/* <View style={styles.inputEnd}>
           <Text
             style={[
               stylesGlobal.text_footer,
@@ -379,46 +443,48 @@ function FormImport() {
           </View>
         </View> */}
 
-        {SelectedLOAI === '2' ? (
-          <>
-            <View style={{flex: 1}}>
-              <Text
-                style={[
-                  stylesGlobal.text_footer,
-                  {
-                    color: colors.text,
-                  },
-                ]}>
-                Khách hàng
-              </Text>
-              <Picker
-                // selectedKHO={selectedKHO}
-                selectedValue={SelectedKH}
-                style={{height: 50}}
-                mode="dropdown"
-                // onValueChange={handleChange("type")}>
-                onValueChange={(item: string) => {
-                  setSelectedKH(item);
-                  setCommoditys([]);
-                }}>
-                <Picker.Item label="Chọn khách hàng..." value={undefined} />
-                {dmkh?.map((items: any) => {
-                  return <Picker.Item label={items.NameVI} value={items.Id} />;
-                })}
-              </Picker>
-              <Text
-                style={{
-                  width: '100%',
-                  height: 50,
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                }}>
-                {''}
-              </Text>
-            </View>
+          {SelectedLOAI === '2' ? (
+            <>
+              <View style={{flex: 1}}>
+                <Text
+                  style={[
+                    stylesGlobal.text_footer,
+                    {
+                      color: colors.text,
+                    },
+                  ]}>
+                  Khách hàng
+                </Text>
+                <Picker
+                  // selectedKHO={selectedKHO}
+                  selectedValue={SelectedKH}
+                  style={{height: 50}}
+                  mode="dropdown"
+                  // onValueChange={handleChange("type")}>
+                  onValueChange={(item: string) => {
+                    setSelectedKH(item);
+                    setCommoditys([]);
+                  }}>
+                  <Picker.Item label="Chọn khách hàng..." value={undefined} />
+                  {dmkh?.map((items: any) => {
+                    return (
+                      <Picker.Item label={items.NameVI} value={items.Id} />
+                    );
+                  })}
+                </Picker>
+                <Text
+                  style={{
+                    width: '100%',
+                    height: 50,
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                  }}>
+                  {''}
+                </Text>
+              </View>
 
-            {/* <View style={styles.inputEnd}>
+              {/* <View style={styles.inputEnd}>
               <Text
                 style={[
                   stylesGlobal.text_footer,
@@ -445,51 +511,51 @@ function FormImport() {
                 />
               </View>
             </View> */}
-          </>
-        ) : null}
+            </>
+          ) : null}
 
-        {SelectedLOAI === '1' ||
-        SelectedLOAI === 'Tồn kho đầu kỳ' ||
-        SelectedLOAI === 'Loại khác' ? (
-          <View style={{flex: 1}}>
-            <Text
-              style={[
-                stylesGlobal.text_footer,
-                {
-                  color: colors.text,
-                },
-              ]}>
-              Nhà cung cấp
-            </Text>
-            <Picker
-              // selectedKHO={selectedKHO}
-              selectedValue={selectedNCC}
-              style={{height: 50}}
-              mode="dropdown"
-              // onValueChange={handleChange("type")}>
-              onValueChange={(item: string) => {
-                setSelectedNCC(item);
-                setCommoditys([]);
-              }}>
-              <Picker.Item label="Chọn nhà cung cấp..." value={undefined} />
-              {dmncc?.map((items: any) => {
-                return <Picker.Item label={items.NameVI} value={items.Id} />;
-              })}
-            </Picker>
-            <Text
-              style={{
-                width: '100%',
-                height: 50,
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-              }}>
-              {''}
-            </Text>
-          </View>
-        ) : null}
+          {SelectedLOAI === '1' ||
+          SelectedLOAI === '4' ||
+          SelectedLOAI === '16' ? (
+            <View style={{flex: 1}}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Nhà cung cấp
+              </Text>
+              <Picker
+                // selectedKHO={selectedKHO}
+                selectedValue={selectedNCC}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => {
+                  setSelectedNCC(item);
+                  setCommoditys([]);
+                }}>
+                <Picker.Item label="Chọn nhà cung cấp..." value={undefined} />
+                {dmncc?.map((items: any) => {
+                  return <Picker.Item label={items.NameVI} value={items.Id} />;
+                })}
+              </Picker>
+              <Text
+                style={{
+                  width: '100%',
+                  height: 50,
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                }}>
+                {''}
+              </Text>
+            </View>
+          ) : null}
 
-        {/* {SelectedLOAI === '1' ? (
+          {/* {SelectedLOAI === '1' ? (
           <View style={styles.inputEnd}>
             <Text
               style={[
@@ -518,80 +584,80 @@ function FormImport() {
           </View>
         ) : null} */}
 
-        <View style={styles.inputEnd}>
-          <Text
-            style={[
-              stylesGlobal.text_footer,
-              {
-                color: colors.text,
-              },
-            ]}>
-            Ghi chú
-          </Text>
-          <View style={styles.action}>
-            <FontAwesome name="pencil" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Nhập ghi chú..."
-              placeholderTextColor="#666666"
+          <View style={styles.inputEnd}>
+            <Text
               style={[
-                styles.textInput,
+                stylesGlobal.text_footer,
                 {
                   color: colors.text,
                 },
-              ]}
-              autoCapitalize="none"
-              multiline
+              ]}>
+              Ghi chú
+            </Text>
+            <View style={styles.action}>
+              <FontAwesome name="pencil" color={colors.text} size={20} />
+              <TextInput
+                placeholder="Nhập ghi chú..."
+                placeholderTextColor="#666666"
+                style={[
+                  styles.textInput,
+                  {
+                    color: colors.text,
+                  },
+                ]}
+                autoCapitalize="none"
+                multiline
 
-              // onChangeText={(val) => setSelectedKHO(val)}
-              // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                // onChangeText={(val) => setSelectedKHO(val)}
+                // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+              />
+            </View>
+          </View>
+
+          <View style={styles.button}>
+            <TouchableOpacity
+              style={styles.signIn}
+              onPress={() => {
+                let body = {
+                  idkho: selectedKHO,
+                  idnhacungcap: selectedNCC,
+                  idkhachhang: SelectedKH,
+                  tukhoa: null,
+                  mavach: null,
+                  idkhoden: null,
+                };
+
+                dispatch(Action.act_getsanpham(body));
+                setmodalList(true);
+              }}>
+              <LinearGradient
+                colors={['#08d4c4', '#01ab9d']}
+                style={styles.signIn}>
+                <Text
+                  style={[
+                    styles.textSign,
+                    {
+                      color: '#fff',
+                    },
+                  ]}>
+                  Danh sách hàng nhập
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.button}>
+            <BasicButton
+              title={'Ghi'}
+              width={200}
+              color={'#009387'}
+              onPress={handleSubmit}
+              // disabled={!isValid || isSubmitting}
+              // loading={isSubmitting}
             />
           </View>
-        </View>
 
-        <View style={styles.button}>
-          <TouchableOpacity
-            style={styles.signIn}
-            onPress={() => {
-              let body = {
-                idkho: selectedKHO,
-                idnhacungcap: selectedNCC,
-                idkhachhang: SelectedKH,
-                tukhoa: null,
-                mavach: null,
-                idkhoden: null,
-              };
-
-              dispatch(Action.act_getsanpham(body));
-              setmodalList(true);
-            }}>
-            <LinearGradient
-              colors={['#08d4c4', '#01ab9d']}
-              style={styles.signIn}>
-              <Text
-                style={[
-                  styles.textSign,
-                  {
-                    color: '#fff',
-                  },
-                ]}>
-                Danh sách hàng nhập
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.button}>
-          <BasicButton
-            title={'Ghi'}
-            width={200}
-            color={'#009387'}
-            onPress={handleSubmit}
-            // disabled={!isValid || isSubmitting}
-            // loading={isSubmitting}
-          />
-        </View>
-
-        {/* <View>
+          {/* <View>
           <Commodity
             toggleCloseModal={toggleCloseModal}
             toggleCommodity={toggleCommodity}
@@ -599,14 +665,15 @@ function FormImport() {
           />
         </View> */}
 
-        <Modal animationType="slide" transparent={true} visible={modalList}>
-          <ListCommodity
-            VisibleModalList={func_ModalList}
-            toggleCommodity={toggleCommodity}
-            arrayCommodity={Commoditys}
-          />
-        </Modal>
-      </ScrollView>
+          <Modal animationType="slide" transparent={true} visible={modalList}>
+            <ListCommodity
+              VisibleModalList={func_ModalList}
+              toggleCommodity={toggleCommodity}
+              arrayCommodity={Commoditys}
+            />
+          </Modal>
+        </ScrollView>
+      </View>
     </View>
   );
 }
@@ -715,5 +782,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+
+  footer: {
+    flex: 5,
+    backgroundColor: '#fff',
+    // borderTopLeftRadius: 30,
+    // borderTopRightRadius: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
   },
 });
