@@ -1,5 +1,5 @@
 import { KHACHHANG} from '../../types';
-import {GET_DMNCC} from '../constants/index';
+import {GET_DMNCC, GET_KHACHHANG} from '../constants/index';
 
 const initState: Array<KHACHHANG> = [
   {
@@ -12,7 +12,7 @@ const initState: Array<KHACHHANG> = [
 
 const rdc_dm_kh = (state = initState, action: any) => {
   switch (action.type) {
-    case GET_DMNCC:
+    case GET_KHACHHANG:
       console.log(action);
       return action.value.map((items: any) => {
         return {

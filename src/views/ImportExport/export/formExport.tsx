@@ -36,7 +36,7 @@ function FormExport(props: modalFormExport) {
   const dmnhansu: Array<NHANSU> = useSelector(
     (state: RootState) => state.dmnhansu,
   );
-  console.log(dmnhansu);
+  console.log(dmkh);
 
   const dispatch = useDispatch();
   const getlistkho = async () => {
@@ -166,7 +166,7 @@ function FormExport(props: modalFormExport) {
           </TouchableOpacity>
         }
         centerComponent={{
-          text: 'Quản lý nhập hàng',
+          text: 'Quản lý xuất hàng',
           style: {color: '#fff', fontSize: 18},
         }}
         rightComponent={

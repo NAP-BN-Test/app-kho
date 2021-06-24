@@ -95,28 +95,14 @@ function FormImport(props: modalFormimport) {
     console.log(SelectedLOAI);
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit,
-  });
-
-  const {
-    values,
-    touched,
-    errors,
-    handleChange,
-    isSubmitting,
-    isValid,
-    handleSubmit,
-  } = formik;
   const {colors} = useTheme();
   const [selectedKHO, setSelectedKHO] = useState(undefined as any);
   const [selectedNCC, setSelectedNCC] = useState(undefined as any);
   const [SelectedLOAI, setSelectedLOAI] = useState('1');
   const [Sophieu, setSophieu] = useState('');
-  const [Nguoinhap, setNguoinhap] = useState('Dũng');
-  const [Phieuxuat, setPhieuxuat] = useState('ABC');
+  const [ghichu, setghichu] = useState('');
+  const [Nguoinhap, setNguoinhap] = useState(undefined as any);
+  const [Phieuxuat, setPhieuxuat] = useState(undefined as any);
   const [SelectedKH, setSelectedKH] = useState(undefined as any);
   const [datenhap, setDatenhap] = useState(new Date());
   const [ngaynhap, setNgaynhap] = useState(moment(Date()).format('DD-MM-YYYY'));
@@ -145,6 +131,29 @@ function FormImport(props: modalFormimport) {
 
   function func_ModalList(e: any) {
     setmodalList(e);
+  }
+
+  function handleSubmit() {
+    let data = {
+      Code: Sophieu,
+      IDKho: selectedKHO,
+      EnumLoai: 1,
+      IDNguoiNhap: Nguoinhap,
+      NgayNhap: datenhap,
+      IDKhachHang: SelectedKH,
+      GhiChu: ghichu,
+      IDNhaCungCap: selectedNCC,
+      IDPhieuXuat: Phieuxuat,
+      ListHangHoa: Commoditys,
+    };
+
+    if (selectedKHO === undefined) {
+      dispatch(Action.act_alert_error('Bạn chưa chọn kho!'));
+    } else {
+      console.log(data);
+
+      dispatch(Action.act_add_pn(data));
+    }
   }
 
   return (
@@ -597,6 +606,7 @@ function FormImport(props: modalFormimport) {
             <View style={styles.action}>
               <FontAwesome name="pencil" color={colors.text} size={20} />
               <TextInput
+                value={ghichu}
                 placeholder="Nhập ghi chú..."
                 placeholderTextColor="#666666"
                 style={[
@@ -607,8 +617,7 @@ function FormImport(props: modalFormimport) {
                 ]}
                 autoCapitalize="none"
                 multiline
-
-                // onChangeText={(val) => setSelectedKHO(val)}
+                onChangeText={(val) => setghichu(val)}
                 // onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
               />
             </View>

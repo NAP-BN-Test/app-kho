@@ -8,6 +8,7 @@ import {
   KHO,
   NHACUNGCAP,
   NHANSU,
+  PHIEUNHAP,
   PHIEUXUAT,
   SANPHAM,
   TONKHO,
@@ -63,6 +64,14 @@ function get_list_phieuxuat(data: PHIEUXUAT) {
 
 function get_detail_phieuxuat(data: CHITIETPHIEUXUAT) {
   return {type: constants.GET_DETAILPHIEUXUAT, value: data};
+}
+
+function get_list_phieunhap(data: PHIEUNHAP) {
+  return {type: constants.GET_LIST_PHIEUNHAP, value: data};
+}
+
+function get_detail_phieunhap(data: PHIEUNHAP) {
+  return {type: constants.GET_DETAILPHIEUNHAP, value: data};
 }
 
 function get_list_nhansu(data: NHANSU) {
@@ -268,6 +277,45 @@ function act_add_px(data: any) {
   };
 }
 
+function act_get_listPhieunhap(data: any) {
+  let body = {
+    idkho: data.idkho,
+    idnguoinhap: data.idnguoinhap,
+    isadmin: data.isadmin,
+    loai: data.loai,
+    tukhoa: data.tukhoa,
+    to: data.to, // datetime kết thúc
+    from: data.from, // datetime bắt đầu
+  };
+  return (dispatch: any) => {
+    Services.get_danhsachphieunhap(body).then(async (res) => {
+      if (res.status === 200) {
+        console.log('Danh sách phiếu nhập', res.data);
+
+        // dispatch(act_alert_success('Lấy dữ liệu thành công'));
+        dispatch(get_list_phieunhap(res.data));
+      } else {
+        dispatch(act_alert_error('Lấy dữ liệu không thành công'));
+      }
+    });
+  };
+}
+
+function act_getDetailPhieunhap(id: any) {
+  return (dispatch: any) => {
+    Services.get_detailphieunhap(id).then(async (res) => {
+      if (res.status === 200) {
+        console.log('Detail phieeus nhap', res.data);
+
+        // dispatch(act_alert_success('Lấy dữ liệu thành công'));
+        dispatch(get_detail_phieunhap(res.data));
+      } else {
+        dispatch(act_alert_error('Lấy dữ liệu không thành công'));
+      }
+    });
+  };
+}
+
 function act_get_listPhieuxuat(data: any) {
   let body = {
     idkho: data.idkho,
@@ -375,6 +423,8 @@ function act_getNhansu() {
 }
 
 export const Action = {
+  act_getDetailPhieunhap,
+  act_get_listPhieunhap,
   act_add_pn,
   act_getDetailPhieuxuat,
   act_getNhansu,

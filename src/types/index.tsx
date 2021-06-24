@@ -131,6 +131,51 @@ export interface CHITIETPHIEUXUAT {
   ListHangHoa: [];
 }
 
+export interface PHIEUNHAP {
+  ID: number;
+  Code: string;
+  IDNguoiNhap: number;
+  NgayNhap: string;
+  IDNguoiGiao: number;
+  NguoiGiao: string;
+  NgayTaoPhieu: string;
+  IDKho: number;
+  IDNhaCungCap: number;
+  IDKhachHang: number;
+  MaDonHang: string;
+  EnumLoai: number;
+  Loai: string;
+  IDPhieuXuat: number;
+  GhiChu: string;
+  cd: string;
+  cb: number;
+  lud: string;
+  lub: string;
+  FlagDeleted: boolean;
+  NguoiNhapText: string;
+  TenKhoText: string;
+  NhaCungCapText: string;
+  KhachHangText: string;
+  LoaiText: string;
+  edit: number;
+}
+
+export interface CHITIETPHIEUNHAP {
+  ID: number;
+  Code: string;
+  NguoiXuat: string;
+  NgayXuat: string;
+  NguoiNhan: string;
+  NgayTaoPhieu: string;
+  KhoXuat: string;
+  KhoNhan: string;
+  KhachHang: string;
+  Loai: string;
+  GhiChu: string;
+  TrongLuong: string;
+  SoKhoi: string;
+  ListHangHoa: [];
+}
 export interface NHANSU {
   Id: Number;
   Code: string;

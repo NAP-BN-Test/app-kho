@@ -66,16 +66,17 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
     if (props.data.sp.ID > 0) {
       dispatch(Action.act_getdonvitinh(props.data.sp.ID));
     }
-    setSelectedSP(props.data.sp.ID);
-    setFlagKyGui(props.data.FlagKyGui);
-    setDVT(props.data.dvt.Id);
     setSL(props.data.sl);
+    setSelectedSP(props.data.sp.ID);
+    setDVT(props.data.dvt.Id);
+    setFlagKyGui(props.data.FlagKyGui);
     setLoaitem(props.data.Loaitem);
     setSLTEM(props.data.sltem);
     // setDatesanxuat(props.data.ngaysanxuat)
     setNgaysanxuat(moment(props.data.ngaysanxuat).format('DD-MM-YYYY'));
     setghichu(props.data.ghichu);
     setdongia(props.data.dongia);
+    
   }, [props.data]);
 
   const toggleCloseModalCamera: any = () => {

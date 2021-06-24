@@ -13,9 +13,14 @@ import stylesExport from './export/export.css';
 import LinearGradient from 'react-native-linear-gradient';
 import FormImport from './import/formImport';
 import FormExport from './export/formExport';
+import Danhsachphieunhap from './import/ListImport/danhsachphieunhap';
 function importexport() {
   function func_ModalList(e: any) {
     setmodalList(e);
+  }
+
+  function func_Modalphieunhap(e: any) {
+    setmodalListphieunap(e);
   }
   function func_ModalNHAP(e: any) {
     setmodalNhapKho(e);
@@ -26,6 +31,7 @@ function importexport() {
   }
 
   const [modalList, setmodalList] = useState(false);
+  const [modalListphieunap, setmodalListphieunap] = useState(false);
   const [modalNhapKho, setmodalNhapKho] = useState(false);
   const [modalXuatkho, setmodalXuatkho] = useState(false);
   return (
@@ -96,8 +102,32 @@ function importexport() {
             </TouchableOpacity>
           </View>
 
+          <View style={stylesExport.button}>
+            <TouchableOpacity
+              style={stylesExport.signIn}
+              onPress={() => setmodalListphieunap(true)}>
+              <LinearGradient
+                colors={['#08d4c4', '#01ab9d']}
+                style={stylesExport.signIn}>
+                <Text
+                  style={[
+                    stylesExport.textSign,
+                    {
+                      color: '#fff',
+                    },
+                  ]}>
+                  Danh sách phiếu nhập
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+
           <Modal animationType="slide" transparent={true} visible={modalList}>
             <Danhsachphieuxuat VisibleModalList={func_ModalList} />
+          </Modal>
+
+          <Modal animationType="slide" transparent={true} visible={modalListphieunap}>
+            <Danhsachphieunhap VisibleModalList={func_Modalphieunhap} />
           </Modal>
 
           <Modal

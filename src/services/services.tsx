@@ -176,6 +176,8 @@ function get_danhsachphieunhap(req: any) {
     to: req.to, // datetime kết thúc
     from: req.from, // datetime bắt đầu
   };
+  console.log('body phiếu nhập', body);
+  
   return axios
     .post(`${URL}/kho/danhsachphieunhap?access_token=` + access_token, body)
     .then((res: any) => {
@@ -223,9 +225,25 @@ function get_detailphieuxuat(id: any) {
     });
 }
 
+function get_detailphieunhap(id: any) {
+  console.log("id detail", id);
+  
+  return axios
+    .get(
+      `${URL}/kho/chitietphieunhap?access_token=` + access_token + `&id=` + id,
+    )
+    .then((res: any) => {
+      return res;
+    })
+    .catch((err: any) => {
+      return {err};
+    });
+}
+
 //End nhập tồn
 
 export const Services = {
+  get_detailphieunhap,
   get_AddPN,
   get_detailphieuxuat,
   get_nhansu,
