@@ -55,9 +55,9 @@ function FormAddCommodity(props: AddCommodifyProps) {
   const [showPicker, setShowPicker] = useState(false);
   const [FlagKyGui, setFlagKyGui] = useState('false');
   const [ngaysanxuat, setNgaysanxuat] = useState(
-    '' as any
+    undefined as any
   );
-  const [datesanxuat, setDatesanxuat] = useState('' as any);
+  const [datesanxuat, setDatesanxuat] = useState(new Date() as any);
   const [SelectedKH, setSelectedKH] = useState(undefined as any);
   const {colors} = useTheme();
 
@@ -93,7 +93,7 @@ function FormAddCommodity(props: AddCommodifyProps) {
         sl: SL,
         dvt: getdvt,
         sp: getsp,
-        ngaysanxuat: datesanxuat,
+        ngaysanxuat: ngaysanxuat,
         Loaitem: Loaitem,
         sltem: SLTEM,
         ghichu: ghichu,
@@ -352,11 +352,12 @@ function FormAddCommodity(props: AddCommodifyProps) {
                       setShowPicker(false);
                       setDatesanxuat(selectedDate);
                       setNgaysanxuat(
-                        selectedDate.getDate() +
-                          '/' +
-                          (selectedDate.getMonth() + 1) +
-                          '/' +
-                          selectedDate.getFullYear(),
+                        moment(
+                          selectedDate.toLocaleString('en-GB', {
+                            timeZone: 'Asia/Bangkok',
+                          }),
+                        ).format('DD-MM-YYYY'),
+  
                       );
                     }
 

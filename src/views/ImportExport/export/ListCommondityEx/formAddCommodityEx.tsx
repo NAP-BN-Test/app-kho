@@ -59,10 +59,11 @@ function FormAddCommodityEx(props: AddCommodifyProps) {
   const [FlagKyGui, setFlagKyGui] = useState('false');
   console.log(FlagKyGui);
 
-  const [ngaysanxuat, setNgaysanxuat] = useState(''
-    // moment(Date()).format('DD-MM-YYYY'), 
+  const [ngaysanxuat, setNgaysanxuat] = useState(
+    undefined as any
+    // moment(Date()).format('DD-MM-YYYY'),
   );
-  const [datesanxuat, setDatesanxuat] = useState('' as any);
+  const [datesanxuat, setDatesanxuat] = useState(new Date() as any);
   console.log(ngaysanxuat);
   console.log(datesanxuat);
 
@@ -103,7 +104,7 @@ function FormAddCommodityEx(props: AddCommodifyProps) {
         sl: SL,
         dvt: getdvt,
         sp: getsp,
-        ngaysanxuat: datesanxuat,
+        ngaysanxuat: ngaysanxuat,
         Loaitem: Loaitem,
         sltem: SLTEM,
         ghichu: ghichu,
@@ -348,11 +349,12 @@ function FormAddCommodityEx(props: AddCommodifyProps) {
                     setShowPicker(false);
                     setDatesanxuat(selectedDate);
                     setNgaysanxuat(
-                      selectedDate.getDate() +
-                        '/' +
-                        (selectedDate.getMonth() + 1) +
-                        '/' +
-                        selectedDate.getFullYear(),
+                      moment(
+                        selectedDate.toLocaleString('en-GB', {
+                          timeZone: 'Asia/Bangkok',
+                        }),
+                      ).format('DD-MM-YYYY'),
+
                     );
                   }
 
@@ -459,7 +461,7 @@ function FormAddCommodityEx(props: AddCommodifyProps) {
                 />
               </View>
             </View>
-            <View style={{flex: 1, flexDirection: 'row',marginTop: 10}}>
+            <View style={{flex: 1, flexDirection: 'row', marginTop: 10}}>
               <View style={{marginRight: 20}}>
                 <Text>Ký gửi</Text>
                 <RadioButton

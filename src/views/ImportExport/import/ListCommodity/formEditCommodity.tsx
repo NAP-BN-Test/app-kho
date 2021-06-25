@@ -54,8 +54,8 @@ function FormEditCommodity(props: EditCommodifyProps) {
   const [ghichu, setghichu] = useState('');
   const [showPicker, setShowPicker] = useState(false);
   const [FlagKyGui, setFlagKyGui] = useState('false');
-  const [ngaysanxuat, setNgaysanxuat] = useState('' as any);
-  const [datesanxuat, setDatesanxuat] = useState('' as any);
+  const [ngaysanxuat, setNgaysanxuat] = useState(undefined as any);
+  const [datesanxuat, setDatesanxuat] = useState(new Date() as any);
   const [SelectedKH, setSelectedKH] = useState(undefined as any);
   const {colors} = useTheme();
   useEffect(() => {
@@ -70,11 +70,7 @@ function FormEditCommodity(props: EditCommodifyProps) {
     setLoaitem(props.data.Loaitem);
     setSLTEM(props.data.sltem);
     // setDatesanxuat(props.data.ngaysanxuat)
-    setNgaysanxuat(
-      props.data.ngaysanxuat === ''
-        ? ''
-        : moment(props.data.ngaysanxuat).format('DD-MM-YYYY'),
-    );
+    setNgaysanxuat(props.data.ngaysanxuat);
     setghichu(props.data.ghichu);
     setdongia(props.data.dongia);
     setSelectedKH(props.data.khachhang);
@@ -110,7 +106,7 @@ function FormEditCommodity(props: EditCommodifyProps) {
         sl: SL,
         dvt: getdvt,
         sp: getsp,
-        ngaysanxuat: datesanxuat,
+        ngaysanxuat: ngaysanxuat,
         Loaitem: Loaitem,
         sltem: SLTEM,
         ghichu: ghichu,
@@ -373,11 +369,11 @@ function FormEditCommodity(props: EditCommodifyProps) {
                     setShowPicker(false);
                     setDatesanxuat(selectedDate);
                     setNgaysanxuat(
-                      selectedDate.getDate() +
-                        '/' +
-                        (selectedDate.getMonth() + 1) +
-                        '/' +
-                        selectedDate.getFullYear(),
+                      moment(
+                        selectedDate.toLocaleString('en-GB', {
+                          timeZone: 'Asia/Bangkok',
+                        }),
+                      ).format('DD-MM-YYYY'),
                     );
                   }
 

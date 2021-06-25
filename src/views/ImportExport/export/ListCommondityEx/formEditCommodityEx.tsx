@@ -53,8 +53,8 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
   const [FlagKyGui, setFlagKyGui] = useState('false');
   console.log(FlagKyGui);
   const [dongia, setdongia] = useState('');
-  const [ngaysanxuat, setNgaysanxuat] = useState('' as any);
-  const [datesanxuat, setDatesanxuat] = useState('' as any);
+  const [ngaysanxuat, setNgaysanxuat] = useState(undefined as any);
+  const [datesanxuat, setDatesanxuat] = useState(new Date() as any);
   console.log(ngaysanxuat);
   const [Loaitem, setLoaitem] = useState(undefined as any);
   const {colors} = useTheme();
@@ -71,11 +71,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
     setLoaitem(props.data.Loaitem);
     setSLTEM(props.data.sltem);
     // setDatesanxuat(props.data.ngaysanxuat)
-    setNgaysanxuat(
-      props.data.ngaysanxuat === ''
-        ? ''
-        : moment(props.data.ngaysanxuat).format('DD-MM-YYYY'),
-    );
+    setNgaysanxuat(props.data.ngaysanxuat);
     setghichu(props.data.ghichu);
     setdongia(props.data.dongia);
   }, [props.data]);
@@ -110,7 +106,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
         sl: SL,
         dvt: getdvt,
         sp: getsp,
-        ngaysanxuat: datesanxuat,
+        ngaysanxuat: ngaysanxuat,
         Loaitem: Loaitem,
         sltem: SLTEM,
         ghichu: ghichu,
@@ -373,11 +369,11 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
                     setShowPicker(false);
                     setDatesanxuat(selectedDate);
                     setNgaysanxuat(
-                      selectedDate.getDate() +
-                        '/' +
-                        (selectedDate.getMonth() + 1) +
-                        '/' +
-                        selectedDate.getFullYear(),
+                      moment(
+                        selectedDate.toLocaleString('en-GB', {
+                          timeZone: 'Asia/Bangkok',
+                        }),
+                      ).format('DD-MM-YYYY'),
                     );
                   }
 
