@@ -41,7 +41,7 @@ function DetailPhieunhap(props: detailProps) {
           </TouchableOpacity>
         }
         centerComponent={{
-          text: 'Chi tiết phiếu xuất',
+          text: 'Chi tiết phiếu nhập',
           style: {color: '#fff', fontSize: 18},
         }}
         rightComponent={
@@ -70,25 +70,53 @@ function DetailPhieunhap(props: detailProps) {
             Thông tin chung
           </Text>
           <Text>
-            Phiếu xuất:{' '}
+            <Text style={stylesGlobal.text_title}>Phiếu xuất</Text>:{' '}
             <Text style={{color: 'red'}}>{chitietphieunhap.Code}</Text>
           </Text>
           <Text>
-            Ngày tạo:{' '}
+            <Text style={stylesGlobal.text_title}>Ngày tạo</Text>:{' '}
             {moment(chitietphieunhap.NgayTaoPhieu).format('DD-MM-YYYY')}
           </Text>
           <Text>
-            Ngày xuất:{moment(chitietphieunhap.NgayXuat).format('DD-MM-YYYY')}
+            <Text style={stylesGlobal.text_title}>Ngày xuất</Text>:
+            {moment(chitietphieunhap.NgayXuat).format('DD-MM-YYYY')}
           </Text>
-          <Text>Loại: {chitietphieunhap.Loai}</Text>
-          <Text>Kho xuất: {chitietphieunhap.KhoXuat}</Text>
-          <Text>Kho nhận: {chitietphieunhap.KhoNhan}</Text>
-          <Text>Khách hàng: {chitietphieunhap.KhachHang}</Text>
-          <Text>Người nhận: {chitietphieunhap.NguoiNhan}</Text>
-          <Text>Người xuất: {chitietphieunhap.NguoiXuat}</Text>
-          <Text>Trọng lượng: {chitietphieunhap.TrongLuong}</Text>
-          <Text>Số khối: {chitietphieunhap.SoKhoi}</Text>
-          <Text>Ghi chú: {chitietphieunhap.GhiChu}</Text>
+          <Text>
+            <Text style={stylesGlobal.text_title}>Loại</Text>:{' '}
+            {chitietphieunhap.Loai}
+          </Text>
+          <Text>
+            <Text style={stylesGlobal.text_title}>Kho xuất</Text>:{' '}
+            {chitietphieunhap.KhoXuat}
+          </Text>
+          <Text>
+            <Text style={stylesGlobal.text_title}>Kho nhận</Text>:{' '}
+            {chitietphieunhap.KhoNhan}
+          </Text>
+          <Text>
+            <Text style={stylesGlobal.text_title}>Khách hàng</Text>:{' '}
+            {chitietphieunhap.KhachHang}
+          </Text>
+          <Text>
+            <Text style={stylesGlobal.text_title}>Người nhận</Text>:{' '}
+            {chitietphieunhap.NguoiNhan}
+          </Text>
+          <Text>
+            <Text style={stylesGlobal.text_title}>Người xuất</Text>:{' '}
+            {chitietphieunhap.NguoiXuat}
+          </Text>
+          <Text>
+            <Text style={stylesGlobal.text_title}>Trọng lượng</Text>:{' '}
+            {chitietphieunhap.TrongLuong}
+          </Text>
+          <Text>
+            <Text style={stylesGlobal.text_title}>Số khối</Text>:{' '}
+            {chitietphieunhap.SoKhoi}
+          </Text>
+          <Text>
+            <Text style={stylesGlobal.text_title}>Ghi chú</Text>:{' '}
+            {chitietphieunhap.GhiChu}
+          </Text>
         </View>
 
         <View>
@@ -114,10 +142,13 @@ function DetailPhieunhap(props: detailProps) {
                       paddingBottom: 10,
                     }}>
                     <Text>
-                      Tên hàng:{' '}
+                      <Text style={stylesGlobal.text_title}>Tên hàng</Text>:{' '}
                       <Text style={{color: 'red'}}>{items.TenHang}</Text>
                     </Text>
-                    <Text>Số lượng: {items.SoLuong}</Text>
+                    <Text>
+                      <Text style={stylesGlobal.text_title}>Số lượng</Text>:{' '}
+                      {items.SoLuong}
+                    </Text>
                     {/* <View style={styles.flexRow}>
                       <View style={{marginRight: 10}}>
                         <Text>Loại tem: {items.SoLuongTem}</Text>
@@ -126,16 +157,38 @@ function DetailPhieunhap(props: detailProps) {
                         <Text>Số lượng tem: {items.SoLuongTem}</Text>
                       </View>
                     </View> */}
-                    <Text>Loại tem: {items.LoaiTemText}</Text>
-                    <Text>Số lượng tem: {items.SoLuongTem}</Text>
-                    <Text>Đơn giá: {items.DonGia}</Text>
-                    <Text>Đơn vị tính: {items.DVTText}</Text>
-                    <Text>Kho xuất: {items.KhoXuat}</Text>
-                    <Text>Khách hàng: {items.KhachHangText}</Text>
                     <Text>
-                      Ký gửi: {items.FlagKyGui === true ? 'Có' : 'Không'}
+                      <Text style={stylesGlobal.text_title}>Loại tem</Text>:{' '}
+                      {items.LoaiTemText}
                     </Text>
-                    <Text>Ghi chú: {items.GhiChu}</Text>
+                    <Text>
+                      <Text style={stylesGlobal.text_title}>Số lượng tem</Text>:{' '}
+                      {items.SoLuongTem}
+                    </Text>
+                    <Text>
+                      <Text style={stylesGlobal.text_title}>Đơn giá</Text>:{' '}
+                      {items.DonGia}
+                    </Text>
+                    <Text>
+                      <Text style={stylesGlobal.text_title}>Đơn vị tính</Text>:{' '}
+                      {items.DVTText}
+                    </Text>
+                    <Text>
+                      <Text style={stylesGlobal.text_title}>Kho xuất</Text>:{' '}
+                      {items.KhoXuat}
+                    </Text>
+                    <Text>
+                      <Text style={stylesGlobal.text_title}>Khách hàng</Text>:{' '}
+                      {items.KhachHangText}
+                    </Text>
+                    <Text>
+                      <Text style={stylesGlobal.text_title}>Kho</Text>Ký gửi:{' '}
+                      {items.FlagKyGui === true ? 'Có' : 'Không'}
+                    </Text>
+                    <Text>
+                      <Text style={stylesGlobal.text_title}>Kho</Text>Ghi chú:{' '}
+                      {items.GhiChu}
+                    </Text>
                   </View>
                 );
               })}

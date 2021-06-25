@@ -81,7 +81,7 @@ function FormImport(props: modalFormimport) {
     get_khachhang();
     getlisnhansu();
     setSophieu(
-      'PX' +
+      'PN' +
         moment(
           new Date().toLocaleString('en-GB', {timeZone: 'Asia/Bangkok'}),
         ).format('YYMMDDHHmmss'),
@@ -192,7 +192,7 @@ function FormImport(props: modalFormimport) {
       />
       <View style={styles.footer}>
         <ScrollView>
-          <View style={{flex: 1}}>
+          <View style={{marginBottom: 10}}>
             <Text
               style={[
                 stylesGlobal.text_footer,
@@ -202,20 +202,23 @@ function FormImport(props: modalFormimport) {
               ]}>
               Kho
             </Text>
-            <Picker
-              selectedValue={selectedKHO}
-              style={{height: 50}}
-              mode="dropdown"
-              // onValueChange={handleChange("type")}>
-              onValueChange={(item: string) => {
-                setSelectedKHO(item);
-                setCommoditys([]);
-              }}>
-              <Picker.Item label="Chọn kho..." value={undefined} />
-              {dmkho?.map((items: any) => {
-                return <Picker.Item label={items.NameVI} value={items.Id} />;
-              })}
-            </Picker>
+            <View style={stylesGlobal.actionSelect}>
+              <Picker
+                selectedValue={selectedKHO}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => {
+                  setSelectedKHO(item);
+                  setCommoditys([]);
+                }}>
+                <Picker.Item label="Chọn kho..." value={undefined} />
+                {dmkho?.map((items: any) => {
+                  return <Picker.Item label={items.NameVI} value={items.Id} />;
+                })}
+              </Picker>
+            </View>
+
             <Text
               style={{
                 width: '100%',
@@ -238,32 +241,35 @@ function FormImport(props: modalFormimport) {
               ]}>
               Loại phiếu
             </Text>
-            <Picker
-              // selectedKHO={selectedKHO}
-              selectedValue={SelectedLOAI}
-              style={{height: 50}}
-              mode="dropdown"
-              // onValueChange={handleChange("type")}>
-              onValueChange={(item: string) => {
-                setSelectedLOAI(item);
-                if (
-                  item === '1' ||
-                  item === '3' ||
-                  item === '4' ||
-                  item === '5'
-                ) {
-                  setSelectedKH(undefined);
-                } else if (item === '12' || item === '3' || item === '5') {
-                  setSelectedNCC(undefined);
-                }
-              }}>
-              <Picker.Item label="Mua hàng" value="1" />
-              <Picker.Item label="Ký gửi" value="2" />
-              <Picker.Item label="Chuyển kho" value="3" />
-              <Picker.Item label="Tồn đầu kỳ" value="4" />
-              <Picker.Item label="Trả nhà cung cấp" value="5" />
-              <Picker.Item label="Loại khác" value="16" />
-            </Picker>
+            <View style={stylesGlobal.actionSelect}>
+              <Picker
+                // selectedKHO={selectedKHO}
+                selectedValue={SelectedLOAI}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => {
+                  setSelectedLOAI(item);
+                  if (
+                    item === '1' ||
+                    item === '3' ||
+                    item === '4' ||
+                    item === '5'
+                  ) {
+                    setSelectedKH(undefined);
+                  } else if (item === '12' || item === '3' || item === '5') {
+                    setSelectedNCC(undefined);
+                  }
+                }}>
+                <Picker.Item label="Mua hàng" value="1" />
+                <Picker.Item label="Ký gửi" value="2" />
+                <Picker.Item label="Chuyển kho" value="3" />
+                <Picker.Item label="Tồn đầu kỳ" value="4" />
+                <Picker.Item label="Trả nhà cung cấp" value="5" />
+                <Picker.Item label="Loại khác" value="16" />
+              </Picker>
+            </View>
+
             <Text
               style={{
                 width: '100%',
@@ -276,7 +282,7 @@ function FormImport(props: modalFormimport) {
             </Text>
           </View>
 
-          <View style={styles.inputEnd}>
+          <View style={[styles.inputEnd, {marginBottom: 10}]}>
             <Text
               style={[
                 stylesGlobal.text_footer,
@@ -287,7 +293,6 @@ function FormImport(props: modalFormimport) {
               Số phiếu
             </Text>
             <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
               <TextInput
                 placeholder="Nhập số phiếu..."
                 placeholderTextColor="#666666"
@@ -316,18 +321,21 @@ function FormImport(props: modalFormimport) {
                 ]}>
                 Phiếu xuất
               </Text>
-              <Picker
-                // selectedKHO={selectedKHO}
-                selectedValue={Phieuxuat}
-                style={{height: 50}}
-                mode="dropdown"
-                // onValueChange={handleChange("type")}>
-                onValueChange={(item: string) => setPhieuxuat(item)}>
-                <Picker.Item label="Chọn phiếu xuất..." value={undefined} />
-                {phieuxuat?.map((items: any) => {
-                  return <Picker.Item label={items.Code} value={items.ID} />;
-                })}
-              </Picker>
+              <View style={stylesGlobal.actionSelect}>
+                <Picker
+                  // selectedKHO={selectedKHO}
+                  selectedValue={Phieuxuat}
+                  style={{height: 50}}
+                  mode="dropdown"
+                  // onValueChange={handleChange("type")}>
+                  onValueChange={(item: string) => setPhieuxuat(item)}>
+                  <Picker.Item label="Chọn phiếu xuất..." value={undefined} />
+                  {phieuxuat?.map((items: any) => {
+                    return <Picker.Item label={items.Code} value={items.ID} />;
+                  })}
+                </Picker>
+              </View>
+
               <Text
                 style={{
                   width: '100%',
@@ -342,7 +350,7 @@ function FormImport(props: modalFormimport) {
             </View>
           ) : null}
 
-          <View style={{flex: 1}}>
+          <View style={{marginBottom: 10}}>
             <Text
               style={[
                 stylesGlobal.text_footer,
@@ -352,18 +360,21 @@ function FormImport(props: modalFormimport) {
               ]}>
               Người nhập
             </Text>
-            <Picker
-              // selectedKHO={selectedKHO}
-              selectedValue={Nguoinhap}
-              style={{height: 50}}
-              mode="dropdown"
-              // onValueChange={handleChange("type")}>
-              onValueChange={(item: string) => setNguoinhap(item)}>
-              <Picker.Item label="Chọn người nhập..." value={undefined} />
-              {dmnhansu?.map((items: any) => {
-                return <Picker.Item label={items.HoTen} value={items.Id} />;
-              })}
-            </Picker>
+            <View style={stylesGlobal.actionSelect}>
+              <Picker
+                // selectedKHO={selectedKHO}
+                selectedValue={Nguoinhap}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => setNguoinhap(item)}>
+                <Picker.Item label="Chọn người nhập..." value={undefined} />
+                {dmnhansu?.map((items: any) => {
+                  return <Picker.Item label={items.HoTen} value={items.Id} />;
+                })}
+              </Picker>
+            </View>
+
             <Text
               style={{
                 width: '100%',
@@ -377,26 +388,28 @@ function FormImport(props: modalFormimport) {
           </View>
 
           <View>
-            <Text
-              style={[
-                stylesGlobal.text_footer,
-                {
-                  color: colors.text,
-                },
-              ]}>
-              Ngày nhập
-            </Text>
-            <TouchableOpacity
-              style={styles.searchSection}
-              onPress={() => setShowPicker(true)}>
-              <Text style={styles.input}>{ngaynhap}</Text>
-              <Icon
-                style={styles.IconDate}
-                name="calendar-today"
-                size={20}
-                color="#000"
-              />
-            </TouchableOpacity>
+            <View style={[stylesGlobal.actionSelect, {marginBottom: 10}]}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Ngày nhập
+              </Text>
+              <TouchableOpacity
+                style={styles.searchSection}
+                onPress={() => setShowPicker(true)}>
+                <Text style={styles.input}>{ngaynhap}</Text>
+                <Icon
+                  style={styles.IconDate}
+                  name="calendar-today"
+                  size={20}
+                  color="#000"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           {showPicker ? (
             <DateTimePicker
@@ -435,7 +448,6 @@ function FormImport(props: modalFormimport) {
             Người giao
           </Text>
           <View style={styles.action}>
-            <FontAwesome name="pencil" color={colors.text} size={20} />
             <TextInput
               placeholder="Nhập người giao..."
               placeholderTextColor="#666666"
@@ -464,23 +476,26 @@ function FormImport(props: modalFormimport) {
                   ]}>
                   Khách hàng
                 </Text>
-                <Picker
-                  // selectedKHO={selectedKHO}
-                  selectedValue={SelectedKH}
-                  style={{height: 50}}
-                  mode="dropdown"
-                  // onValueChange={handleChange("type")}>
-                  onValueChange={(item: string) => {
-                    setSelectedKH(item);
-                    setCommoditys([]);
-                  }}>
-                  <Picker.Item label="Chọn khách hàng..." value={undefined} />
-                  {dmkh?.map((items: any) => {
-                    return (
-                      <Picker.Item label={items.NameVI} value={items.Id} />
-                    );
-                  })}
-                </Picker>
+                <View style={stylesGlobal.actionSelect}>
+                  <Picker
+                    // selectedKHO={selectedKHO}
+                    selectedValue={SelectedKH}
+                    style={{height: 50}}
+                    mode="dropdown"
+                    // onValueChange={handleChange("type")}>
+                    onValueChange={(item: string) => {
+                      setSelectedKH(item);
+                      setCommoditys([]);
+                    }}>
+                    <Picker.Item label="Chọn khách hàng..." value={undefined} />
+                    {dmkh?.map((items: any) => {
+                      return (
+                        <Picker.Item label={items.NameVI} value={items.Id} />
+                      );
+                    })}
+                  </Picker>
+                </View>
+
                 <Text
                   style={{
                     width: '100%',
@@ -504,7 +519,7 @@ function FormImport(props: modalFormimport) {
                 Địa chỉ khách hàng
               </Text>
               <View style={styles.action}>
-                <FontAwesome name="pencil" color={colors.text} size={20} />
+  
                 <TextInput
                   placeholder="Nhập địa chỉ khách hàng..."
                   placeholderTextColor="#666666"
@@ -536,21 +551,26 @@ function FormImport(props: modalFormimport) {
                 ]}>
                 Nhà cung cấp
               </Text>
-              <Picker
-                // selectedKHO={selectedKHO}
-                selectedValue={selectedNCC}
-                style={{height: 50}}
-                mode="dropdown"
-                // onValueChange={handleChange("type")}>
-                onValueChange={(item: string) => {
-                  setSelectedNCC(item);
-                  setCommoditys([]);
-                }}>
-                <Picker.Item label="Chọn nhà cung cấp..." value={undefined} />
-                {dmncc?.map((items: any) => {
-                  return <Picker.Item label={items.NameVI} value={items.Id} />;
-                })}
-              </Picker>
+              <View style={stylesGlobal.actionSelect}>
+                <Picker
+                  // selectedKHO={selectedKHO}
+                  selectedValue={selectedNCC}
+                  style={{height: 50}}
+                  mode="dropdown"
+                  // onValueChange={handleChange("type")}>
+                  onValueChange={(item: string) => {
+                    setSelectedNCC(item);
+                    setCommoditys([]);
+                  }}>
+                  <Picker.Item label="Chọn nhà cung cấp..." value={undefined} />
+                  {dmncc?.map((items: any) => {
+                    return (
+                      <Picker.Item label={items.NameVI} value={items.Id} />
+                    );
+                  })}
+                </Picker>
+              </View>
+
               <Text
                 style={{
                   width: '100%',
@@ -576,7 +596,7 @@ function FormImport(props: modalFormimport) {
               Mã đơn hàng
             </Text>
             <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
+
               <TextInput
                 placeholder="Nhập mã đơn hàng..."
                 placeholderTextColor="#666666"
@@ -604,7 +624,6 @@ function FormImport(props: modalFormimport) {
               Ghi chú
             </Text>
             <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
               <TextInput
                 value={ghichu}
                 placeholder="Nhập ghi chú..."
@@ -656,6 +675,28 @@ function FormImport(props: modalFormimport) {
           </View>
 
           <View style={styles.button}>
+            <TouchableOpacity
+              style={styles.signIn}
+              onPress={() => {
+                handleSubmit();
+              }}>
+              <LinearGradient
+                colors={['#08d4c4', '#01ab9d']}
+                style={styles.signIn}>
+                <Text
+                  style={[
+                    styles.textSign,
+                    {
+                      color: '#fff',
+                    },
+                  ]}>
+                  Ghi
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+
+          {/* <View style={styles.button}>
             <BasicButton
               title={'Ghi'}
               width={200}
@@ -664,7 +705,7 @@ function FormImport(props: modalFormimport) {
               // disabled={!isValid || isSubmitting}
               // loading={isSubmitting}
             />
-          </View>
+          </View> */}
 
           {/* <View>
           <Commodity
@@ -729,7 +770,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     // paddingRight: 20,
     paddingBottom: 10,
-    paddingLeft: 5,
+    paddingLeft: 20,
     textAlign: 'left',
     backgroundColor: '#fff',
     color: '#424242',
@@ -737,8 +778,8 @@ const styles = StyleSheet.create({
 
   textInput: {
     flex: 1,
-    marginTop: -12,
-    paddingLeft: 10,
+    marginTop: -15,
+    paddingLeft: 20,
     color: '#05375a',
   },
 
@@ -747,21 +788,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
-    paddingBottom: 5,
+    // paddingBottom: 5,
   },
 
   IconDate: {},
   button: {
     alignItems: 'center',
-    marginTop: 50,
-    borderRadius: 20,
+    marginTop: 10,
+    borderRadius: 5,
   },
   signIn: {
     width: '100%',
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 5,
   },
   textSign: {
     fontSize: 18,

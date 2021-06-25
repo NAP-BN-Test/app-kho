@@ -53,10 +53,8 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
   const [FlagKyGui, setFlagKyGui] = useState('false');
   console.log(FlagKyGui);
   const [dongia, setdongia] = useState('');
-  const [ngaysanxuat, setNgaysanxuat] = useState(
-    moment(Date()).format('DD-MM-YYYY'),
-  );
-  const [datesanxuat, setDatesanxuat] = useState(new Date());
+  const [ngaysanxuat, setNgaysanxuat] = useState('' as any);
+  const [datesanxuat, setDatesanxuat] = useState('' as any);
   console.log(ngaysanxuat);
   const [Loaitem, setLoaitem] = useState(undefined as any);
   const {colors} = useTheme();
@@ -73,10 +71,13 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
     setLoaitem(props.data.Loaitem);
     setSLTEM(props.data.sltem);
     // setDatesanxuat(props.data.ngaysanxuat)
-    setNgaysanxuat(moment(props.data.ngaysanxuat).format('DD-MM-YYYY'));
+    setNgaysanxuat(
+      props.data.ngaysanxuat === ''
+        ? ''
+        : moment(props.data.ngaysanxuat).format('DD-MM-YYYY'),
+    );
     setghichu(props.data.ghichu);
     setdongia(props.data.dongia);
-    
   }, [props.data]);
 
   const toggleCloseModalCamera: any = () => {
@@ -143,14 +144,15 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
           style: {color: '#fff', fontSize: 18},
         }}
         rightComponent={
-          <TouchableOpacity onPress={() => submit()}>
-            <Icon
-              //   containerStyle={{paddingRight: 16}}
-              name="save"
-              size={30}
-              color="white"
-            />
-          </TouchableOpacity>
+          <></>
+          // <TouchableOpacity onPress={() => submit()}>
+          //   <Icon
+          //     //   containerStyle={{paddingRight: 16}}
+          //     name="save"
+          //     size={30}
+          //     color="white"
+          //   />
+          // </TouchableOpacity>
         }
       />
       <View style={styles.modalView}>
@@ -174,7 +176,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.action}></View> */}
+        <View style={stylesGlobal.action}></View> */}
 
         {/* <View>
           <Scan_import
@@ -205,6 +207,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
               </Text> */}
               <DropDownPicker
                 // {...props}
+                style={{marginBottom: 10}}
                 items={itemsSP}
                 open={openSP}
                 value={SelectedSP}
@@ -238,23 +241,26 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
                 ]}>
                 Đơn vị tính
               </Text>
-              <Picker
-                selectedValue={DVT}
-                style={{height: 50}}
-                mode="dropdown"
-                onValueChange={(item: any) => {
-                  console.log(item);
-                  setDVT(item);
-                }}>
-                <Picker.Item label="Chọn đơn vị tính..." value={undefined} />
-                {dvt?.map((values, index) => (
-                  <Picker.Item
-                    key={index}
-                    label={values.NameVI}
-                    value={values.Id}
-                  />
-                ))}
-              </Picker>
+              <View style={stylesGlobal.actionSelect}>
+                <Picker
+                  selectedValue={DVT}
+                  style={{height: 50}}
+                  mode="dropdown"
+                  onValueChange={(item: any) => {
+                    console.log(item);
+                    setDVT(item);
+                  }}>
+                  <Picker.Item label="Chọn đơn vị tính..." value={undefined} />
+                  {dvt?.map((values, index) => (
+                    <Picker.Item
+                      key={index}
+                      label={values.NameVI}
+                      value={values.Id}
+                    />
+                  ))}
+                </Picker>
+              </View>
+
               <Text
                 style={{
                   width: '100%',
@@ -277,8 +283,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
                 ]}>
                 Số lượng
               </Text>
-              <View style={styles.action}>
-                <FontAwesome name="pencil" color={colors.text} size={20} />
+              <View style={stylesGlobal.action}>
                 <TextInput
                   placeholder="Nhập số lượng..."
                   placeholderTextColor="#666666"
@@ -310,8 +315,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
                 ]}>
                 Đơn giá
               </Text>
-              <View style={styles.action}>
-                <FontAwesome name="pencil" color={colors.text} size={20} />
+              <View style={stylesGlobal.action}>
                 <TextInput
                   placeholder="Nhập giá..."
                   placeholderTextColor="#666666"
@@ -333,27 +337,29 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
               </View>
             </View>
 
-            <View>
-              <Text
-                style={[
-                  stylesGlobal.text_footer,
-                  {
-                    color: colors.text,
-                  },
-                ]}>
-                Ngày sản xuất
-              </Text>
-              <TouchableOpacity
-                style={styles.searchSection}
-                onPress={() => setShowPicker(true)}>
-                <Text style={styles.input}>{ngaysanxuat}</Text>
-                <Icon
-                  // style={styles.IconDate}
-                  name="calendar-today"
-                  size={20}
-                  color="#000"
-                />
-              </TouchableOpacity>
+            <View style={{marginTop: 10}}>
+              <View style={stylesGlobal.actionSelect}>
+                <Text
+                  style={[
+                    stylesGlobal.text_footer,
+                    {
+                      color: colors.text,
+                    },
+                  ]}>
+                  Ngày sản xuất
+                </Text>
+                <TouchableOpacity
+                  style={styles.searchSection}
+                  onPress={() => setShowPicker(true)}>
+                  <Text style={styles.input}>{ngaysanxuat}</Text>
+                  <Icon
+                    // style={styles.IconDate}
+                    name="calendar-today"
+                    size={20}
+                    color="#000"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
             {showPicker ? (
               <DateTimePicker
@@ -382,7 +388,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
               />
             ) : null}
 
-            <View style={{flex: 1}}>
+            <View style={{marginTop: 10}}>
               <Text
                 style={[
                   stylesGlobal.text_footer,
@@ -392,18 +398,22 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
                 ]}>
                 Loại tem
               </Text>
-              <Picker
-                selectedValue={Loaitem}
-                style={{height: 50}}
-                mode="dropdown"
-                onValueChange={(item: any) => {
-                  console.log(item);
-                  setLoaitem(item);
-                }}>
-                <Picker.Item label="Chọn loại tem..." value={undefined} />
 
-                <Picker.Item label="Tem 1" value={1} />
-              </Picker>
+              <View style={stylesGlobal.actionSelect}>
+                <Picker
+                  selectedValue={Loaitem}
+                  style={{height: 50}}
+                  mode="dropdown"
+                  onValueChange={(item: any) => {
+                    console.log(item);
+                    setLoaitem(item);
+                  }}>
+                  <Picker.Item label="Chọn loại tem..." value={undefined} />
+
+                  <Picker.Item label="Tem 1" value={1} />
+                </Picker>
+              </View>
+
               <Text
                 style={{
                   width: '100%',
@@ -426,8 +436,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
                 ]}>
                 Số lượng tem
               </Text>
-              <View style={styles.action}>
-                <FontAwesome name="pencil" color={colors.text} size={20} />
+              <View style={stylesGlobal.action}>
                 <TextInput
                   placeholder="Nhập số lượng tem..."
                   placeholderTextColor="#666666"
@@ -459,8 +468,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
                 ]}>
                 Ghi chú
               </Text>
-              <View style={styles.action}>
-                <FontAwesome name="pencil" color={colors.text} size={20} />
+              <View style={stylesGlobal.action}>
                 <TextInput
                   placeholder="Nhập ghi chú..."
                   placeholderTextColor="#666666"
@@ -478,7 +486,7 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
                 />
               </View>
             </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={{flex: 1, flexDirection: 'row', marginTop: 10}}>
               <View style={{marginRight: 20}}>
                 <Text>Ký gửi</Text>
                 <RadioButton
@@ -496,7 +504,29 @@ function FormEditCommodityEx(props: EditCommodifyProps) {
                 />
               </View>
             </View>
+
             <View style={styles.button}>
+              <TouchableOpacity
+                style={styles.signIn}
+                onPress={() => {
+                  submit();
+                }}>
+                <LinearGradient
+                  colors={['#08d4c4', '#01ab9d']}
+                  style={styles.signIn}>
+                  <Text
+                    style={[
+                      styles.textButton,
+                      {
+                        color: '#fff',
+                      },
+                    ]}>
+                    Lưu
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.button, {marginBottom: 20}]}>
               <TouchableOpacity
                 style={styles.signIn}
                 onPress={() => {
@@ -539,7 +569,7 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     marginTop: -12,
-    paddingLeft: 10,
+    paddingLeft: 15,
     color: '#05375a',
   },
 
@@ -565,7 +595,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 5,
   },
   textButton: {
     fontSize: 18,
@@ -651,7 +681,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     // paddingRight: 20,
     paddingBottom: 10,
-    paddingLeft: 5,
+    paddingLeft: 15,
     textAlign: 'left',
     backgroundColor: '#fff',
     color: '#424242',

@@ -4,7 +4,6 @@ import {TextInput} from 'react-native-paper';
 import stylesGlobal from '../../css/cssGlobal.css';
 import Btn_export from './export/export';
 import Btn_listPX from './export/ListExport/btn_listPX';
-import Btn_import from './import/import';
 import ListCommodity from './import/ListCommodity';
 import Btn_WarehouseTransfer from './warehouseTransfer';
 import {Icon} from 'react-native-elements';
@@ -40,7 +39,7 @@ function importexport() {
       <View style={stylesGlobal.header}>
         <Text style={stylesGlobal.text_header}>Quản lý nhập xuất</Text>
       </View>
-      <View style={style.footer}>
+      <View style={styles.footer}>
         <View>
           <View style={stylesExport.button}>
             <TouchableOpacity
@@ -151,7 +150,7 @@ function importexport() {
 
 export default importexport;
 
-const style = {
+const styles = {
   footer: {
     flex: 5,
     backgroundColor: '#fff',
@@ -164,5 +163,13 @@ const style = {
   button: {
     alignItems: 'center',
     marginTop: 30,
+  },
+
+  signIn: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
   },
 };

@@ -79,17 +79,28 @@ function Inventory() {
               ]}>
               {item.TenHang}
             </Text>
-            <Text>Kho: {item.TenKhoText}</Text>
+            <Text>
+              <Text style={stylesGlobal.text_title}>Kho</Text>:{' '}
+              {item.TenKhoText}
+            </Text>
             {item.IDKhachHang === null ? null : (
-              <Text>Khách hàng: {item.KhachHangText}</Text>
+              <Text>
+                <Text style={stylesGlobal.text_title}>Khách hàng</Text>:{' '}
+                {item.KhachHangText}
+              </Text>
             )}
-
             <View style={styles.flexRow}>
               <View style={{marginRight: 10}}>
-                <Text>Số lượng: {item.SoLuongTon}</Text>
+                <Text>
+                  <Text style={stylesGlobal.text_title}>Sl</Text>:{' '}
+                  {item.SoLuongTon}
+                </Text>
               </View>
               <View>
-                <Text>Đơn vị tính: {item.DVTText}</Text>
+                <Text>
+                  <Text style={stylesGlobal.text_title}>ĐVT</Text>:{' '}
+                  {item.DVTText}
+                </Text>
               </View>
             </View>
           </View>

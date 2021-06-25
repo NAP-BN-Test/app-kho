@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
       paddingTop: 10,
       // paddingRight: 20,
       paddingBottom: 10,
-      paddingLeft: 5,
+      paddingLeft: 20,
       textAlign: 'left',
       backgroundColor: '#fff',
       color: '#424242',
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     textInput: {
       flex: 1,
       marginTop: -12,
-      paddingLeft: 10,
+      paddingLeft: 15,
       color: '#05375a',
     },
   
@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
     IconDate: {},
     button: {
       alignItems: 'center',
-      marginTop: 50,
+      marginTop: 10,
       borderRadius: 20,
     },
     signIn: {
@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
       height: 50,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 10,
+      borderRadius: 5,
     },
     textSign: {
       fontSize: 18,

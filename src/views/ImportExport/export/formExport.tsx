@@ -184,7 +184,7 @@ function FormExport(props: modalFormExport) {
       />
       <View style={styles.footer}>
         <ScrollView>
-          <View style={{flex: 1}}>
+          <View style={{}}>
             <Text
               style={[
                 stylesGlobal.text_footer,
@@ -194,20 +194,23 @@ function FormExport(props: modalFormExport) {
               ]}>
               Kho
             </Text>
-            <Picker
-              selectedValue={selectedKHO}
-              style={{height: 50}}
-              mode="dropdown"
-              // onValueChange={handleChange("type")}>
-              onValueChange={(item: string) => {
-                setSelectedKHO(item);
-                setCommoditys([]);
-              }}>
-              <Picker.Item label="Chọn kho..." value={undefined} />
-              {dmkho?.map((items: any) => {
-                return <Picker.Item label={items.NameVI} value={items.Id} />;
-              })}
-            </Picker>
+            <View style={stylesGlobal.actionSelect}>
+              <Picker
+                selectedValue={selectedKHO}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => {
+                  setSelectedKHO(item);
+                  setCommoditys([]);
+                }}>
+                <Picker.Item label="Chọn kho..." value={undefined} />
+                {dmkho?.map((items: any) => {
+                  return <Picker.Item label={items.NameVI} value={items.Id} />;
+                })}
+              </Picker>
+            </View>
+
             <Text
               style={{
                 width: '100%',
@@ -220,7 +223,7 @@ function FormExport(props: modalFormExport) {
             </Text>
           </View>
 
-          <View style={{flex: 1}}>
+          <View style={{marginTop: 10}}>
             <Text
               style={[
                 stylesGlobal.text_footer,
@@ -230,29 +233,32 @@ function FormExport(props: modalFormExport) {
               ]}>
               Loại phiếu
             </Text>
-            <Picker
-              // selectedKHO={selectedKHO}
-              selectedValue={SelectedLOAI}
-              style={{height: 50}}
-              mode="dropdown"
-              // onValueChange={handleChange("type")}>
-              onValueChange={(item: string) => {
-                setSelectedLOAI(item);
-                if (item === '1' || item === '2') {
-                  setSelectedKHODEN(undefined);
-                } else if (item === '3') {
-                  setSelectedKH(undefined);
-                } else if (item === '5' || item === '16') {
-                  setSelectedKHODEN(undefined);
-                  setSelectedKH(undefined);
-                }
-              }}>
-              <Picker.Item label="Bán hàng" value="1" />
-              <Picker.Item label="Ký gửi" value="2" />
-              <Picker.Item label="Chuyển kho" value="3" />
-              <Picker.Item label="Trả nhà cung cấp" value="5" />
-              <Picker.Item label="Loại khác" value="16" />
-            </Picker>
+            <View style={stylesGlobal.actionSelect}>
+              <Picker
+                // selectedKHO={selectedKHO}
+                selectedValue={SelectedLOAI}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => {
+                  setSelectedLOAI(item);
+                  if (item === '1' || item === '2') {
+                    setSelectedKHODEN(undefined);
+                  } else if (item === '3') {
+                    setSelectedKH(undefined);
+                  } else if (item === '5' || item === '16') {
+                    setSelectedKHODEN(undefined);
+                    setSelectedKH(undefined);
+                  }
+                }}>
+                <Picker.Item label="Bán hàng" value="1" />
+                <Picker.Item label="Ký gửi" value="2" />
+                <Picker.Item label="Chuyển kho" value="3" />
+                <Picker.Item label="Trả nhà cung cấp" value="5" />
+                <Picker.Item label="Loại khác" value="16" />
+              </Picker>
+            </View>
+
             <Text
               style={{
                 width: '100%',
@@ -275,14 +281,13 @@ function FormExport(props: modalFormExport) {
               ]}>
               Số phiếu
             </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
+            <View style={stylesGlobal.action}>
               <TextInput
                 placeholder="Nhập số phiếu..."
                 placeholderTextColor="#666666"
                 value={Sophieu}
                 style={[
-                  styles.textInput,
+                  stylesGlobal.textInput,
                   {
                     color: colors.text,
                   },
@@ -293,7 +298,7 @@ function FormExport(props: modalFormExport) {
             </View>
           </View>
 
-          <View style={{flex: 1}}>
+          <View style={{marginTop: 10}}>
             <Text
               style={[
                 stylesGlobal.text_footer,
@@ -303,18 +308,21 @@ function FormExport(props: modalFormExport) {
               ]}>
               Người xuất
             </Text>
-            <Picker
-              // selectedKHO={selectedKHO}
-              selectedValue={Nguoixuat}
-              style={{height: 50}}
-              mode="dropdown"
-              // onValueChange={handleChange("type")}>
-              onValueChange={(item: string) => setNguoixuat(item)}>
-              <Picker.Item label="Chọn người xuất..." value={undefined} />
-              {dmnhansu?.map((items: any) => {
-                return <Picker.Item label={items.HoTen} value={items.Id} />;
-              })}
-            </Picker>
+            <View style={stylesGlobal.actionSelect}>
+              <Picker
+                // selectedKHO={selectedKHO}
+                selectedValue={Nguoixuat}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => setNguoixuat(item)}>
+                <Picker.Item label="Chọn người xuất..." value={undefined} />
+                {dmnhansu?.map((items: any) => {
+                  return <Picker.Item label={items.HoTen} value={items.Id} />;
+                })}
+              </Picker>
+            </View>
+
             <Text
               style={{
                 width: '100%',
@@ -326,27 +334,29 @@ function FormExport(props: modalFormExport) {
               {''}
             </Text>
           </View>
-          <View>
-            <Text
-              style={[
-                stylesGlobal.text_footer,
-                {
-                  color: colors.text,
-                },
-              ]}>
-              Ngày xuất
-            </Text>
-            <TouchableOpacity
-              style={styles.searchSection}
-              onPress={() => setShowPicker(true)}>
-              <Text style={styles.input}>{ngayxuat}</Text>
-              <Icon
-                style={styles.IconDate}
-                name="calendar-today"
-                size={20}
-                color="#000"
-              />
-            </TouchableOpacity>
+          <View style={{marginTop: 10}}>
+            <View style={stylesGlobal.actionSelect}>
+              <Text
+                style={[
+                  stylesGlobal.text_footer,
+                  {
+                    color: colors.text,
+                  },
+                ]}>
+                Ngày xuất
+              </Text>
+              <TouchableOpacity
+                style={styles.searchSection}
+                onPress={() => setShowPicker(true)}>
+                <Text style={styles.input}>{ngayxuat}</Text>
+                <Icon
+                  style={styles.IconDate}
+                  name="calendar-today"
+                  size={20}
+                  color="#000"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           {showPicker ? (
             <DateTimePicker
@@ -385,13 +395,13 @@ function FormExport(props: modalFormExport) {
               ]}>
               Mã đơn hàng
             </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
+            <View style={stylesGlobal.action}>
+            
               <TextInput
                 placeholder="Nhập mã đơn hàng..."
                 placeholderTextColor="#666666"
                 style={[
-                  styles.textInput,
+                  stylesGlobal.textInput,
                   {
                     color: colors.text,
                   },
@@ -410,25 +420,31 @@ function FormExport(props: modalFormExport) {
                   stylesGlobal.text_footer,
                   {
                     color: colors.text,
+                    marginTop: 10,
                   },
                 ]}>
                 Khách hàng
               </Text>
-              <Picker
-                // selectedKHO={selectedKHO}
-                selectedValue={SelectedKH}
-                style={{height: 50}}
-                mode="dropdown"
-                // onValueChange={handleChange("type")}>
-                onValueChange={(item: string) => {
-                  setSelectedKH(item);
-                  setCommoditys([]);
-                }}>
-                <Picker.Item label="Chọn khách hàng..." value={undefined} />
-                {dmkh?.map((items: any) => {
-                  return <Picker.Item label={items.NameVI} value={items.Id} />;
-                })}
-              </Picker>
+              <View style={stylesGlobal.actionSelect}>
+                <Picker
+                  // selectedKHO={selectedKHO}
+                  selectedValue={SelectedKH}
+                  style={{height: 50}}
+                  mode="dropdown"
+                  // onValueChange={handleChange("type")}>
+                  onValueChange={(item: string) => {
+                    setSelectedKH(item);
+                    setCommoditys([]);
+                  }}>
+                  <Picker.Item label="Chọn khách hàng..." value={undefined} />
+                  {dmkh?.map((items: any) => {
+                    return (
+                      <Picker.Item label={items.NameVI} value={items.Id} />
+                    );
+                  })}
+                </Picker>
+              </View>
+
               <Text
                 style={{
                   width: '100%',
@@ -442,7 +458,7 @@ function FormExport(props: modalFormExport) {
             </View>
           ) : null}
 
-          <View style={{flex: 1}}>
+          <View style={{marginTop: 10}}>
             <Text
               style={[
                 stylesGlobal.text_footer,
@@ -452,21 +468,24 @@ function FormExport(props: modalFormExport) {
               ]}>
               Nhà cung cấp
             </Text>
-            <Picker
-              // selectedKHO={selectedKHO}
-              selectedValue={selectedNCC}
-              style={{height: 50}}
-              mode="dropdown"
-              // onValueChange={handleChange("type")}>
-              onValueChange={(item: string) => {
-                setSelectedNCC(item);
-                setCommoditys([]);
-              }}>
-              <Picker.Item label="Chọn nhà cung cấp..." value={undefined} />
-              {dmncc?.map((items: any) => {
-                return <Picker.Item label={items.NameVI} value={items.Id} />;
-              })}
-            </Picker>
+            <View style={stylesGlobal.actionSelect}>
+              <Picker
+                // selectedKHO={selectedKHO}
+                selectedValue={selectedNCC}
+                style={{height: 50}}
+                mode="dropdown"
+                // onValueChange={handleChange("type")}>
+                onValueChange={(item: string) => {
+                  setSelectedNCC(item);
+                  setCommoditys([]);
+                }}>
+                <Picker.Item label="Chọn nhà cung cấp..." value={undefined} />
+                {dmncc?.map((items: any) => {
+                  return <Picker.Item label={items.NameVI} value={items.Id} />;
+                })}
+              </Picker>
+            </View>
+
             <Text
               style={{
                 width: '100%',
@@ -489,13 +508,13 @@ function FormExport(props: modalFormExport) {
               ]}>
               Địa chỉ khách hàng
             </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
+            <View style={stylesGlobal.action}>
+            
               <TextInput
                 placeholder="Nhập địa chỉ khách hàng..."
                 placeholderTextColor="#666666"
                 style={[
-                  styles.textInput,
+                  stylesGlobal.textInput,
                   {
                     color: colors.text,
                   },
@@ -509,7 +528,7 @@ function FormExport(props: modalFormExport) {
         ) : null} */}
 
           {SelectedLOAI === '3' ? (
-            <View style={{flex: 1}}>
+            <View style={{marginTop: 10}}>
               <Text
                 style={[
                   stylesGlobal.text_footer,
@@ -556,15 +575,14 @@ function FormExport(props: modalFormExport) {
               ]}>
               Số khối
             </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
+            <View style={stylesGlobal.action}>
               <TextInput
                 placeholder="Nhập số khối ..."
                 placeholderTextColor="#666666"
                 keyboardType="numeric"
                 value={Sokhoi}
                 style={[
-                  styles.textInput,
+                  stylesGlobal.textInput,
                   {
                     color: colors.text,
                   },
@@ -586,14 +604,13 @@ function FormExport(props: modalFormExport) {
               ]}>
               Trọng lượng
             </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
+            <View style={stylesGlobal.action}>
               <TextInput
                 placeholder="Nhập trọng lượng ..."
                 placeholderTextColor="#666666"
                 value={Trongluong}
                 style={[
-                  styles.textInput,
+                  stylesGlobal.textInput,
                   {
                     color: colors.text,
                   },
@@ -615,14 +632,13 @@ function FormExport(props: modalFormExport) {
               ]}>
               Ghi chú
             </Text>
-            <View style={styles.action}>
-              <FontAwesome name="pencil" color={colors.text} size={20} />
+            <View style={stylesGlobal.action}>
               <TextInput
                 placeholder="Nhập ghi chú..."
                 placeholderTextColor="#666666"
                 value={Ghichu}
                 style={[
-                  styles.textInput,
+                  stylesGlobal.textInput,
                   {
                     color: colors.text,
                   },
@@ -668,6 +684,28 @@ function FormExport(props: modalFormExport) {
           </View>
 
           <View style={styles.button}>
+            <TouchableOpacity
+              style={styles.signIn}
+              onPress={() => {
+                handleSubmit();
+              }}>
+              <LinearGradient
+                colors={['#08d4c4', '#01ab9d']}
+                style={styles.signIn}>
+                <Text
+                  style={[
+                    styles.textSign,
+                    {
+                      color: '#fff',
+                    },
+                  ]}>
+                  Ghi
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+
+          {/* <View style={styles.button}>
             <BasicButton
               title={'Ghi'}
               width={200}
@@ -676,7 +714,7 @@ function FormExport(props: modalFormExport) {
               // disabled={!isValid || isSubmitting}
               // loading={isSubmitting}
             />
-          </View>
+          </View> */}
 
           <Modal animationType="slide" transparent={true} visible={modalList}>
             <ListCommodityEx

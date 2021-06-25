@@ -2,7 +2,6 @@ import * as React from 'react';
 import {Scene, Router, Stack, Actions} from 'react-native-router-flux';
 import login from './views/login/login';
 import main from './views/main/main';
-import Btn_import from './views/ImportExport/import/import';
 import infoImport from './views/ImportExport/import/infoImport';
 import commodity from './views/ImportExport/import/commodity';
 import infoExport from './views/ImportExport/export/infoExport';
@@ -27,13 +26,6 @@ const Routers = () => {
             hideNavBar={true}
           />
 
-          <Scene
-            key="Import"
-            component={Btn_import}
-            title="scanImport"
-            // initial={true}
-            hideNavBar={true}
-          />
 
           <Scene
             key="infoImport"

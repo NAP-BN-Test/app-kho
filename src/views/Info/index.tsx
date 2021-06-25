@@ -5,13 +5,13 @@ import {Actions} from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 import stylesInfo from './info.css';
 import stylesGlobal from '../../css/cssGlobal.css';
-import { Action } from '../../redux/actions/index.action';
-import { useDispatch } from 'react-redux';
+import {Action} from '../../redux/actions/index.action';
+import {useDispatch} from 'react-redux';
 
 function info() {
   const dispatch = useDispatch();
   async function toggleLogout() {
-    dispatch(Action.act_logout())
+    dispatch(Action.act_logout());
   }
   return (
     <View style={stylesGlobal.container}>
@@ -21,11 +21,22 @@ function info() {
       </View>
       <View style={stylesGlobal.footer}>
         <View>
-          <Text style={stylesGlobal.text_footer}>Tài khoản: Dũng</Text>
-          <Text style={stylesGlobal.text_footer}>Ngày sinh: 03/01/1999</Text>
-          <Text style={stylesGlobal.text_footer}>Giới tính: Nam</Text>
-          <Text style={stylesGlobal.text_footer}>Email: dung123@gmail.com</Text>
-          <Text style={stylesGlobal.text_footer}>SĐT: 0333.968.999</Text>
+          <Text style={stylesGlobal.text_footer}>
+            <Text style={stylesGlobal.text_title}>Tài khoản</Text>: Dũng
+          </Text>
+          <Text style={stylesGlobal.text_footer}>
+            <Text style={stylesGlobal.text_title}>Ngày sinh</Text>: 03/01/1999
+          </Text>
+          <Text style={stylesGlobal.text_footer}>
+            <Text style={stylesGlobal.text_title}>Giới tính</Text>: Nam
+          </Text>
+          <Text style={stylesGlobal.text_footer}>
+            <Text style={stylesGlobal.text_title}>Email</Text>:
+            dung123@gmail.com
+          </Text>
+          <Text style={stylesGlobal.text_footer}>
+            <Text style={stylesGlobal.text_title}>SĐT</Text>: 0333.968.999
+          </Text>
         </View>
         <View style={stylesInfo.button}>
           <TouchableOpacity style={stylesInfo.signIn} onPress={toggleLogout}>

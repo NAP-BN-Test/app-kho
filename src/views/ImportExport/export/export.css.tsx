@@ -9,7 +9,7 @@ const stylesExport = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 5,
   },
   textSign: {
     fontSize: 18,

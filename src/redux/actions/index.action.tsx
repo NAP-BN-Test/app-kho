@@ -175,7 +175,7 @@ function act_getsanpham(data: any) {
   return (dispatch: any) => {
     Services.get_sanpham(body).then(async (res) => {
       if (res.status === 200) {
-        console.log(res);
+        console.log("Sản phẩm",res);
         // dispatch(act_alert_success('Lấy dữ liệu thành công'));
         dispatch(get_dm_sp(res.data));
       } else {

@@ -125,19 +125,19 @@ function Danhsachphieunhap(props: modalList) {
               ]}>
               {item.Code}
             </Text>
-            <Text>Kho: {item.TenKhoText}</Text>
+            <Text><Text style={stylesGlobal.text_title}>Kho</Text>: {item.TenKhoText}</Text>
             {item.IDKhachHang === null ? null : (
-              <Text>Khách hàng: {item.KhachHangText}</Text>
+              <Text><Text style={stylesGlobal.text_title}>Khách hàng</Text>: {item.KhachHangText}</Text>
             )}
 
             <View style={styles.flexRow}>
               <View style={{marginRight: 10}}>
                 <Text>
-                  Ngày tạo: {moment(item.NgayTaoPhieu).format('YYYY-MM-DD')}
+                <Text style={stylesGlobal.text_title}>Ngày tạo</Text>: {moment(item.NgayTaoPhieu).format('YYYY-MM-DD')}
                 </Text>
               </View>
               <View>
-                <Text>Loại: {item.Loai}</Text>
+                <Text><Text style={stylesGlobal.text_title}>Loại</Text>: {item.Loai}</Text>
               </View>
             </View>
 
