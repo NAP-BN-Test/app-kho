@@ -114,30 +114,70 @@ function Danhsachphieuxuat(props: modalList) {
             dispatch(Action.act_getDetailPhieuxuat(item.ID));
             setmodaldetail(true);
           }}>
-          <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
-            <Text
-              style={[
-                stylesGlobal.text_footer,
-                {
-                  color: '#000',
-                  fontWeight: 'bold',
-                },
-              ]}>
-              {item.Code}
-            </Text>
-            <Text><Text style={stylesGlobal.text_title}>Kho</Text>: {item.TenKhoText}</Text>
-            {item.IDKhachHang === null ? null : (
-              <Text><Text style={stylesGlobal.text_title}>Khách hàng</Text>: {item.KhachHangText}</Text>
-            )}
-
-            <View style={styles.flexRow}>
-              <View style={{marginRight: 10}}>
-                <Text>
-                  <Text style={stylesGlobal.text_title}>Ngày tạo</Text>: {moment(item.NgayTaoPhieu).format('YYYY-MM-DD')}
+          <View
+            style={[
+              {
+                flex: 1,
+                flexDirection: 'column',
+                marginLeft: 10,
+                paddingBottom: 10,
+              },
+              stylesGlobal.action,
+            ]}>
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    stylesGlobal.text_footer,
+                    {
+                      color: '#000',
+                      fontWeight: 'bold',
+                    },
+                  ]}>
+                  {item.Code}
                 </Text>
               </View>
-              <View>
-                <Text><Text style={stylesGlobal.text_title}>Loại</Text>: {item.Loai}</Text>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Phiếu xuất:</Text>
+              </View>
+            </View>
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text>{item.TenKhoText}</Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Kho:</Text>
+              </View>
+            </View>
+            {item.IDKhachHang === null ? null : (
+              <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+                <View style={{width: '60%'}}>
+                  <Text>{item.KhachHangText}</Text>
+                </View>
+                <View style={{width: '40%'}}>
+                  <Text style={stylesGlobal.text_title}>Khách hàng:</Text>
+                </View>
+              </View>
+            )}
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text>
+                  {item.NgayTaoPhieu
+                    ? moment(item.NgayTaoPhieu).format('DD-MM-YYYY')
+                    : null}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Ngày tạo:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text>{item.Loai}</Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Loại:</Text>
               </View>
             </View>
 

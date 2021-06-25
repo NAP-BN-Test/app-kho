@@ -84,7 +84,7 @@ function FormAddCommodityEx(props: AddCommodifyProps) {
     }
 
     // console.log(code.data);
-    // setcodebar(code.data);
+    setcodebar(code.data);
   };
 
   function submit() {

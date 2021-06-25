@@ -67,8 +67,14 @@ function FormAddCommodity(props: AddCommodifyProps) {
 
   const toggleCodeBar: any = (code: any) => {
     // setmodalVisibleCamera(false);
+    const getsp = props.listsp.find((sp: any) => sp.MaVach === code.data);
     console.log(code.data);
     setcodebar(code.data);
+    if (getsp === undefined) {
+      dispatch(Action.act_alert_error('Không tìm thấy sản phẩm'));
+    } else {
+      setSelectedSP(getsp.ID);
+    }
   };
 
   function submit() {

@@ -59,7 +59,7 @@ function Inventory() {
 
   function renderData() {
     const renderItem = ({item}: any) => (
-      <View style={{marginLeft: 10, marginRight: 10}}>
+      <View style={[{marginLeft: 10, marginRight: 10}, stylesGlobal.action]}>
         <TouchableOpacity
           style={{flex: 1, flexDirection: 'row', marginBottom: 5}}
           //   onPress={() =>
@@ -69,38 +69,57 @@ function Inventory() {
           //   }
         >
           <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
-            <Text
-              style={[
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text style={[
                 stylesGlobal.text_footer,
                 {
                   color: '#000',
                   fontWeight: 'bold',
                 },
-              ]}>
-              {item.TenHang}
-            </Text>
-            <Text>
-              <Text style={stylesGlobal.text_title}>Kho</Text>:{' '}
-              {item.TenKhoText}
-            </Text>
-            {item.IDKhachHang === null ? null : (
-              <Text>
-                <Text style={stylesGlobal.text_title}>Khách hàng</Text>:{' '}
-                {item.KhachHangText}
-              </Text>
-            )}
-            <View style={styles.flexRow}>
-              <View style={{marginRight: 10}}>
-                <Text>
-                  <Text style={stylesGlobal.text_title}>Sl</Text>:{' '}
-                  {item.SoLuongTon}
-                </Text>
+              ]}>{item.TenHang}</Text>
               </View>
-              <View>
-                <Text>
-                  <Text style={stylesGlobal.text_title}>ĐVT</Text>:{' '}
-                  {item.DVTText}
-                </Text>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Tên hàng:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text>{item.TenKhoText}</Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Kho:</Text>
+              </View>
+            </View>
+
+            {item.IDKhachHang === null ? null : (
+              <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+                <View style={{width: '60%'}}>
+                  <Text>{item.KhachHangText}</Text>
+                </View>
+                <View style={{width: '40%'}}>
+                  <Text style={stylesGlobal.text_title}>Khách hàng:</Text>
+                </View>
+              </View>
+            )}
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text>{item.SoLuongTon}</Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>SL: </Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text>{item.DVTText}</Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>ĐVT: </Text>
               </View>
             </View>
           </View>

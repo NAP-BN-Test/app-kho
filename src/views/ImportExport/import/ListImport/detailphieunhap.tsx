@@ -44,20 +44,11 @@ function DetailPhieunhap(props: detailProps) {
           text: 'Chi tiết phiếu nhập',
           style: {color: '#fff', fontSize: 18},
         }}
-        rightComponent={
-          //   <TouchableOpacity>
-          //     <Icon
-          //       //   containerStyle={{paddingRight: 16}}
-          //       name="save"
-          //       size={30}
-          //       color="white"
-          //     />
-          //   </TouchableOpacity>
-          <></>
-        }
+        rightComponent={<></>}
       />
+
       <View style={styles.modalView}>
-        <View style={{marginBottom: 20}}>
+        <ScrollView style={{}}>
           <Text
             style={[
               stylesGlobal.text_footer,
@@ -69,55 +60,193 @@ function DetailPhieunhap(props: detailProps) {
             ]}>
             Thông tin chung
           </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Phiếu xuất</Text>:{' '}
-            <Text style={{color: 'red'}}>{chitietphieunhap.Code}</Text>
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Ngày tạo</Text>:{' '}
-            {moment(chitietphieunhap.NgayTaoPhieu).format('DD-MM-YYYY')}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Ngày xuất</Text>:
-            {moment(chitietphieunhap.NgayXuat).format('DD-MM-YYYY')}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Loại</Text>:{' '}
-            {chitietphieunhap.Loai}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Kho xuất</Text>:{' '}
-            {chitietphieunhap.KhoXuat}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Kho nhận</Text>:{' '}
-            {chitietphieunhap.KhoNhan}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Khách hàng</Text>:{' '}
-            {chitietphieunhap.KhachHang}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Người nhận</Text>:{' '}
-            {chitietphieunhap.NguoiNhan}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Người xuất</Text>:{' '}
-            {chitietphieunhap.NguoiXuat}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Trọng lượng</Text>:{' '}
-            {chitietphieunhap.TrongLuong}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Số khối</Text>:{' '}
-            {chitietphieunhap.SoKhoi}
-          </Text>
-          <Text>
-            <Text style={stylesGlobal.text_title}>Ghi chú</Text>:{' '}
-            {chitietphieunhap.GhiChu}
-          </Text>
-        </View>
+          <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text style={{color: 'red'}}>{chitietphieunhap.Code}</Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Phiếu nhập:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {moment(chitietphieunhap.NgayTaoPhieu).format('DD-MM-YYYY')}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Ngày tạo:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {moment(chitietphieunhap.NgayXuat).format('DD-MM-YYYY')}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Ngày xuất:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {chitietphieunhap.Loai}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Loại:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {chitietphieunhap.KhoXuat}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Kho xuất:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {chitietphieunhap.KhoNhan}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Kho nhận:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {chitietphieunhap.KhachHang}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Khách hàng:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {chitietphieunhap.NguoiNhan}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Người nhận:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {chitietphieunhap.NguoiXuat}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Người xuất:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {chitietphieunhap.TrongLuong}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Trọng lượng:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {chitietphieunhap.SoKhoi}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Số khối:</Text>
+              </View>
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{width: '60%'}}>
+                <Text
+                  style={[
+                    {
+                      color: '#000',
+                    },
+                  ]}>
+                  {chitietphieunhap.GhiChu}
+                </Text>
+              </View>
+              <View style={{width: '40%'}}>
+                <Text style={stylesGlobal.text_title}>Ghi chú:</Text>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
 
         <View>
           <Text
@@ -129,11 +258,11 @@ function DetailPhieunhap(props: detailProps) {
                 marginBottom: 20,
               },
             ]}>
-            Danh sách hàng hóa
+            Danh sách hàng hóa (Tên/SL/ĐVT/Ký gửi)
           </Text>
           <View>
             <ScrollView style={{marginBottom: 160}}>
-              {chitietphieunhap.ListHangHoa?.map((items: any) => {
+              {chitietphieunhap.ListHangHoa?.map((items: any, index: any) => {
                 return (
                   <View
                     style={{
@@ -142,52 +271,11 @@ function DetailPhieunhap(props: detailProps) {
                       paddingBottom: 10,
                     }}>
                     <Text>
-                      <Text style={stylesGlobal.text_title}>Tên hàng</Text>:{' '}
-                      <Text style={{color: 'red'}}>{items.TenHang}</Text>
-                    </Text>
-                    <Text>
-                      <Text style={stylesGlobal.text_title}>Số lượng</Text>:{' '}
-                      {items.SoLuong}
-                    </Text>
-                    {/* <View style={styles.flexRow}>
-                      <View style={{marginRight: 10}}>
-                        <Text>Loại tem: {items.SoLuongTem}</Text>
-                      </View>
-                      <View>
-                        <Text>Số lượng tem: {items.SoLuongTem}</Text>
-                      </View>
-                    </View> */}
-                    <Text>
-                      <Text style={stylesGlobal.text_title}>Loại tem</Text>:{' '}
-                      {items.LoaiTemText}
-                    </Text>
-                    <Text>
-                      <Text style={stylesGlobal.text_title}>Số lượng tem</Text>:{' '}
-                      {items.SoLuongTem}
-                    </Text>
-                    <Text>
-                      <Text style={stylesGlobal.text_title}>Đơn giá</Text>:{' '}
-                      {items.DonGia}
-                    </Text>
-                    <Text>
-                      <Text style={stylesGlobal.text_title}>Đơn vị tính</Text>:{' '}
-                      {items.DVTText}
-                    </Text>
-                    <Text>
-                      <Text style={stylesGlobal.text_title}>Kho xuất</Text>:{' '}
-                      {items.KhoXuat}
-                    </Text>
-                    <Text>
-                      <Text style={stylesGlobal.text_title}>Khách hàng</Text>:{' '}
-                      {items.KhachHangText}
-                    </Text>
-                    <Text>
-                      <Text style={stylesGlobal.text_title}>Kho</Text>Ký gửi:{' '}
-                      {items.FlagKyGui === true ? 'Có' : 'Không'}
-                    </Text>
-                    <Text>
-                      <Text style={stylesGlobal.text_title}>Kho</Text>Ghi chú:{' '}
-                      {items.GhiChu}
+                      <Text style={stylesGlobal.text_title}>{index + 1}.</Text>
+                      <Text style={{color: 'black'}}>
+                        {items.TenHang}/{items.SoLuong}/{items.DVTText}/
+                        {items.FlagKyGui === true ? 'Có' : 'Không'}
+                      </Text>
                     </Text>
                   </View>
                 );

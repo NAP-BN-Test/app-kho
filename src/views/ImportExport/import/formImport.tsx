@@ -250,16 +250,6 @@ function FormImport(props: modalFormimport) {
                 // onValueChange={handleChange("type")}>
                 onValueChange={(item: string) => {
                   setSelectedLOAI(item);
-                  if (
-                    item === '1' ||
-                    item === '3' ||
-                    item === '4' ||
-                    item === '5'
-                  ) {
-                    setSelectedKH(undefined);
-                  } else if (item === '12' || item === '3' || item === '5') {
-                    setSelectedNCC(undefined);
-                  }
                 }}>
                 <Picker.Item label="Mua hàng" value="1" />
                 <Picker.Item label="Ký gửi" value="2" />
@@ -485,7 +475,7 @@ function FormImport(props: modalFormimport) {
                     // onValueChange={handleChange("type")}>
                     onValueChange={(item: string) => {
                       setSelectedKH(item);
-                      setCommoditys([]);
+                      // setCommoditys([]);
                     }}>
                     <Picker.Item label="Chọn khách hàng..." value={undefined} />
                     {dmkh?.map((items: any) => {
@@ -560,7 +550,7 @@ function FormImport(props: modalFormimport) {
                   // onValueChange={handleChange("type")}>
                   onValueChange={(item: string) => {
                     setSelectedNCC(item);
-                    setCommoditys([]);
+                    // setCommoditys([]);
                   }}>
                   <Picker.Item label="Chọn nhà cung cấp..." value={undefined} />
                   {dmncc?.map((items: any) => {
@@ -648,11 +638,11 @@ function FormImport(props: modalFormimport) {
               onPress={() => {
                 let body = {
                   idkho: selectedKHO,
-                  idnhacungcap: selectedNCC,
-                  idkhachhang: SelectedKH,
-                  tukhoa: null,
-                  mavach: null,
-                  idkhoden: null,
+                  // idnhacungcap: selectedNCC,
+                  // idkhachhang: SelectedKH,
+                  // tukhoa: null,
+                  // mavach: null,
+                  // idkhoden: null,
                 };
 
                 dispatch(Action.act_getsanpham(body));

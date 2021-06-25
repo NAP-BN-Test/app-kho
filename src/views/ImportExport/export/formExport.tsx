@@ -434,7 +434,7 @@ function FormExport(props: modalFormExport) {
                   // onValueChange={handleChange("type")}>
                   onValueChange={(item: string) => {
                     setSelectedKH(item);
-                    setCommoditys([]);
+                    // setCommoditys([]);
                   }}>
                   <Picker.Item label="Chọn khách hàng..." value={undefined} />
                   {dmkh?.map((items: any) => {
@@ -477,7 +477,7 @@ function FormExport(props: modalFormExport) {
                 // onValueChange={handleChange("type")}>
                 onValueChange={(item: string) => {
                   setSelectedNCC(item);
-                  setCommoditys([]);
+                  // setCommoditys([]);
                 }}>
                 <Picker.Item label="Chọn nhà cung cấp..." value={undefined} />
                 {dmncc?.map((items: any) => {
@@ -545,7 +545,7 @@ function FormExport(props: modalFormExport) {
                 // onValueChange={handleChange("type")}>
                 onValueChange={(item: string) => {
                   setSelectedKHODEN(item);
-                  setCommoditys([]);
+                  // setCommoditys([]);
                 }}>
                 <Picker.Item label="Chọn kho đến..." value={undefined} />
                 {dmkho?.map((items: any) => {
@@ -657,11 +657,11 @@ function FormExport(props: modalFormExport) {
               onPress={() => {
                 let body = {
                   idkho: selectedKHO,
-                  idnhacungcap: selectedNCC,
-                  idkhachhang: SelectedKH,
-                  tukhoa: null,
-                  mavach: null,
-                  idkhoden: selectedKHODEN,
+                  // idnhacungcap: selectedNCC,
+                  // idkhachhang: SelectedKH,
+                  // tukhoa: null,
+                  // mavach: null,
+                  // idkhoden: selectedKHODEN,
                 };
 
                 dispatch(Action.act_getsanpham(body));
