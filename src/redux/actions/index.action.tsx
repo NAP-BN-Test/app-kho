@@ -175,7 +175,7 @@ function act_getsanpham(data: any) {
   return (dispatch: any) => {
     Services.get_sanpham(body).then(async (res) => {
       if (res.status === 200) {
-        console.log("Sản phẩm",res);
+        console.log('Sản phẩm', res);
         // dispatch(act_alert_success('Lấy dữ liệu thành công'));
         dispatch(get_dm_sp(res.data));
       } else {
@@ -225,16 +225,21 @@ function act_get_tonkhotheodonvi(data: any) {
 }
 
 function act_add_px(data: any) {
-  console.log(data);
+  console.log("Data action",data);
 
   let ListHangHoa = new Array();
   data?.ListHangHoa?.map((item: any) => {
+    console.log('ngày xuất', item.ngaysanxuat);
+    
     ListHangHoa.push({
       IDSanPham: item.sp.ID,
       SoLuong: Number(item.sl),
       IDDvtXuat: item.dvt.Id,
       DonGia: Number(item.dongia),
-      NgaySanXuat: moment(item.ngaysanxuat).format('YYYY-MM-DD'),
+      NgaySanXuat:
+        item.ngaysanxuat === undefined
+          ? null
+          : moment(item.ngaysanxuat, 'DD-MM-YYYY').format('YYYY-MM-DD'),
       IDLoaiTem: item.IDLoaiTem,
       SoLuongTem: Number(item.sltem),
       GhiChu: item.ghichu,
@@ -356,8 +361,8 @@ function act_getDetailPhieuxuat(id: any) {
 }
 
 function act_add_pn(data: any) {
-  console.log('data truyeefn vaof action' , data );
-  console.log('data danh sach hang hoa truyeefn vaof action' , data.ListHangHoa );
+  console.log('data truyeefn vaof action', data);
+  console.log('data danh sach hang hoa truyeefn vaof action', data.ListHangHoa);
 
   let ListHangHoa = new Array();
   data?.ListHangHoa?.map((item: any) => {
@@ -366,7 +371,10 @@ function act_add_pn(data: any) {
       SoLuong: Number(item.sl),
       IDDvtNhap: item.dvt.Id,
       DonGia: Number(item.dongia),
-      NgaySanXuat: moment(item.ngaysanxuat).format('YYYY-MM-DD'),
+      NgaySanXuat:
+        item.ngaysanxuat === undefined
+          ? null
+          : moment(item.ngaysanxuat).format('YYYY-MM-DD'),
       IDLoaiTem: item.IDLoaiTem,
       SoLuongTem: Number(item.sltem),
       GhiChu: item.ghichu,
@@ -389,7 +397,6 @@ function act_add_pn(data: any) {
     IDPhieuXuat: data.IDPhieuXuat,
     ListHangHoa: ListHangHoa,
   };
-
 
   return (dispatch: any) => {
     Services.get_AddPN(body).then(async (res) => {
